@@ -1,0 +1,15 @@
+/web-app/node_modules
+/web-app/public/build
+/web-app/public/hot
+/web-app/vendor
+/web-app/.env
+/web-app/.env.backup
+/web-app/.env.production
+/web-app/.phpunit.result.cache
+/web-app/Homestead.json
+/web-app/Homestead.yaml
+npm-debug.log
+yarn-error.log
+/.fleet
+/.idea
+/.vscode
