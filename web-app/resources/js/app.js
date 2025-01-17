@@ -23,7 +23,7 @@ import { nl, en } from 'vuetify/locale'
 // Application specific
 import enLang from '../lang/en.json';
 import nlLang from '../lang/nl.json';
-import Layout from './Shared/FrontEnd/Layout.vue';
+import Layout from './Shared/Public/Layout.vue';
 
 // Custom theming
 import '../sass/variables.scss';
