@@ -1,4 +1,4 @@
-FROM php:8.2.21-apache AS apache
+FROM php:8.2.3-apache AS apache
 
 # set workdir
 RUN mkdir -p /var/www/
@@ -47,15 +47,8 @@ COPY ./docker/httpd.conf /etc/apache2/sites-enabled/000-default.conf
 # copy webapp files
 COPY ./ /var/www
 
-# copy github token
-COPY ./docker/auth.json /root/.composer/auth.json
-
 # install composer
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
-
-# install self signed certifcates to thrust other local dev environments
-COPY ./docker/certificates/apache/docker.dev.crt /usr/local/share/ca-certificates
-RUN cd /usr/local/share/ca-certificates && update-ca-certificates
 
 # add /var/scripts to $PATH
 ENV PATH="/var/scripts:${PATH}"

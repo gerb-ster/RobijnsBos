@@ -1,0 +1,31 @@
+@use 'vuetify' with (
+  $body-font-family: "Open Sans",
+  $heading-font-family: "Merriweather",
+  $font-size-root: 14px
+);
+
+@use '@fontsource/merriweather' as *;
+@use '@fontsource/open-sans' as *;
+
+.lockedOutGradient {
+  background: rgb(36,167,147);
+  background: linear-gradient(135deg, rgba(36,167,147,1) 0%, rgba(36,167,147,0.35) 100%);
+}
+
+.publicGradient {
+  background: rgb(255,205,0);
+  background: linear-gradient(135deg, rgba(255,205,0,1) 0%, rgba(255,205,0,0.5) 100%);
+}
+
+.errorGradient {
+  background: rgb(152,152,152);
+  background: linear-gradient(135deg, rgba(152,152,152,1) 0%, rgba(152,152,152,0.35) 100%);
+}
+
+.removedRow {
+  background: #FFEBEE !important;
+}
+
+.archivedRow {
+  background: #E0F7FA !important;
+}
