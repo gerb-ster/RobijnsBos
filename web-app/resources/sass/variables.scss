@@ -7,14 +7,9 @@
 @use '@fontsource/merriweather' as *;
 @use '@fontsource/open-sans' as *;
 
-.lockedOutGradient {
-  background: rgb(36,167,147);
-  background: linear-gradient(135deg, rgba(36,167,147,1) 0%, rgba(36,167,147,0.35) 100%);
-}
-
 .publicGradient {
-  background: rgb(255,205,0);
-  background: linear-gradient(135deg, rgba(255,205,0,1) 0%, rgba(255,205,0,0.5) 100%);
+    background: rgb(0,218,120);
+    background: linear-gradient(135deg, rgba(0,218,120,0.7763480392156863) 0%, rgba(68,255,174,0.5298494397759104) 100%);
 }
 
 .errorGradient {
