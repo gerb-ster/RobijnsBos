@@ -60,7 +60,7 @@
 import {useForm, Head, Link} from '@inertiajs/vue3';
 import {required, email} from '@vee-validate/rules';
 import {useI18n} from "vue-i18n";
-import FlashMessages from "../../Shared/FlashMessages.vue";
+import FlashMessages from "../../../Shared/FlashMessages.vue";
 
 const props = defineProps(['user', 'roles']);
 

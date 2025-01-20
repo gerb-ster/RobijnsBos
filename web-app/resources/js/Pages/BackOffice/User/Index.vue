@@ -66,13 +66,13 @@
 <script setup>
 
 import {router, Head, Link} from '@inertiajs/vue3';
-import Confirm from "../../Components/Confirm.vue";
+import Confirm from "../../../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
 import {ref, watch, onUpdated, onBeforeMount} from 'vue';
 import axios from 'axios';
-import FlashMessages from "../../Shared/FlashMessages.vue";
-import DataTableBoolean from "../../Components/DataTableBoolean.vue";
-import {openStorage, storeInput} from "../../Logic/Helpers";
+import FlashMessages from "../../../Shared/FlashMessages.vue";
+import DataTableBoolean from "../../../Components/DataTableBoolean.vue";
+import {openStorage, storeInput} from "../../../Logic/Helpers";
 
 const {t} = useI18n({});
 

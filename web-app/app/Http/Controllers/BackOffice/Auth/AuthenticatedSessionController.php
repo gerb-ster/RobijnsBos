@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Http\Controllers\BackOffice\Auth;
+namespace App\Http\Controllers\BackOffice\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -13,37 +13,37 @@ use Inertia\Response;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
-    public function create(): Response
-    {
-        return Inertia::render('BackOffice/Auth/Login');
-    }
+  /**
+   * Display the login view.
+   */
+  public function create(): Response
+  {
+    return Inertia::render('BackOffice/Auth/Login');
+  }
 
-    /**
-     * Handle an incoming authentication request.
-     * @throws ValidationException
-     */
-    public function store(LoginRequest $request): RedirectResponse
-    {
-        $request->authenticate();
+  /**
+   * Handle an incoming authentication request.
+   * @throws ValidationException
+   */
+  public function store(LoginRequest $request): RedirectResponse
+  {
+    $request->authenticate();
 
-        $request->session()->regenerate();
+    $request->session()->regenerate();
 
-        return redirect()->intended('/back-office');
-    }
+    return redirect()->intended('/back-office');
+  }
 
-    /**
-     * Destroy an authenticated session.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        Auth::guard('web')->logout();
+  /**
+   * Destroy an authenticated session.
+   */
+  public function destroy(Request $request): RedirectResponse
+  {
+    Auth::guard('web')->logout();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
 
-        return redirect('/back-office/login');
-    }
+    return redirect('/back-office/login');
+  }
 }

@@ -1,7 +1,7 @@
 <?php
 
-use app\Http\Controllers\BackOffice\Administration\UserController;
-use app\Http\Controllers\BackOffice\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BackOffice\Administration\UserController;
+use App\Http\Controllers\BackOffice\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +15,10 @@ Route::group(['middleware' => ['guest']], function () {
     ->name('login.store');
 });
 
-// main application
+// BackOffice
 Route::group(['middleware' => ['auth']], function () {
+  Route::inertia('/back-office/', 'BackOffice/Dashboard');
+
   // logout url
   Route::delete('/back-office/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
