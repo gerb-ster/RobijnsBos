@@ -12,8 +12,6 @@ class AppServiceProvider extends ServiceProvider
   public function register(): void
   {
     $this->app->bind('path.public', function () {
-      ray(base_path('../dt.robijnsbos.nl/'));
-
       return base_path('../dt.robijnsbos.nl/');
     });
   }
