@@ -1,0 +1,13 @@
+[
+    {
+        "id": 2,
+        "uuid": "84d9a209-8ade-4253-93f4-42a5f265e083",
+        "name": "Gerbrand Sterrenburg-Buijs",
+        "locale": "nl",
+        "admin": true,
+        "email": "gerb@gerbster.nl",
+        "password": "secret",
+        "created_at": "2021-11-17T15:17:38.000000Z",
+        "updated_at": "2021-11-17T15:17:39.000000Z"
+    }
+]

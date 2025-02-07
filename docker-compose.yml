@@ -4,13 +4,13 @@ services:
     hostname: robijnsbos.home
     build:
       context: ./web-app
-      dockerfile: docker/robijnsbos.dockerfile
+      dockerfile: robijnsbos_dt_app/docker/robijnsbos.dockerfile
     tty: true
     environment:
       TZ: Europe/Amsterdam
       SERVICE_NAME: robijnsbos
       SERVICE_TAGS: dev
-    working_dir: /var/www/
+    working_dir: /var/www/robijnsbos_dt_app
     volumes:
       - ./web-app:/var/www/
     networks:
@@ -35,7 +35,7 @@ services:
     volumes:
       - ./web-app:/var/www
     entrypoint: [ "npm", "run", "dev" ]
-    working_dir: /var/www/
+    working_dir: /var/www/robijnsbos_dt_app
     ports:
       - "12013:12013"
     networks:
