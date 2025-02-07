@@ -3,8 +3,8 @@ services:
     container_name: robijnsbos_backend
     hostname: robijnsbos.home
     build:
-      context: ./web-app
-      dockerfile: robijnsbos_dt_app/docker/robijnsbos.dockerfile
+      context: ./
+      dockerfile: docker/robijnsbos.dockerfile
     tty: true
     environment:
       TZ: Europe/Amsterdam
