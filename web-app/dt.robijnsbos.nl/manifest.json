@@ -1,0 +1,128 @@
+{
+  "node_modules/@fontsource/merriweather/files/merriweather-all-400-normal.woff": {
+    "file": "assets/merriweather-all-400-normal-oki48Eu0.woff",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-all-400-normal.woff"
+  },
+  "node_modules/@fontsource/merriweather/files/merriweather-cyrillic-400-normal.woff2": {
+    "file": "assets/merriweather-cyrillic-400-normal-BVsZi-3f.woff2",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-cyrillic-400-normal.woff2"
+  },
+  "node_modules/@fontsource/merriweather/files/merriweather-cyrillic-ext-400-normal.woff2": {
+    "file": "assets/merriweather-cyrillic-ext-400-normal-2Q04MDyi.woff2",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-cyrillic-ext-400-normal.woff2"
+  },
+  "node_modules/@fontsource/merriweather/files/merriweather-latin-400-normal.woff2": {
+    "file": "assets/merriweather-latin-400-normal-Dlx1w5Ul.woff2",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-latin-400-normal.woff2"
+  },
+  "node_modules/@fontsource/merriweather/files/merriweather-latin-ext-400-normal.woff2": {
+    "file": "assets/merriweather-latin-ext-400-normal-DH_FFfA1.woff2",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-latin-ext-400-normal.woff2"
+  },
+  "node_modules/@fontsource/merriweather/files/merriweather-vietnamese-400-normal.woff2": {
+    "file": "assets/merriweather-vietnamese-400-normal-DN7nXmm7.woff2",
+    "src": "node_modules/@fontsource/merriweather/files/merriweather-vietnamese-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-all-400-normal.woff": {
+    "file": "assets/open-sans-all-400-normal-D_V4DUpS.woff",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-all-400-normal.woff"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-cyrillic-400-normal.woff2": {
+    "file": "assets/open-sans-cyrillic-400-normal-CgTxcJ84.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-cyrillic-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-cyrillic-ext-400-normal.woff2": {
+    "file": "assets/open-sans-cyrillic-ext-400-normal-MMpFapvE.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-cyrillic-ext-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-greek-400-normal.woff2": {
+    "file": "assets/open-sans-greek-400-normal-C95Crcuj.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-greek-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-greek-ext-400-normal.woff2": {
+    "file": "assets/open-sans-greek-ext-400-normal-DwDwQtDP.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-greek-ext-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-hebrew-400-normal.woff2": {
+    "file": "assets/open-sans-hebrew-400-normal-3oiyUsVL.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-hebrew-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-latin-400-normal.woff2": {
+    "file": "assets/open-sans-latin-400-normal-sjvN8RAh.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-latin-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-latin-ext-400-normal.woff2": {
+    "file": "assets/open-sans-latin-ext-400-normal-uvkCwwGb.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-latin-ext-400-normal.woff2"
+  },
+  "node_modules/@fontsource/open-sans/files/open-sans-vietnamese-400-normal.woff2": {
+    "file": "assets/open-sans-vietnamese-400-normal-Ddl5eX2C.woff2",
+    "src": "node_modules/@fontsource/open-sans/files/open-sans-vietnamese-400-normal.woff2"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot": {
+    "file": "assets/materialdesignicons-webfont-CSr8KVlo.eot",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.eot"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf": {
+    "file": "assets/materialdesignicons-webfont-B7mPwVP_.ttf",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.ttf"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff": {
+    "file": "assets/materialdesignicons-webfont-PXm3-2wK.woff",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff"
+  },
+  "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2": {
+    "file": "assets/materialdesignicons-webfont-Dp5v-WZN.woff2",
+    "src": "node_modules/@mdi/font/fonts/materialdesignicons-webfont.woff2"
+  },
+  "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.eot": {
+    "file": "assets/MaterialIcons-Regular-BjXOXp5c.eot",
+    "src": "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.eot"
+  },
+  "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.ttf": {
+    "file": "assets/MaterialIcons-Regular-DEUTIz1o.ttf",
+    "src": "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.ttf"
+  },
+  "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff": {
+    "file": "assets/MaterialIcons-Regular-FsbMSDLx.woff",
+    "src": "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff"
+  },
+  "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2": {
+    "file": "assets/MaterialIcons-Regular-DOtZ65Va.woff2",
+    "src": "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CHC8jSD4.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-Bo7AgF7i.css"
+    ],
+    "assets": [
+      "assets/materialdesignicons-webfont-CSr8KVlo.eot",
+      "assets/materialdesignicons-webfont-Dp5v-WZN.woff2",
+      "assets/materialdesignicons-webfont-PXm3-2wK.woff",
+      "assets/materialdesignicons-webfont-B7mPwVP_.ttf",
+      "assets/MaterialIcons-Regular-BjXOXp5c.eot",
+      "assets/MaterialIcons-Regular-DOtZ65Va.woff2",
+      "assets/MaterialIcons-Regular-FsbMSDLx.woff",
+      "assets/MaterialIcons-Regular-DEUTIz1o.ttf",
+      "assets/merriweather-cyrillic-ext-400-normal-2Q04MDyi.woff2",
+      "assets/merriweather-all-400-normal-oki48Eu0.woff",
+      "assets/merriweather-cyrillic-400-normal-BVsZi-3f.woff2",
+      "assets/merriweather-vietnamese-400-normal-DN7nXmm7.woff2",
+      "assets/merriweather-latin-ext-400-normal-DH_FFfA1.woff2",
+      "assets/merriweather-latin-400-normal-Dlx1w5Ul.woff2",
+      "assets/open-sans-cyrillic-ext-400-normal-MMpFapvE.woff2",
+      "assets/open-sans-all-400-normal-D_V4DUpS.woff",
+      "assets/open-sans-cyrillic-400-normal-CgTxcJ84.woff2",
+      "assets/open-sans-greek-ext-400-normal-DwDwQtDP.woff2",
+      "assets/open-sans-greek-400-normal-C95Crcuj.woff2",
+      "assets/open-sans-hebrew-400-normal-3oiyUsVL.woff2",
+      "assets/open-sans-vietnamese-400-normal-Ddl5eX2C.woff2",
+      "assets/open-sans-latin-ext-400-normal-uvkCwwGb.woff2",
+      "assets/open-sans-latin-400-normal-sjvN8RAh.woff2"
+    ]
+  }
+}

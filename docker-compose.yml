@@ -10,7 +10,7 @@ services:
       TZ: Europe/Amsterdam
       SERVICE_NAME: robijnsbos
       SERVICE_TAGS: dev
-    working_dir: /var/www/
+    working_dir: /var/www/robijnsbos_dt_app
     volumes:
       - ./web-app:/var/www/
     networks:
@@ -33,9 +33,9 @@ services:
     container_name: robijnsbos_npm
     image: node:current-alpine
     volumes:
-      - ./web-app/robijnsbos_dt_app:/var/www
+      - ./web-app:/var/www
     entrypoint: [ "npm", "run", "dev" ]
-    working_dir: /var/www/
+    working_dir: /var/www/robijnsbos_dt_app
     ports:
       - "12013:12013"
     networks:
