@@ -1,10 +1,10 @@
 <?php
 
-namespace Database\Seeders;
+namespace robijnsbos_dt_app\database\seeders;
 
-use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DatabaseSeeder extends Seeder
 {

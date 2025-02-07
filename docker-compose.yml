@@ -4,7 +4,7 @@ services:
     hostname: robijnsbos.home
     build:
       context: ./web-app
-      dockerfile: docker/robijnsbos.dockerfile
+      dockerfile: robijnsbos_dt_app/docker/robijnsbos.dockerfile
     tty: true
     environment:
       TZ: Europe/Amsterdam
@@ -33,7 +33,7 @@ services:
     container_name: robijnsbos_npm
     image: node:current-alpine
     volumes:
-      - ./web-app:/var/www
+      - ./web-app/robijnsbos_dt_app:/var/www
     entrypoint: [ "npm", "run", "dev" ]
     working_dir: /var/www/
     ports:

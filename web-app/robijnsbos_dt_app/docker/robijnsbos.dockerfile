@@ -1,4 +1,4 @@
-FROM php:8.2.3-apache AS apache
+FROM php:8.2.27-apache AS apache
 
 # set workdir
 RUN mkdir -p /var/www/
@@ -24,7 +24,7 @@ RUN apt-get install -y socat
 RUN docker-php-ext-install pdo_mysql mysqli soap zip gd
 
 # copy exta php ini files
-COPY ./docker/php/* /usr/local/etc/php/conf.d
+COPY ./robijnsbos_dt_app/docker/php/* /usr/local/etc/php/conf.d
 
 RUN apt-get clean -y
 
@@ -42,7 +42,7 @@ RUN curl -sL https://deb.nodesource.com/setup_22.x | bash
 RUN apt-get install -y nodejs
 
 # copy httpd files
-COPY ./docker/httpd.conf /etc/apache2/sites-enabled/000-default.conf
+COPY ./robijnsbos_dt_app/docker/httpd.conf /etc/apache2/sites-enabled/000-default.conf
 
 # copy webapp files
 COPY ./ /var/www
@@ -54,7 +54,7 @@ RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/lo
 ENV PATH="/var/scripts:${PATH}"
 
 # entrypoint
-COPY ./docker/entrypoint.sh /entrypoint.sh
+COPY ./robijnsbos_dt_app/docker/entrypoint.sh /entrypoint.sh
 RUN chmod ugo+x /entrypoint.sh
 RUN dos2unix /entrypoint.sh
 

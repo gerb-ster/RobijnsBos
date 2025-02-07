@@ -4,7 +4,7 @@
     "scripts": {
         "dev": "vite",
         "build": "vite build",
-        "fix:eslint": "eslint --ext .js,.vue resources/js/ --fix",
+        "fix:eslint": "eslint --ext .js,.vue ../resources/js --fix",
         "fix:prettier": "prettier --write --loglevel warn 'resources/js/**/*.vue'",
         "vue-i18n-extract": "vue-i18n-extract report --vueFiles './resources/js/**/*.?(js|vue)' --languageFiles './resources/lang/*.?(json|yml|yaml|js)' --add true"
     },
