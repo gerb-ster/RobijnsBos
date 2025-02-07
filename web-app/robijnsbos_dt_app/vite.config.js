@@ -7,7 +7,7 @@ import {viteStaticCopy} from "vite-plugin-static-copy";
 
 export default defineConfig({
   build: {
-    outDir: '../dt.robijnsbos.nl/',
+    outDir: '../dt.robijnsbos.nl/build',
   },
   css: {
     preprocessorOptions: {
@@ -22,14 +22,14 @@ export default defineConfig({
         'resources/js/app.js'
       ],
       publicDirectory: "../dt.robijnsbos.nl/",
-      buildDirectory: "../dt.robijnsbos.nl/",
+      buildDirectory: "../build",
       refresh: true,
     }),
     viteStaticCopy({
       targets: [
         {
           src: 'node_modules/circle-flags/flags',
-          dest: '../dt.robijnsbos.nl/images/circle-flags'
+          dest: '../images/circle-flags'
         }
       ]
     }),

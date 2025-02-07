@@ -14,5 +14,5 @@ require __DIR__ . '/../robijnsbos_dt_app/vendor/autoload.php';
 
 // Bootstrap Laravel and handle the request...
 (require_once __DIR__ . '/../robijnsbos_dt_app/bootstrap/app.php')
-    ->usePublicPath(base_path('../dt.robijnsbos.nl/'))
+    ->usePublicPath(base_path('../dt.robijnsbos.nl'))
     ->handleRequest(Request::capture());

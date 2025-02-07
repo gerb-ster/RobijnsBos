@@ -92,12 +92,12 @@
     "src": "node_modules/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2"
   },
   "resources/js/app.js": {
-    "file": "assets/app-CHC8jSD4.js",
+    "file": "assets/app-DwHtDp_3.js",
     "name": "app",
     "src": "resources/js/app.js",
     "isEntry": true,
     "css": [
-      "assets/app-Bo7AgF7i.css"
+      "assets/app-AQdg9CTa.css"
     ],
     "assets": [
       "assets/materialdesignicons-webfont-CSr8KVlo.eot",
