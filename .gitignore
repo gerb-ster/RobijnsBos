@@ -4,8 +4,8 @@
 /web-app/.env.backup
 /web-app/.env.production
 /web-app/.phpunit.result.cache
-/web-app/build
-/web-app/hot
+/web-app/public/build
+/web-app/public/hot
 /web-app/Homestead.json
 /web-app/Homestead.yaml
 /web-app/.vite
