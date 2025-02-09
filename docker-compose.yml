@@ -4,13 +4,13 @@ services:
     hostname: robijnsbos.home
     build:
       context: ./
-      dockerfile: docker/robijnsbos.dockerfile
+      dockerfile: docker/robijnsbos.dev.dockerfile
     tty: true
     environment:
       TZ: Europe/Amsterdam
       SERVICE_NAME: robijnsbos
       SERVICE_TAGS: dev
-    working_dir: /var/www/robijnsbos_dt_app
+    working_dir: /var/www
     volumes:
       - ./web-app:/var/www/
     networks:
@@ -29,13 +29,15 @@ services:
       MYSQL_PASSWORD: "secret"
     networks:
       - robijnsbos_network
+    volumes:
+      - ./docker/db-init/:/docker-entrypoint-initdb.d
   robijnsbos_npm:
     container_name: robijnsbos_npm
     image: node:current-alpine
     volumes:
       - ./web-app:/var/www
     entrypoint: [ "npm", "run", "dev" ]
-    working_dir: /var/www/robijnsbos_dt_app
+    working_dir: /var/www
     ports:
       - "12013:12013"
     networks:

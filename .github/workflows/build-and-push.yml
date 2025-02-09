@@ -28,16 +28,16 @@ jobs:
           php-version: 8.2
 
       - name: Composer update & install
-        run: cd web-app/robijnsbos_dt_app/ && composer update && composer install --prefer-dist --no-suggest --no-progress
+        run: cd web-app/ && composer update && composer install --prefer-dist --no-suggest --no-progress
 
       - name: NPM install & build
         uses: actions/setup-node@v4
         with:
           node-version: '22.x'
-      - run: cd web-app/robijnsbos_dt_app/ && npm install
-      - run: cd web-app/robijnsbos_dt_app/ && npm run build
-      - run: cd web-app/robijnsbos_dt_app/ && npm prune --production
-      - run: rm -Rf web-app/robijnsbos_dt_app/node_modules/
+      - run: cd web-app/ && npm install
+      - run: cd web-app/ && npm run build
+      - run: cd web-app/ && npm prune --production
+      - run: rm -Rf web-app/node_modules/
 
       - name: Log in to the Container registry
         uses: docker/login-action@65b78e6e13532edd9afa3aa52ac7964289d1a9c1
@@ -57,7 +57,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./
-          file: ./build/builder.dockerfile
+          file: ./docker/robijnsbos.prod.dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
