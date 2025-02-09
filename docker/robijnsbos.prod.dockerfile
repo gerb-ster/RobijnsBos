@@ -26,7 +26,7 @@ RUN chown -R www-data:www-data /var/www
 # Expose port 9000 and start php-fpm server (for FastCGI Process Manager)
 EXPOSE 9000
 
-COPY ./build/entrypoint.sh /entrypoint.sh
+COPY ./docker/entrypoint.sh /entrypoint.sh
 RUN chmod ugo+x /entrypoint.sh
 
 ENTRYPOINT /entrypoint.sh
