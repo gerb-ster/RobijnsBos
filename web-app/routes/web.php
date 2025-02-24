@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BackOffice\Administration\UserController;
 use App\Http\Controllers\BackOffice\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\BackOffice\PlantController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +20,9 @@ Route::group(['middleware' => ['guest']], function () {
 Route::group(['middleware' => ['auth']], function () {
   Route::inertia('/back-office/', 'BackOffice/Dashboard');
 
+  // Plants
+  Route::resource('/back-office/plant', PlantController::class);
+
   // logout url
   Route::delete('/back-office/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
@@ -26,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
   /* Administration */
   Route::middleware(['can:administrate'])->group(function () {
     // User management related
-    Route::resource('user', UserController::class);
+    Route::resource('/back-office/user', UserController::class);
     Route::post('/back-office/user/list', [UserController::class, 'list'])
       ->name('user.list');
     Route::get('/back-office/user/restore/{id}', [UserController::class, 'restore'])

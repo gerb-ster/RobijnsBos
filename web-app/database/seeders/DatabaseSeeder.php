@@ -1,6 +1,6 @@
 <?php
 
-namespace robijnsbos_dt_app\database\seeders;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 

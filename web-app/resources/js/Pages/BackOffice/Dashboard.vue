@@ -1,7 +1,13 @@
 <template>
-  DashBoard
+  <Head><title>{{ $t('dashboard.title') }}</title></Head>
+  <v-container fluid>
+    <flash-messages/>
+    <p>DashBoard</p>
+  </v-container>
 </template>
 
 <script setup>
-const props = defineProps(['value']);
+
+import FlashMessages from "../../Shared/FlashMessages.vue";
+
 </script>

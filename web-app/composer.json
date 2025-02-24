@@ -2,8 +2,8 @@
     "$schema": "https://getcomposer.org/schema.json",
     "name": "laravel/laravel",
     "type": "project",
-    "description": "Ami Systeem Backend",
-    "keywords": ["Ami", "Backend", "API"],
+    "description": "RobijnsBos Management System",
+    "keywords": ["RobijnsBos", "Management"],
     "license": "MIT",
     "require": {
         "php": "^8.2",

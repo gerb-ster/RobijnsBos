@@ -31,6 +31,15 @@
       temporary
     >
       <v-list>
+        <Link as="div" :href="$route('plant.index')">
+          <v-list-item
+            prepend-icon="mdi-sprout"
+            :title="$t('navigation.plantLink')"
+            value="plants"
+            :href="$route('plant.index')"
+            @click="drawer=!drawer"
+          ></v-list-item>
+        </Link>
         <div v-if="auth.user.admin">
           <v-divider></v-divider>
           <Link as="div" :href="$route('user.index')">

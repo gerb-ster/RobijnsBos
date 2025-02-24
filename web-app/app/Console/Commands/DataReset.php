@@ -2,9 +2,9 @@
 
 namespace App\Console\Commands;
 
+use Database\Seeders\UserSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
-use robijnsbos_dt_app\database\seeders\UserSeeder;
 
 class DataReset extends Command
 {
