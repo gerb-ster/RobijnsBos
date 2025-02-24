@@ -60,7 +60,8 @@
     "fields": {
       "name": "Naam",
       "admin": "Beheerder",
-      "email": "Email adres"
+      "email": "Email adres",
+      "password": "Wachtwoord"
     },
     "messages": {
       "created": "Gebruiker succesvol toegevoegd",
