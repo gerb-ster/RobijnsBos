@@ -1,3 +1,79 @@
 {
-    "welcome": "Welkom"
+  "appBar": {
+    "appTitle": "RobijnsBos"
+  },
+  "navigation": {
+    "plantLink": "Bomen & Planten",
+    "userLink": "Gebruikers",
+    "signOutLink": "Uitloggen",
+    "confirmSignOutTitle": "Weet u het zeker?",
+    "confirmSignOutText": "Weet u zeker dat u uit wilt loggen?"
+  },
+  "language": {
+    "title": "Taalkeuze",
+    "dutch": "Nederlands",
+    "english": "Engels",
+    "french": "Frans",
+    "code": "nl"
+  },
+  "flashMessages": {
+    "successTitle": "Succes",
+    "warningTitle": "Waarschuwing",
+    "errorTitle": "Er is iets misgegaan.."
+  },
+  "form": {
+    "search": "Zoeken",
+    "loadingText": "Moment aub... Bezig met laden",
+    "cancelBtn": "Annuleren",
+    "saveBtn": "Opslaan",
+    "confirmBtn": "Bevestigen",
+    "updateBtn": "Aanpassen",
+    "deleteBtn": "Verwijderen",
+    "uploadBtn": "Upload bestand",
+    "actions": "Acties",
+    "confirmRemoveDialogTitle": "Verwijderen",
+    "confirmRestoreDialogTitle": "Herstellen",
+    "yesBtn": "Ja",
+    "noBtn": "Nee",
+    "backBtn": "Terug naar het overzicht",
+    "selectFile": "Selecteer een bestand",
+    "withSelected": "Geselecteerd ({count})",
+    "massRemove": "Verwijder deelnemers",
+    "readonly": "Alleen-lezen",
+    "validation": {
+      "required": "Dit is een verplicht veld",
+      "email": "Dit veld moet een correct email adres bevatten"
+    },
+    "okBtn": "OK"
+  },
+  "users": {
+    "listTitle": "Gebruikersbeheer",
+    "withTrashed": "Toon verwijderde gebruikers",
+    "createTitle": "Gebruiker toevoegen",
+    "showTitle": "Gebruiker bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u het gebruikers account van '{name}' wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u het gebruikers account van '{name}' wilt herstellen?",
+    "confirmImpersonateDialogTitle": "Bevestiging",
+    "confirmImpersonateDialogText": "Weet u zeker dat u dit gebruikers account wilt overnemen?",
+    "confirmStopImpersonatingDialogTitle": "Bevestiging",
+    "confirmStopImpersonatingDialogText": "Weet u zeker dat u wilt stoppen met het overnemen van dit account?",
+    "fields": {
+      "name": "Naam",
+      "admin": "Beheerder",
+      "email": "Email adres",
+      "password": "Wachtwoord"
+    },
+    "messages": {
+      "created": "Gebruiker succesvol toegevoegd",
+      "updated": "Gebruiker succesvol aangepast",
+      "deleted": "Gebruiker succesvol verwijderd",
+      "restored": "Gebruiker succesvol hersteld"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
+  "plants": {
+    "listTitle": "Bomen & Platen overzicht"
+  }
 }
