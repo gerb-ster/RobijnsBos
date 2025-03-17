@@ -1,91 +1,79 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class User
- *
+ * 
  * @property int $id
- * @property string $name
  * @property string $uuid
- * @property bool $admin
+ * @property string $name
+ * @property int $role_id
  * @property string $locale
- * @property string|null $email
- * @property Carbon $created_at
+ * @property string $email
+ * @property string $password
+ * @property bool $admin
+ * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
+ * 
+ * @property Role $role
+ * @property Collection|Comment[] $comments
+ * @property Collection|Mutation[] $mutations
+ * @property Collection|Vegetation[] $vegetations
  *
  * @package App\Models
  */
-class User extends Authenticatable
+class User extends Model
 {
-  use HasFactory, Notifiable;
+	use SoftDeletes;
+	protected $table = 'users';
 
-  /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
-   */
-  protected $fillable = [
-    'name',
-    'email',
-    'password',
-  ];
+	protected $casts = [
+		'role_id' => 'int',
+		'admin' => 'bool'
+	];
 
-  /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
-   */
-  protected $hidden = [
-    'password',
-    'remember_token',
-  ];
+	protected $hidden = [
+		'password'
+	];
 
-  /**
-   * Get the attributes that should be cast.
-   *
-   * @return array<string, string>
-   */
-  protected function casts(): array
-  {
-    return [
-      'email_verified_at' => 'datetime',
-      'password' => 'hashed',
-    ];
-  }
+	protected $fillable = [
+		'uuid',
+		'name',
+		'role_id',
+		'locale',
+		'email',
+		'password',
+		'admin'
+	];
 
-  /**
-   * The "booting" method of the model.
-   *
-   * @return void
-   */
-  protected static function boot(): void
-  {
-    parent::boot();
+	public function role()
+	{
+		return $this->belongsTo(Role::class);
+	}
 
-    static::creating(function ($model) {
-      $model->uuid = Str::uuid();
-    });
-  }
+	public function comments()
+	{
+		return $this->hasMany(Comment::class, 'created_by');
+	}
 
-  /**
-   * Retrieve the model for a bound value.
-   *
-   * @param  mixed  $value
-   * @param  string|null  $field
-   * @return Model|null
-   * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-   */
-  public function resolveRouteBinding($value, $field = null): ?Model
-  {
-    return $this->where('uuid', $value)->firstOrFail();
-  }
+	public function mutations()
+	{
+		return $this->hasMany(Mutation::class, 'created_by');
+	}
+
+	public function vegetations()
+	{
+		return $this->hasMany(Vegetation::class, 'created_by');
+	}
 }
