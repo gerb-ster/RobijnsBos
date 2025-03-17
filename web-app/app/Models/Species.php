@@ -1,19 +1,18 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
 
 /**
  * Class Species
- * 
+ *
  * @property int $id
  * @property string $uuid
  * @property string $number
@@ -25,8 +24,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
- * 
- * @property LatinFamily $latin_family
+ *
+ * @property LatinFamily $latinFamily
  * @property Collection|Vegetation[] $vegetations
  *
  * @package App\Models
@@ -34,12 +33,22 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Species extends Model
 {
 	use SoftDeletes;
+
+  /**
+   * @var string
+   */
 	protected $table = 'species';
 
+  /**
+   * @var string[]
+   */
 	protected $casts = [
 		'latin_family_id' => 'int'
 	];
 
+  /**
+   * @var string[]
+   */
 	protected $fillable = [
 		'uuid',
 		'number',
@@ -50,13 +59,56 @@ class Species extends Model
 		'height'
 	];
 
-	public function latin_family()
-	{
+  /**
+   * The "booting" method of the model.
+   *
+   * @return void
+   */
+  protected static function boot(): void
+  {
+    parent::boot();
+
+    static::creating(function (Species $model) {
+      $model->uuid = Str::uuid();
+
+      // generate a number
+      $currentMax = Species
+        ::withTrashed()
+        ->withoutGlobalScopes()
+        ->max('id') ?? 0;
+
+      $currentMax++;
+      $counter = str_pad($currentMax, 5, "0", STR_PAD_LEFT);
+
+      $model->number = "S.{$counter}";
+    });
+  }
+
+  /**
+   * Retrieve the model for a bound value.
+   *
+   * @param  mixed  $value
+   * @param  string|null  $field
+   * @return Model|null
+   */
+  public function resolveRouteBinding($value, $field = null): ?Model
+  {
+    return $this->where('uuid', $value)->firstOrFail();
+  }
+
+  /**
+   * @return BelongsTo
+   */
+	public function latinFamily(): BelongsTo
+  {
 		return $this->belongsTo(LatinFamily::class);
 	}
 
-	public function vegetations()
-	{
+  /**
+   * @return HasMany
+   */
+	public function vegetations(): HasMany
+  {
 		return $this->hasMany(Vegetation::class, 'specie_id');
 	}
 }
