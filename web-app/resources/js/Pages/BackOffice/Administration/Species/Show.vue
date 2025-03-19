@@ -1,11 +1,11 @@
 <template>
-  <Head :title="$t('users.showTitle')"/>
+  <Head :title="$t('species.showTitle')"/>
   <v-container fluid>
     <flash-messages/>
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
-          <div :class="['text-h5', 'pa-2']">{{ $t('users.showTitle') }}</div>
+          <div :class="['text-h5', 'pa-2']">{{ $t('species.showTitle') }}</div>
         </v-col>
       </v-row>
       <v-row>
@@ -13,19 +13,9 @@
           <v-text-field
             v-model="form.name"
             name="name"
-            :label="$t('users.fields.name')"
+            :label="$t('species.fields.name')"
             :rules="rules.required"
           ></v-text-field>
-          <v-text-field
-            v-model="form.email"
-            :label="$t('users.fields.email')"
-            :rules="rules.required.concat(rules.email)"
-          ></v-text-field>
-          <v-switch
-            :label="$t('users.fields.admin')"
-            v-model="form.admin"
-            color="indigo"
-          ></v-switch>
         </v-col>
       </v-row>
       <v-row>
@@ -38,12 +28,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('user.index')">
+          <Link :href="$route('species.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('user.index')"
+              :href="$route('species.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -60,28 +50,25 @@
 import {useForm, Head, Link} from '@inertiajs/vue3';
 import {required, email} from '@vee-validate/rules';
 import {useI18n} from "vue-i18n";
-import FlashMessages from "../../../Shared/FlashMessages.vue";
+import FlashMessages from "../../../../Shared/FlashMessages.vue";
 
-const props = defineProps(['user', 'roles']);
+const props = defineProps(['area']);
 
 const {t} = useI18n({});
 
-const form = useForm(props.user);
+const form = useForm(props.area);
 
 const rules = {
   required: [
     value => required(value) || t('form.validation.required')
-  ],
-  email: [
-    value => email(value) || t('form.validation.email')
-  ],
+  ]
 }
 
 async function submit(event) {
   const results = await event;
 
   if (results.valid) {
-    form.put(route('user.update', props.user.uuid));
+    form.put(route('species.update', props.group.id));
   }
 }
 

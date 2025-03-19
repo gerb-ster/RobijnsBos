@@ -25,7 +25,10 @@ return new class extends Migration {
       $table->foreignId('group_id')->constrained('groups');
       $table->foreignId('specie_id')->constrained('species');
       $table->integer('amount');
-      $table->string('plant_year', 8)->nullable();
+
+      $table->date('placed')->nullable();
+      $table->date('removed')->nullable();
+
       $table->text('remarks')->default('');
       $table->string('qr_filename', 64)->nullable();
       $table->json('location')->nullable();

@@ -1,7 +1,7 @@
 <template>
-  <Head :title="$t('users.createTitle')" />
+  <Head :title="$t('users.createTitle')"/>
   <v-container fluid>
-    <flash-messages />
+    <flash-messages/>
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
@@ -17,40 +17,49 @@
             required
           ></v-text-field>
           <v-text-field
-              v-model="form.email"
-              :label="$t('users.fields.email')"
-              :rules="rules.required.concat(rules.email)"
-              required
+            v-model="form.email"
+            :label="$t('users.fields.email')"
+            :rules="rules.required.concat(rules.email)"
+            required
           ></v-text-field>
           <v-text-field
-              v-model="form.password"
-              :label="$t('users.fields.password')"
-              :rules="rules.required"
-              type="password"
-              required
+            v-model="form.password"
+            :label="$t('users.fields.password')"
+            :rules="rules.required"
+            type="password"
+            required
           ></v-text-field>
+          <v-select
+            v-model="form.role_id"
+            :label="$t('users.fields.role')"
+            :items="roles"
+            :item-title="item => $t('roles.'+item.name)"
+            :rules="rules.required"
+            item-value="id"
+          ></v-select>
           <v-switch
-              :label="$t('users.fields.admin')"
-              v-model="form.admin"
-              color="indigo"
+            :label="$t('users.fields.admin')"
+            v-model="form.admin"
+            color="indigo"
           ></v-switch>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="4">
           <v-btn
-              prepend-icon="mdi-content-save"
-              size="large"
-              color="primary"
-              type="submit"
-              elevation="0"
-          > {{ $t('form.saveBtn') }}</v-btn>
-          <Link :href="$route('user.index')">
+            prepend-icon="mdi-content-save"
+            size="large"
+            color="primary"
+            type="submit"
+            elevation="0"
+          > {{ $t('form.saveBtn') }}
+          </v-btn>
+          <Link :href="$route('users.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('user.index')"
+              :href="$route('users.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -66,16 +75,17 @@
 import {Head, Link, useForm} from '@inertiajs/vue3';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
-import FlashMessages from "../../../Shared/FlashMessages.vue";
+import FlashMessages from "../../../../Shared/FlashMessages.vue";
 
 const props = defineProps(['roles']);
 
-const { t } = useI18n({});
+const {t} = useI18n({});
 
 const form = useForm({
   name: null,
   email: null,
   password: null,
+  role_id: null,
   is_admin: false
 });
 
@@ -88,11 +98,11 @@ const rules = {
   ],
 }
 
-async function submit (event) {
+async function submit(event) {
   const results = await event;
 
-  if(results.valid) {
-    form.post(route('user.store'));
+  if (results.valid) {
+    form.post(route('users.store'));
   }
 }
 

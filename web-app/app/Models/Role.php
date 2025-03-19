@@ -21,6 +21,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class Role extends Model
 {
+  const OWNER = 1;
+  const VOLUNTEER = 2;
+
 	protected $table = 'roles';
 
   /**

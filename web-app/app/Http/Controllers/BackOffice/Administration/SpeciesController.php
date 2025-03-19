@@ -3,23 +3,21 @@
 namespace App\Http\Controllers\BackOffice\Administration;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Administration\User\CreateRequest;
-use App\Http\Requests\BackOffice\Administration\User\UpdateRequest;
-use App\Models\Role;
-use App\Models\User;
+use App\Http\Requests\BackOffice\Administration\Species\CreateRequest;
+use App\Http\Requests\BackOffice\Administration\Species\UpdateRequest;
+use App\Models\Species;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 /**
- * Class UserController
+ * Class SpeciesController
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class SpeciesController extends Controller
 {
   /**
    * @param int $page
@@ -29,7 +27,7 @@ class UserController extends Controller
    * @param bool $withTrashed
    * @return array
    */
-  private function listUsers(
+  private function listSpecies(
     int     $page,
     int     $itemsPerPage,
     array   $sortBy,
@@ -37,7 +35,7 @@ class UserController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = User::with('role');
+    $queryBuilder = Species::with('latin_family');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -51,8 +49,7 @@ class UserController extends Controller
     }
 
     if (!empty($search)) {
-      $queryBuilder->where('name', 'LIKE', "%$search%")
-        ->orWhere('email', 'LIKE', "%$search%");
+      $queryBuilder->where('name', 'LIKE', "%$search%");
     }
 
     // do a count
@@ -72,7 +69,7 @@ class UserController extends Controller
    */
   public function index(): Response
   {
-    return inertia('BackOffice/Administration/User/Index');
+    return inertia('BackOffice/Administration/Species/Index');
   }
 
   /**
@@ -90,7 +87,7 @@ class UserController extends Controller
     $search = $request->post('search');
 
     return response()->json(
-      $this->listUsers($page, $itemsPerPage, $sortBy, $search, $withTrashed)
+      $this->listSpecies($page, $itemsPerPage, $sortBy, $search, $withTrashed)
     );
   }
 
@@ -99,43 +96,33 @@ class UserController extends Controller
    */
   public function create(): Response
   {
-    return inertia('BackOffice/Administration/User/Create', [
-      'roles' => Role::all()
-    ]);
+    return inertia('BackOffice/Administration/Species/Create');
   }
 
   /**
    * Store a newly created resource in storage.
    *
-   * @param UpdateRequest $request
+   * @param CreateRequest $request
    * @return Redirector|Application|RedirectResponse
    */
   public function store(CreateRequest $request): Redirector|Application|RedirectResponse
   {
     $validated = $request->validated();
 
-    $validated['admin'] = $request->boolean('admin');
+    Species::create($validated);
 
-    $user = User::create($validated);
-
-    // sync sections
-    if (array_key_exists('sections', $validated) && !empty($validated['sections'])) {
-      $user->sections()->sync($validated['sections']);
-    }
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.created');
+    return redirect(route('species.index'))
+      ->with('success', 'species.messages.created');
   }
 
   /**
-   * @param User $user
+   * @param Species $species
    * @return Response
    */
-  public function show(User $user): Response
+  public function show(Species $species): Response
   {
-    return inertia('BackOffice/Administration/User/Show', [
-      'user' => $user,
-      'roles' => Role::all()
+    return inertia('BackOffice/Administration/Species/Show', [
+      'species' => $species
     ]);
   }
 
@@ -143,71 +130,45 @@ class UserController extends Controller
    * Update the specified resource in storage.
    *
    * @param UpdateRequest $request
-   * @param User $user
+   * @param Species $species
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(UpdateRequest $request, User $user): Redirector|RedirectResponse|Application
+  public function update(UpdateRequest $request, Species $species): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
-    $validated['admin'] = $request->boolean('admin');
+    // update area
+    $species->update($validated);
 
-    // update user
-    $user->update($validated);
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.updated');
+    return redirect(route('species.index'))
+      ->with('success', 'species.messages.updated');
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param User $user
+   * @param Species $species
    * @return Redirector|RedirectResponse|Application
    */
-  public function destroy(User $user): Redirector|RedirectResponse|Application
+  public function destroy(Species $species): Redirector|RedirectResponse|Application
   {
-    if ($user->id === Auth::user()->id) {
-      return redirect(route('users.index'))
-        ->with('warning', 'users.messages.cannotDeleteYourself');
-    }
+    $species->delete();
 
-    $user->delete();
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.deleted');
+    return redirect(route('species.index'))
+      ->with('success', 'species.messages.deleted');
   }
 
   /**
    * Restore the specified resource from storage.
    *
-   * @param int $userId
+   * @param int $speciesId
    * @return Redirector|RedirectResponse|Application
    */
-  public function restore(int $userId): Redirector|RedirectResponse|Application
+  public function restore(int $speciesId): Redirector|RedirectResponse|Application
   {
-    User::withTrashed()->find($userId)->restore();
+    Species::withTrashed()->find($speciesId)->restore();
 
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.restored');
-  }
-
-  /**
-   * Set the new Locale
-   *
-   * @param Request $request
-   * @return JsonResponse
-   */
-  public function setLocale(Request $request): JsonResponse
-  {
-    $locale = $request->post('locale');
-
-    Auth::user()->update([
-      'locale' => $locale
-    ]);
-
-    return response()->json([
-      'success' => true
-    ]);
+    return redirect(route('species.index'))
+      ->with('success', 'species.messages.restored');
   }
 }

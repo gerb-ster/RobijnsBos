@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->string('name', 64)->nullable();
       $table->foreignId('area_id')->constrained('areas');
 
+      $table->softDeletes();
       $table->timestamps();
     });
   }

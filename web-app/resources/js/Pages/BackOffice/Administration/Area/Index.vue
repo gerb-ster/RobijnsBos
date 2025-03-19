@@ -1,5 +1,5 @@
 <template>
-  <Head><title>{{ $t('users.listTitle') }}</title></Head>
+  <Head><title>{{ $t('areas.listTitle') }}</title></Head>
   <confirm ref="confirmDelete"></confirm>
   <confirm ref="confirmRestore"></confirm>
   <v-container fluid>
@@ -17,11 +17,11 @@
       <v-col cols="12" md="7">
         <v-checkbox
           v-model="showDeleted"
-          :label="$t('users.withTrashed')"
+          :label="$t('areas.withTrashed')"
         ></v-checkbox>
       </v-col>
       <v-col cols="12" md="2">
-        <Link as="div" :href="$route('user.create')">
+        <Link as="div" :href="$route('areas.create')">
           <v-btn
             icon="mdi-plus"
             color="primary"
@@ -42,22 +42,33 @@
       class="elevation-1"
       item-value="name"
       @update:options="loadItems"
-      @click:row="rowClick"
       :row-props="setRowProps"
+      show-expand
+      expand-on-click
     >
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
-      <template v-slot:item.admin="{ item }">
-        <data-table-boolean :value="item.admin"/>
-      </template>
       <template v-slot:item.actions="{ item }">
+        <v-icon @click="editItem(item)" class="mr-2">
+          mdi-pencil-outline
+        </v-icon>
         <v-icon @click.stop="deleteItem(item)" v-if="!item.deleted_at">
           mdi-trash-can-outline
         </v-icon>
         <v-icon @click.stop="restoreItem(item)" v-else>
           mdi-delete-restore
         </v-icon>
+      </template>
+      <template v-slot:expanded-row="{ columns, item }">
+        <tr :class="$vuetify.theme.global.current.dark?('expandedRowDark'):('expandedRow')">
+          <td :colspan="columns.length">
+            <inline-group-table
+              :area="item"
+              :groups="item.groups"
+            ></inline-group-table>
+          </td>
+        </tr>
       </template>
     </v-data-table-server>
   </v-container>
@@ -66,20 +77,19 @@
 <script setup>
 
 import {router, Head, Link} from '@inertiajs/vue3';
-import Confirm from "../../../Components/Confirm.vue";
+import Confirm from "../../../../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
 import {ref, watch, onUpdated, onBeforeMount} from 'vue';
 import axios from 'axios';
-import FlashMessages from "../../../Shared/FlashMessages.vue";
-import DataTableBoolean from "../../../Components/DataTableBoolean.vue";
-import {openStorage, storeInput} from "../../../Logic/Helpers";
+import FlashMessages from "../../../../Shared/FlashMessages.vue";
+import {openStorage, storeInput} from "../../../../Logic/Helpers";
+import InlineGroupTable from "../../../../Components/BackOffice/Administration/InlineGroupTable.vue";
 
 const {t} = useI18n({});
 
 const headers = ref([
-  {title: t('users.fields.name'), align: 'start', key: 'name'},
-  {title: t('users.fields.email'), align: 'start', key: 'email'},
-  {title: t('users.fields.admin'), align: 'start', key: 'admin'},
+  {align: 'start', key: 'data-table-expand'},
+  {title: t('areas.fields.name'), align: 'start', key: 'name'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 
@@ -99,7 +109,7 @@ const itemsPerPage = ref(25);
 const sortBy = ref([]);
 
 onBeforeMount(() => {
-  const storedForm = openStorage('userAdmin');
+  const storedForm = openStorage('areaAdmin');
 
   if (storedForm) {
     // filters
@@ -153,7 +163,7 @@ function loadItems({page, itemsPerPage, sortBy}) {
   let withTrashed = showDeleted.value;
   let search = searchField.value;
 
-  axios.post(route('user.list'), {
+  axios.post(route('areas.list'), {
     page,
     itemsPerPage,
     sortBy,
@@ -169,21 +179,21 @@ function loadItems({page, itemsPerPage, sortBy}) {
   });
 }
 
-function rowClick(event, dataObj) {
-  if (!dataObj.item.deleted_at) {
-    router.get(route('user.show', dataObj.item.uuid));
+function editItem(item) {
+  if (!item.deleted_at) {
+    router.get(route('areas.show', item.id));
   }
 }
 
 function deleteItem(item) {
   confirmDelete.value.open(
     t('form.confirmRemoveDialogTitle'),
-    t('users.confirmRemoveDialogText', {name: item.name}), {
+    t('areas.confirmRemoveDialogText', {name: item.name}), {
       color: 'secondary'
     }
   ).then((confirm) => {
     if (confirm) {
-      router.delete(route('user.destroy', {user: item}));
+      router.delete(route('areas.destroy', {area: item}));
     }
   });
 }
@@ -191,12 +201,12 @@ function deleteItem(item) {
 function restoreItem(item) {
   confirmRestore.value.open(
     t('form.confirmRestoreDialogTitle'),
-    t('users.confirmRestoreDialogText', {name: item.name}), {
+    t('areas.confirmRestoreDialogText', {name: item.name}), {
       color: 'primary'
     }
   ).then((confirm) => {
     if (confirm) {
-      router.get(route('user.restore', {id: item.id}));
+      router.get(route('areas.restore', {id: item.id}));
     }
   });
 }

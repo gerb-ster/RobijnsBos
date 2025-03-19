@@ -1,25 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\BackOffice\Administration;
+namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Administration\User\CreateRequest;
-use App\Http\Requests\BackOffice\Administration\User\UpdateRequest;
-use App\Models\Role;
-use App\Models\User;
+use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
+use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
+use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
-use Illuminate\Support\Facades\Auth;
 use Inertia\Response;
 
 /**
  * Class UserController
  * @package App\Http\Controllers
  */
-class UserController extends Controller
+class VegetationsController extends Controller
 {
   /**
    * @param int $page
@@ -29,7 +27,7 @@ class UserController extends Controller
    * @param bool $withTrashed
    * @return array
    */
-  private function listUsers(
+  private function listVegetation(
     int     $page,
     int     $itemsPerPage,
     array   $sortBy,
@@ -37,7 +35,7 @@ class UserController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = User::with('role');
+    $queryBuilder = Vegetation::with('species', 'comments', 'mutations');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -51,8 +49,7 @@ class UserController extends Controller
     }
 
     if (!empty($search)) {
-      $queryBuilder->where('name', 'LIKE', "%$search%")
-        ->orWhere('email', 'LIKE', "%$search%");
+      $queryBuilder->where('name', 'LIKE', "%$search%");
     }
 
     // do a count
@@ -72,7 +69,7 @@ class UserController extends Controller
    */
   public function index(): Response
   {
-    return inertia('BackOffice/Administration/User/Index');
+    return inertia('BackOffice/Vegetation/Index');
   }
 
   /**
@@ -90,7 +87,7 @@ class UserController extends Controller
     $search = $request->post('search');
 
     return response()->json(
-      $this->listUsers($page, $itemsPerPage, $sortBy, $search, $withTrashed)
+      $this->listVegetation($page, $itemsPerPage, $sortBy, $search, $withTrashed)
     );
   }
 
@@ -99,43 +96,33 @@ class UserController extends Controller
    */
   public function create(): Response
   {
-    return inertia('BackOffice/Administration/User/Create', [
-      'roles' => Role::all()
-    ]);
+    return inertia('BackOffice/Vegetation/Create');
   }
 
   /**
    * Store a newly created resource in storage.
    *
-   * @param UpdateRequest $request
+   * @param CreateRequest $request
    * @return Redirector|Application|RedirectResponse
    */
   public function store(CreateRequest $request): Redirector|Application|RedirectResponse
   {
     $validated = $request->validated();
 
-    $validated['admin'] = $request->boolean('admin');
+    Vegetation::create($validated);
 
-    $user = User::create($validated);
-
-    // sync sections
-    if (array_key_exists('sections', $validated) && !empty($validated['sections'])) {
-      $user->sections()->sync($validated['sections']);
-    }
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.created');
+    return redirect(route('vegetation.index'))
+      ->with('success', 'vegetation.messages.created');
   }
 
   /**
-   * @param User $user
+   * @param Vegetation $vegetation
    * @return Response
    */
-  public function show(User $user): Response
+  public function show(Vegetation $vegetation): Response
   {
-    return inertia('BackOffice/Administration/User/Show', [
-      'user' => $user,
-      'roles' => Role::all()
+    return inertia('BackOffice/Vegetation/Show', [
+      'vegetation' => $vegetation
     ]);
   }
 
@@ -143,71 +130,45 @@ class UserController extends Controller
    * Update the specified resource in storage.
    *
    * @param UpdateRequest $request
-   * @param User $user
+   * @param Vegetation $vegetation
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(UpdateRequest $request, User $user): Redirector|RedirectResponse|Application
+  public function update(UpdateRequest $request, Vegetation $vegetation): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
-    $validated['admin'] = $request->boolean('admin');
+    // update area
+    $vegetation->update($validated);
 
-    // update user
-    $user->update($validated);
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.updated');
+    return redirect(route('vegetation.index'))
+      ->with('success', 'vegetation.messages.updated');
   }
 
   /**
    * Remove the specified resource from storage.
    *
-   * @param User $user
+   * @param Vegetation $vegetation
    * @return Redirector|RedirectResponse|Application
    */
-  public function destroy(User $user): Redirector|RedirectResponse|Application
+  public function destroy(Vegetation $vegetation): Redirector|RedirectResponse|Application
   {
-    if ($user->id === Auth::user()->id) {
-      return redirect(route('users.index'))
-        ->with('warning', 'users.messages.cannotDeleteYourself');
-    }
+    $vegetation->delete();
 
-    $user->delete();
-
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.deleted');
+    return redirect(route('vegetation.index'))
+      ->with('success', 'vegetation.messages.deleted');
   }
 
   /**
    * Restore the specified resource from storage.
    *
-   * @param int $userId
+   * @param int $vegetationId
    * @return Redirector|RedirectResponse|Application
    */
-  public function restore(int $userId): Redirector|RedirectResponse|Application
+  public function restore(int $vegetationId): Redirector|RedirectResponse|Application
   {
-    User::withTrashed()->find($userId)->restore();
+    Vegetation::withTrashed()->find($vegetationId)->restore();
 
-    return redirect(route('users.index'))
-      ->with('success', 'users.messages.restored');
-  }
-
-  /**
-   * Set the new Locale
-   *
-   * @param Request $request
-   * @return JsonResponse
-   */
-  public function setLocale(Request $request): JsonResponse
-  {
-    $locale = $request->post('locale');
-
-    Auth::user()->update([
-      'locale' => $locale
-    ]);
-
-    return response()->json([
-      'success' => true
-    ]);
+    return redirect(route('vegetation.index'))
+      ->with('success', 'vegetation.messages.restored');
   }
 }

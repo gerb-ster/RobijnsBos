@@ -20,7 +20,8 @@ use Illuminate\Support\Str;
  * @property int $group_id
  * @property int $specie_id
  * @property int $amount
- * @property string|null $plant_year
+ * @property Carbon|null $placed
+ * @property Carbon|null $removed
  * @property string $remarks
  * @property string|null $qr_filename
  * @property string|null $location
@@ -55,7 +56,9 @@ class Vegetation extends Model
 		'group_id' => 'int',
 		'specie_id' => 'int',
 		'amount' => 'int',
-		'created_by' => 'int'
+		'created_by' => 'int',
+    'placed' => 'date',
+    'removed' => 'date'
 	];
 
   /**
@@ -68,7 +71,8 @@ class Vegetation extends Model
 		'group_id',
 		'specie_id',
 		'amount',
-		'plant_year',
+		'placed',
+    'removed',
 		'remarks',
 		'qr_filename',
 		'location',
