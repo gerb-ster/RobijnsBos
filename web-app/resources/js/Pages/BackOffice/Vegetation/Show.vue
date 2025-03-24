@@ -102,6 +102,14 @@
                     :label="$t('vegetation.fields.remarks')"
                   ></v-textarea>
                 </v-col>
+                <v-col cols="12" md="4">
+                  <v-img
+                    :width="200"
+                    cover
+                    :src=qrUrl
+                  ></v-img>
+                  <a :href="$route('public.vegetation.redirect', {shortCode: vegetation.qr_shortcode})" target="_blank">Open QR Link</a>
+                </v-col>
               </v-row>
             </v-window-item>
             <v-window-item value="mutations">
@@ -145,7 +153,7 @@ import {Head, Link, useForm} from '@inertiajs/vue3';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
-import {ref} from "vue";
+import {ref, computed} from "vue";
 import MutationsList from "../../../Components/BackOffice/Vegetation/MutationsList.vue";
 import CommentsList from "../../../Components/BackOffice/Vegetation/CommentsList.vue";
 
@@ -175,6 +183,10 @@ function speciesItemProps (item) {
     subtitle: item.latin_name,
   }
 }
+
+const qrUrl = computed(() => {
+  return "/images/qr/" + props.vegetation.uuid + ".png";
+});
 
 async function submit(event) {
   const results = await event;
