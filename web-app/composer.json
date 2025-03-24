@@ -1,6 +1,5 @@
 {
-    "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/laravel",
+    "name": "robijnsbos/management",
     "type": "project",
     "description": "RobijnsBos Management System",
     "keywords": ["RobijnsBos", "Management"],
@@ -11,6 +10,7 @@
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
         "phpoffice/phpspreadsheet": "^4.1",
+        "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-ray": "^1.39",
         "tightenco/ziggy": "^2.4",
         "vildanbina/laravel-model-json": "^2.3"

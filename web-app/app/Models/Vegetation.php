@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 /**
  * Class Vegetation
@@ -17,6 +18,7 @@ use Illuminate\Support\Str;
  * @property int $id
  * @property string $uuid
  * @property string $number
+ * @property string $qr_shortcode
  * @property int $status_id
  * @property int $group_id
  * @property int $specie_id
@@ -24,7 +26,6 @@ use Illuminate\Support\Str;
  * @property Carbon|null $placed
  * @property Carbon|null $removed
  * @property string $remarks
- * @property string|null $qr_filename
  * @property string|null $location
  * @property int $created_by
  * @property Carbon|null $created_at
@@ -67,6 +68,7 @@ class Vegetation extends Model
 	protected $fillable = [
 		'uuid',
 		'number',
+    'qr_shortcode',
     'location',
 		'status_id',
 		'group_id',
@@ -75,7 +77,6 @@ class Vegetation extends Model
 		'placed',
     'removed',
 		'remarks',
-		'qr_filename',
 		'created_by'
 	];
 
@@ -91,6 +92,7 @@ class Vegetation extends Model
     static::creating(function (Vegetation $model) {
       $model->uuid = Str::uuid();
       $model->status_id = VegetationStatus::TO_BO_PLANTED;
+      $model->qr_shortcode = Str::random(6);
 
       // generate a number
       $currentMax = Vegetation
@@ -106,6 +108,10 @@ class Vegetation extends Model
       }
 
       $model->number = "P.{$counter}";
+    });
+
+    static::created(function (Vegetation $model) {
+      $model->generateQRCodeFile();
     });
   }
 
@@ -168,4 +174,24 @@ class Vegetation extends Model
   {
 		return $this->hasMany(Mutation::class);
 	}
+
+  /**
+   * @return void
+   */
+  public function generateQRCodeFile(): void
+  {
+    $data = QrCode::size(512)
+      ->format('png')
+      ->merge('/public/images/logo.png')
+      ->errorCorrection('M')
+      ->generate(
+        route('public.vegetation.redirect', ['shortCode' => $this->qr_shortcode])
+      );
+
+    if (!is_dir(public_path(env('QR_CODES_PATH')))) {
+      mkdir(public_path(env('QR_CODES_PATH')));
+    }
+
+    file_put_contents(public_path(env('QR_CODES_PATH').$this->uuid.'.png'), $data);
+  }
 }

@@ -189,5 +189,33 @@
       "deleted": "Beplanting succesvol verwijderd",
       "restored": "Beplanting succesvol hersteld"
     }
+  },
+  "comments": {
+    "withTrashed": "Toon verwijderde opmerkingen",
+    "showTitle": "Opmerking bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u deze opmerking wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u deze opmerking wilt herstellen?",
+    "fields": {
+      "text": "Opmerking"
+    },
+    "messages": {
+      "updated": "Opmerking succesvol aangepast",
+      "deleted": "Opmerking succesvol verwijderd",
+      "restored": "Opmerking succesvol hersteld"
+    }
+  },
+  "mutations": {
+    "withTrashed": "Toon verwijderde soorten mutaties",
+    "showTitle": "Mutatie bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u deze mutatie wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u deze mutatie wilt herstellen?",
+    "fields": {
+      "text": "Opmerking"
+    },
+    "messages": {
+      "updated": "Mutatie succesvol aangepast",
+      "deleted": "Mutatie succesvol verwijderd",
+      "restored": "Mutatie succesvol hersteld"
+    }
   }
 }

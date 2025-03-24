@@ -3,10 +3,8 @@
 namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
 use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
-use App\Models\Group;
-use App\Models\Species;
+use App\Models\Comment;
 use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -16,12 +14,13 @@ use Illuminate\Routing\Redirector;
 use Inertia\Response;
 
 /**
- * Class UserController
+ * Class CommentsController
  * @package App\Http\Controllers
  */
-class VegetationsController extends Controller
+class CommentsController extends Controller
 {
   /**
+   * @param Vegetation $vegetation
    * @param int $page
    * @param int $itemsPerPage
    * @param array $sortBy
@@ -29,7 +28,8 @@ class VegetationsController extends Controller
    * @param bool $withTrashed
    * @return array
    */
-  private function listVegetation(
+  private function listComments(
+    Vegetation $vegetation,
     int     $page,
     int     $itemsPerPage,
     array   $sortBy,
@@ -37,7 +37,7 @@ class VegetationsController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
+    $queryBuilder = Comment::with('status')->where('vegetation_id', $vegetation->id);
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -51,7 +51,27 @@ class VegetationsController extends Controller
     }
 
     if (!empty($search)) {
-      $queryBuilder->where('name', 'LIKE', "%$search%");
+      $queryBuilder->when($search, function ($query, $search) {
+        $query->whereAny([
+          'placed',
+          'number'
+        ], 'LIKE', "%$search%");
+
+        $query->orWhereHas('species', function($query) use ($search) {
+          $query->whereAny([
+            'dutch_name',
+            'latin_name'
+          ], 'LIKE', "%$search%");
+        });
+
+        $query->orWhereHas('group', function($query) use ($search) {
+          $query->where('name', 'LIKE', "%$search%");
+
+          $query->orWhereHas('area', function($query) use ($search) {
+            $query->where('name', 'LIKE', "%$search%");
+          });
+        });
+      });
     }
 
     // do a count
@@ -67,20 +87,13 @@ class VegetationsController extends Controller
   }
 
   /**
-   * @return Response
-   */
-  public function index(): Response
-  {
-    return inertia('BackOffice/Vegetation/Index');
-  }
-
-  /**
    * Display the specified resource.
    *
+   * @param Vegetation $vegetation
    * @param Request $request
    * @return JsonResponse
    */
-  public function list(Request $request): JsonResponse
+  public function list(Vegetation $vegetation, Request $request): JsonResponse
   {
     $withTrashed = $request->boolean('withTrashed');
     $page = $request->integer('page');
@@ -89,95 +102,69 @@ class VegetationsController extends Controller
     $search = $request->post('search');
 
     return response()->json(
-      $this->listVegetation($page, $itemsPerPage, $sortBy, $search, $withTrashed)
+      $this->listComments($vegetation, $page, $itemsPerPage, $sortBy, $search, $withTrashed)
     );
   }
 
   /**
-   * @return Response
-   */
-  public function create(): Response
-  {
-    return inertia('BackOffice/Vegetation/Create',[
-      'groups' => Group::with('area')->get(),
-      'species' => Species::all()
-    ]);
-  }
-
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @param CreateRequest $request
-   * @return Redirector|Application|RedirectResponse
-   */
-  public function store(CreateRequest $request): Redirector|Application|RedirectResponse
-  {
-    $validated = $request->validated();
-
-    Vegetation::create($validated);
-
-    return redirect(route('vegetation.index'))
-      ->with('success', 'vegetation.messages.created');
-  }
-
-  /**
    * @param Vegetation $vegetation
+   * @param Comment $mutation
    * @return Response
    */
-  public function show(Vegetation $vegetation): Response
+  public function show(Vegetation $vegetation, Comment $mutation): Response
   {
-    $vegetation->load('species', 'group', 'comments', 'mutations');
-
-    return inertia('BackOffice/Vegetation/Show', [
+    return inertia('BackOffice/Comment/Show', [
       'vegetation' => $vegetation,
-      'groups' => Group::with('area')->get(),
-      'species' => Species::all()
+      'mutation' => $mutation
     ]);
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param UpdateRequest $request
    * @param Vegetation $vegetation
+   * @param UpdateRequest $request
+   * @param Comment $mutation
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(UpdateRequest $request, Vegetation $vegetation): Redirector|RedirectResponse|Application
+  public function update(Vegetation $vegetation, UpdateRequest $request, Comment $mutation): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
     // update area
-    $vegetation->update($validated);
+    $mutation->update($validated);
 
     return redirect(route('vegetation.index'))
-      ->with('success', 'vegetation.messages.updated');
+      ->with('success', 'mutations.messages.updated');
   }
 
   /**
    * Remove the specified resource from storage.
    *
    * @param Vegetation $vegetation
+   * @param Comment $mutation
    * @return Redirector|RedirectResponse|Application
    */
-  public function destroy(Vegetation $vegetation): Redirector|RedirectResponse|Application
+  public function destroy(Vegetation $vegetation, Comment $mutation): Redirector|RedirectResponse|Application
   {
-    $vegetation->delete();
+    $mutation->delete();
 
     return redirect(route('vegetation.index'))
-      ->with('success', 'vegetation.messages.deleted');
+      ->with('success', 'mutations.messages.deleted');
   }
 
   /**
    * Restore the specified resource from storage.
    *
-   * @param int $vegetationId
+   * @param Vegetation $vegetation
+   * @param int $mutationId
    * @return Redirector|RedirectResponse|Application
    */
-  public function restore(int $vegetationId): Redirector|RedirectResponse|Application
+  public function restore(Vegetation $vegetation, int $mutationId): Redirector|RedirectResponse|Application
   {
-    Vegetation::withTrashed()->find($vegetationId)->restore();
+    Comment::withTrashed()->find($mutationId)->restore();
 
     return redirect(route('vegetation.index'))
-      ->with('success', 'vegetation.messages.restored');
+      ->with('success', 'mutations.messages.restored');
   }
 }

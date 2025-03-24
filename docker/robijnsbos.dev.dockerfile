@@ -20,6 +20,10 @@ RUN apt-get install -y locales locales-all
 RUN apt-get install -y libpng-dev
 RUN apt-get install -y socat
 
+RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommends \
+&& pecl install imagick \
+&& docker-php-ext-enable imagick
+
 # install additional PHP extensions
 RUN docker-php-ext-install pdo_mysql mysqli soap zip gd
 

@@ -17,6 +17,7 @@ return new class extends Migration {
       $table->id();
       $table->string('uuid', 36)->unique();
       $table->string('number', 25)->unique();
+      $table->string('qr_shortcode', 6)->unique();
 
       // status
       $table->foreignId('status_id')->constrained('vegetation_status');
@@ -30,7 +31,6 @@ return new class extends Migration {
       $table->string('removed', 32)->nullable();
 
       $table->text('remarks')->nullable();
-      $table->string('qr_filename', 64)->nullable();
       $table->json('location')->nullable();
 
       // meta_data

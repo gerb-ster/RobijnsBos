@@ -31,7 +31,7 @@ class SpeciesObserver
   public function updated(Species $species): void
   {
     if ($species->isDirty('latin_name') && $species->latin_name) {
-      $latinFamilyName = Str::lower(Str::trim(Str::words($species->latin_name, 1)));
+      $latinFamilyName = Str::lower(Str::trim(Str::words($species->latin_name, 1, "")));
 
       $latinFamily = LatinFamily::firstOrCreate([
         'name' => $latinFamilyName

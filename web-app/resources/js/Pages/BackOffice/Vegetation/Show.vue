@@ -105,10 +105,10 @@
               </v-row>
             </v-window-item>
             <v-window-item value="mutations">
-              mutations
+              <mutations-list :vegetation="vegetation" />
             </v-window-item>
             <v-window-item value="comments">
-              comments
+              <comments-list :vegetation="vegetation"  />
             </v-window-item>
           </v-window>
         </v-card-text>
@@ -146,6 +146,8 @@ import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
 import {ref} from "vue";
+import MutationsList from "../../../Components/BackOffice/Vegetation/MutationsList.vue";
+import CommentsList from "../../../Components/BackOffice/Vegetation/CommentsList.vue";
 
 const props = defineProps(['vegetation', 'groups', 'species']);
 

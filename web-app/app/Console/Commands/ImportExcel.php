@@ -6,14 +6,8 @@ use App\Models\Area;
 use App\Models\Group;
 use App\Models\Species;
 use App\Models\Vegetation;
-use Database\Seeders\AreaSeeder;
-use Database\Seeders\GroupSeeder;
-use Database\Seeders\RoleSeeder;
-use Database\Seeders\UserSeeder;
-use Database\Seeders\VegetationStatusSeeder;
 use Exception;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 class ImportExcel extends Command
@@ -72,10 +66,10 @@ class ImportExcel extends Command
       $rowData = [];
 
       foreach ($cellIterator as $cell) {
-        if($rowCounter === 1) {
+        if ($rowCounter === 1) {
           $headers[$cell->getColumn()] = $cell->getValue();
         } else {
-          if($cellCounter === 1) {
+          if ($cellCounter === 1) {
             if ($cell->getValue() === null) {
               continue;
             }
@@ -100,7 +94,7 @@ class ImportExcel extends Command
         $cellCounter++;
       }
 
-      if(!empty($rowData)) {
+      if (!empty($rowData)) {
         try {
           $species = $this->findSpecies($rowData);
 
@@ -119,7 +113,7 @@ class ImportExcel extends Command
             'created_by' => 1
           ]);
         } catch (Exception $exception) {
-         $this->error($exception->getMessage());
+          $this->error($exception->getMessage());
         }
       }
     }
@@ -149,16 +143,35 @@ class ImportExcel extends Command
   {
     $blossomMonth = explode(",", $row['Bloeimaand']);
 
-    array_walk($blossomMonth, function(&$value, $key) {
-      $value = strtolower(trim($value));
+    array_walk($blossomMonth, function (&$value, $key) {
+      $value = $this->translateMonth(strtolower(trim($value)));
     });
 
     return Species::updateOrCreate([
       'dutch_name' => $row['Nederlandse naam']
-      ], [
+    ], [
       'latin_name' => $row['Latijnse naam'],
       'blossom_month' => $blossomMonth,
       'height' => $row['Hoogte'],
     ]);
+  }
+
+  private function translateMonth(string $month): string
+  {
+    return match ($month) {
+      'januari' => 'january',
+      'februari' => 'february',
+      'maart' => 'march',
+      'april' => 'april',
+      'mei' => 'may',
+      'juni' => 'june',
+      'juli' => 'july',
+      'augustus' => 'august',
+      'september' => 'september',
+      'oktober' => 'october',
+      'november' => 'november',
+      'december' => 'december',
+      default => $month,
+    };
   }
 }
