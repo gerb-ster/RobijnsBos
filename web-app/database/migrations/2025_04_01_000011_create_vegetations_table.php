@@ -26,10 +26,10 @@ return new class extends Migration {
       $table->foreignId('specie_id')->constrained('species');
       $table->integer('amount');
 
-      $table->date('placed')->nullable();
-      $table->date('removed')->nullable();
+      $table->string('placed', 32)->nullable();
+      $table->string('removed', 32)->nullable();
 
-      $table->text('remarks')->default('');
+      $table->text('remarks')->nullable();
       $table->string('qr_filename', 64)->nullable();
       $table->json('location')->nullable();
 

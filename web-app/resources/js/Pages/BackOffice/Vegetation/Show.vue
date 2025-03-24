@@ -1,29 +1,124 @@
 <template>
-  <Head :title="$t('groups.showTitle')"/>
+  <Head :title="$t('vegetation.showTitle')"/>
   <v-container fluid>
     <flash-messages/>
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
-          <div :class="['text-h5', 'pa-2']">{{ $t('groups.showTitle') }}</div>
+          <div :class="['text-h5', 'pa-2']">{{ $t('vegetation.showTitle') }}</div>
         </v-col>
       </v-row>
+      <v-card rounded="0">
+        <v-tabs v-model="tab">
+          <v-tab value="data">{{ $t('vegetation.tabs.data') }}</v-tab>
+          <v-tab value="mutations">{{ $t('vegetation.tabs.mutations') }}</v-tab>
+          <v-tab value="comments">{{ $t('vegetation.tabs.comments') }}</v-tab>
+        </v-tabs>
+        <v-card-text>
+          <v-window v-model="tab">
+            <v-window-item value="data">
+              <v-row>
+                <v-col cols="12" md="4">
+                  <v-card
+                    variant="tonal"
+                    class="mb-4"
+                    color="indigo-darken-3"
+                  >
+                    <v-card-title>{{ $t('vegetation.fields.location.name') }}</v-card-title>
+                    <v-card-text>
+                      <v-row>
+                        <v-col cols="12" md="3">
+                          <v-text-field
+                            v-model="form.location.x"
+                            :label="$t('vegetation.fields.location.x')"
+                            :rules="rules.required"
+                            required
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                          <v-text-field
+                            v-model="form.location.y"
+                            :label="$t('vegetation.fields.location.y')"
+                            :rules="rules.required"
+                            required
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                          <v-text-field
+                            v-model="form.location.xa"
+                            :label="$t('vegetation.fields.location.xa')"
+                            :rules="rules.required"
+                            required
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" md="3">
+                          <v-text-field
+                            v-model="form.location.ya"
+                            :label="$t('vegetation.fields.location.ya')"
+                            :rules="rules.required"
+                            required
+                            hide-details
+                          ></v-text-field>
+                        </v-col>
+                      </v-row>
+                    </v-card-text>
+                  </v-card>
+                  <v-select
+                    v-model="form.group_id"
+                    :label="$t('vegetation.fields.area')"
+                    :items="groups"
+                    :rules="rules.required"
+                    :item-props="areaItemProps"
+                    item-value="id"
+                  ></v-select>
+                  <v-select
+                    v-model="form.specie_id"
+                    :label="$t('vegetation.fields.species')"
+                    :items="species"
+                    :rules="rules.required"
+                    :item-props="speciesItemProps"
+                    item-value="id"
+                  ></v-select>
+                  <v-text-field
+                    v-model="form.placed"
+                    :label="$t('vegetation.fields.placed')"
+                    :rules="rules.required"
+                    required
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="4">
+                  <v-text-field
+                    v-model="form.amount"
+                    :label="$t('vegetation.fields.amount')"
+                    :rules="rules.required"
+                    required
+                    type="number"
+                  ></v-text-field>
+                  <v-textarea
+                    v-model="form.remarks"
+                    :label="$t('vegetation.fields.remarks')"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-window-item>
+            <v-window-item value="mutations">
+              mutations
+            </v-window-item>
+            <v-window-item value="comments">
+              comments
+            </v-window-item>
+          </v-window>
+        </v-card-text>
+      </v-card>
       <v-row>
-        <v-col cols="12" md="4">
-          <v-text-field
-            v-model="form.name"
-            name="name"
-            :label="$t('vegetation.fields.name')"
-            :rules="rules.required"
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12" md="4">
+        <v-col cols="12" md="4" class="mt-5">
           <v-btn
+            prepend-icon="mdi-content-save"
             size="large"
             color="primary"
-            prepend-icon="mdi-content-save"
             type="submit"
             elevation="0"
           > {{ $t('form.saveBtn') }}
@@ -44,19 +139,20 @@
   </v-container>
 </template>
 
-
 <script setup>
 
-import {useForm, Head, Link} from '@inertiajs/vue3';
-import {required, email} from '@vee-validate/rules';
+import {Head, Link, useForm} from '@inertiajs/vue3';
+import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
+import {ref} from "vue";
 
-const props = defineProps(['area']);
+const props = defineProps(['vegetation', 'groups', 'species']);
 
 const {t} = useI18n({});
 
-const form = useForm(props.area);
+const tab = ref(null);
+const form = useForm(props.vegetation);
 
 const rules = {
   required: [
@@ -64,11 +160,25 @@ const rules = {
   ]
 }
 
+function areaItemProps (item) {
+  return {
+    title: item.name,
+    subtitle: item.area.name,
+  }
+}
+
+function speciesItemProps (item) {
+  return {
+    title: item.dutch_name,
+    subtitle: item.latin_name,
+  }
+}
+
 async function submit(event) {
   const results = await event;
 
   if (results.valid) {
-    form.put(route('vegetation.update', props.group.id));
+    form.put(route('vegetation.update', {vegetation: props.vegetation.uuid}));
   }
 }
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\BackOffice;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
 use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
+use App\Models\Group;
+use App\Models\Species;
 use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +37,7 @@ class VegetationsController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Vegetation::with('species', 'comments', 'mutations');
+    $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -96,7 +98,10 @@ class VegetationsController extends Controller
    */
   public function create(): Response
   {
-    return inertia('BackOffice/Vegetation/Create');
+    return inertia('BackOffice/Vegetation/Create',[
+      'groups' => Group::with('area')->get(),
+      'species' => Species::all()
+    ]);
   }
 
   /**
@@ -121,8 +126,12 @@ class VegetationsController extends Controller
    */
   public function show(Vegetation $vegetation): Response
   {
+    $vegetation->load('species', 'group', 'comments', 'mutations');
+
     return inertia('BackOffice/Vegetation/Show', [
-      'vegetation' => $vegetation
+      'vegetation' => $vegetation,
+      'groups' => Group::with('area')->get(),
+      'species' => Species::all()
     ]);
   }
 

@@ -2,8 +2,13 @@
 
 namespace App\Console\Commands;
 
+use Database\Seeders\AreaSeeder;
+use Database\Seeders\GroupSeeder;
+use Database\Seeders\LatinFamilySeeder;
 use Database\Seeders\RoleSeeder;
+use Database\Seeders\SpeciesSeeder;
 use Database\Seeders\UserSeeder;
+use Database\Seeders\VegetationStatusSeeder;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -53,20 +58,19 @@ class DataReset extends Command
       $this->info('✔ Run migrations');
 
       $this->info("✔ Seed the database.\n");
-      Artisan::call('db:seed');
+
+      // seed some tables with base data
+      $this->call('db:seed', ['--class' => RoleSeeder::class, '--force' => true]);
+      $this->call('db:seed', ['--class' => VegetationStatusSeeder::class, '--force' => true]);
+      //$this->call('db:seed', ['--class' => AreaSeeder::class, '--force' => true]);
+      //$this->call('db:seed', ['--class' => GroupSeeder::class, '--force' => true]);
+      //$this->call('db:seed', ['--class' => LatinFamilySeeder::class, '--force' => true]);
+      //$this->call('db:seed', ['--class' => SpeciesSeeder::class, '--force' => true]);
     }
 
     if ($this->confirm('Do you wish create some demo data?', true)) {
-      // test users
-      $this->call('db:seed', [
-        '--class' => RoleSeeder::class,
-        '--force' => true
-      ]);
-
-      $this->call('db:seed', [
-        '--class' => UserSeeder::class,
-        '--force' => true
-      ]);
+      // demo users
+      $this->call('db:seed', ['--class' => UserSeeder::class, '--force' => true]);
       $this->info("✔ User Demo Data generated");
     }
 

@@ -53,6 +53,25 @@
     "owner": "Eigenaar",
     "volunteer": "Vrijwilliger"
   },
+  "vegetationStatus": {
+    "to_be_planted": "Nog te planten",
+    "planted": "Geplant",
+    "removed": "Verwijderd"
+  },
+  "months": {
+    "january": "Januari",
+    "february": "Februari",
+    "march": "Maart",
+    "april": "April",
+    "may": "Mei",
+    "june": "Juni",
+    "july": "Juli",
+    "august": "Augustus",
+    "september": "September",
+    "october": "Oktober",
+    "november": "November",
+    "december": "December"
+  },
   "dashboard": {
     "title": "Dashboard"
   },
@@ -123,7 +142,11 @@
     "confirmRemoveDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt herstellen?",
     "fields": {
-      "name": "Naam"
+      "dutchName": "Nederlandse naam",
+      "latinName": "Latijnse naam",
+      "latinFamily": "Latijnse familie",
+      "blossomMonth": "Bloeimaand",
+      "height": "Hoogte"
     },
     "messages": {
       "created": "Soort beplanting succesvol toegevoegd",
@@ -140,7 +163,25 @@
     "confirmRemoveDialogText": "Weet u zeker dat u beplanting '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u beplanting '{name}' wilt herstellen?",
     "fields": {
-      "name": "Naam"
+      "number": "Nummer",
+      "location": {
+        "name": "Coördinaten",
+        "x": "X",
+        "y": "Y",
+        "xa": "X'",
+        "ya": "Y'"
+      },
+      "area": "Gebied/Groep",
+      "species": "Soort",
+      "status": "Status",
+      "placed": "Plantjaar",
+      "amount": "Aantal",
+      "remarks": "Opmerkingen"
+    },
+    "tabs": {
+      "data": "Algemene gegevens",
+      "mutations": "Onderhoud",
+      "comments": "Opmerkingen"
     },
     "messages": {
       "created": "Beplanting succesvol toegevoegd",

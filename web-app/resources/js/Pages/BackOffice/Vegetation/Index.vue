@@ -48,6 +48,20 @@
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
+      <template v-slot:item.status.name="{ item }">
+        {{ $t('vegetationStatus.'+item.status.name) }}
+      </template>
+      <template v-slot:item.location="{ item }">
+        {{ item.location.x }}, {{ item.location.y }}<span v-if="item.location.xa">, {{ item.location.xa }}, {{ item.location.ya }}</span>
+      </template>
+      <template v-slot:item.group.name="{ item }">
+        {{ item.group.area.name }} / {{ item.group.name }}
+      </template>
+      <template v-slot:item.species.blossom_month="{ item }">
+        <span v-for="(month, index) in item.species.blossom_month">
+          {{ $t('months.'+month) }}<span v-if="index+1 < item.species.blossom_month.length">, </span>
+        </span>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon @click.stop="deleteItem(item)" v-if="!item.deleted_at">
           mdi-trash-can-outline
@@ -73,7 +87,14 @@ import {openStorage, storeInput} from "../../../Logic/Helpers";
 const {t} = useI18n({});
 
 const headers = ref([
-  {title: t('vegetation.fields.name'), align: 'start', key: 'name'},
+  {title: t('vegetation.fields.number'), align: 'start', key: 'number'},
+  {title: t('vegetation.fields.status'), align: 'start', key: 'status.name'},
+  {title: t('vegetation.fields.location.name'), align: 'start', key: 'location'},
+  {title: t('vegetation.fields.area'), align: 'start', key: 'group.name'},
+  {title: t('species.fields.dutchName'), align: 'start', key: 'species.dutch_name'},
+  {title: t('species.fields.latinName'), align: 'start', key: 'species.latin_name'},
+  {title: t('vegetation.fields.placed'), align: 'start', key: 'placed'},
+  {title: t('species.fields.blossomMonth'), align: 'start', key: 'species.blossom_month'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 

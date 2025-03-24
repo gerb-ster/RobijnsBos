@@ -22,7 +22,7 @@ return new class extends Migration {
       $table->string('dutch_name', 512);
       $table->string('latin_name', 512);
 
-      $table->foreignId('latin_family_id')->constrained('latin_families');
+      $table->foreignId('latin_family_id')->nullable()->constrained('latin_families');
 
       $table->json('blossom_month')->nullable();
       $table->string('height', 32)->nullable();

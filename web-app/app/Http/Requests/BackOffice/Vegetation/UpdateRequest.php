@@ -16,7 +16,12 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'name' => 'required|string|min:1|max:64'
+      'location' => 'required|array',
+      'group_id' => 'required|exists:groups,id',
+      'specie_id' => 'required|exists:species,id',
+      'placed' => 'required|string|min:1|max:32',
+      'amount' => 'required|numeric|min:0',
+      'remarks' => 'nullable|string|min:1|max:1024',
     ];
   }
 

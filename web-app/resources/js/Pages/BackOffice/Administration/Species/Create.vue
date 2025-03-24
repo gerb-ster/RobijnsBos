@@ -11,8 +11,29 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-text-field
-            v-model="form.name"
-            :label="$t('species.fields.name')"
+            v-model="form.dutch_name"
+            :label="$t('species.fields.dutchName')"
+            :rules="rules.required"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="form.latin_name"
+            :label="$t('species.fields.latinName')"
+            :rules="rules.required"
+            required
+          ></v-text-field>
+          <v-select
+            v-model="form.blossom_month"
+            :items="months"
+            :label="$t('species.fields.blossomMonth')"
+            :item-value="item => item"
+            :item-title="item => $t('months.'+item)"
+            multiple
+            persistent-hint
+          ></v-select>
+          <v-text-field
+            v-model="form.height"
+            :label="$t('species.fields.height')"
             :rules="rules.required"
             required
           ></v-text-field>
@@ -55,8 +76,18 @@ const props = defineProps();
 
 const {t} = useI18n({});
 
+const months = [
+  "january","february","march",
+  "april","may","june",
+  "july","august","september",
+  "october","november","december"
+];
+
 const form = useForm({
-  name: null
+  dutch_name: null,
+  latin_name: null,
+  blossom_month: null,
+  height: null,
 });
 
 const rules = {

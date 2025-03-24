@@ -35,7 +35,7 @@ class SpeciesController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Species::with('latin_family');
+    $queryBuilder = Species::with('latinFamily');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();

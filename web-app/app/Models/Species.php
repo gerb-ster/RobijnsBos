@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Observers\SpeciesObserver;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,6 +32,7 @@ use Illuminate\Support\Str;
  *
  * @package App\Models
  */
+#[ObservedBy([SpeciesObserver::class])]
 class Species extends Model
 {
 	use SoftDeletes;
@@ -43,7 +46,8 @@ class Species extends Model
    * @var string[]
    */
 	protected $casts = [
-		'latin_family_id' => 'int'
+		'latin_family_id' => 'int',
+    'blossom_month' => 'array'
 	];
 
   /**

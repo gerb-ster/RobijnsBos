@@ -21,7 +21,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class VegetationStatus extends Model
 {
-  const NEW = 1;
+  const TO_BO_PLANTED = 1;
+  const PLANTED = 2;
+  const REMOVED = 3;
 
 	protected $table = 'vegetation_status';
 

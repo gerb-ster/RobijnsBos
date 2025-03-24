@@ -14,7 +14,7 @@ return new class extends Migration {
   {
     Schema::create('areas', function (Blueprint $table) {
       $table->id();
-      $table->string('name', 64)->nullable();
+      $table->string('name', 256)->nullable();
 
       $table->softDeletes();
       $table->timestamps();

@@ -11,19 +11,40 @@
       <v-row>
         <v-col cols="12" md="4">
           <v-text-field
-            v-model="form.name"
-            name="name"
-            :label="$t('species.fields.name')"
+            v-model="form.dutch_name"
+            :label="$t('species.fields.dutchName')"
             :rules="rules.required"
+            required
+          ></v-text-field>
+          <v-text-field
+            v-model="form.latin_name"
+            :label="$t('species.fields.latinName')"
+            :rules="rules.required"
+            required
+          ></v-text-field>
+          <v-select
+            v-model="form.blossom_month"
+            :items="months"
+            :label="$t('species.fields.blossomMonth')"
+            :item-value="item => item"
+            :item-title="item => $t('months.'+item)"
+            multiple
+            persistent-hint
+          ></v-select>
+          <v-text-field
+            v-model="form.height"
+            :label="$t('species.fields.height')"
+            :rules="rules.required"
+            required
           ></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12" md="4">
           <v-btn
+            prepend-icon="mdi-content-save"
             size="large"
             color="primary"
-            prepend-icon="mdi-content-save"
             type="submit"
             elevation="0"
           > {{ $t('form.saveBtn') }}
@@ -44,19 +65,25 @@
   </v-container>
 </template>
 
-
 <script setup>
 
-import {useForm, Head, Link} from '@inertiajs/vue3';
-import {required, email} from '@vee-validate/rules';
+import {Head, Link, useForm} from '@inertiajs/vue3';
+import {required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
 
-const props = defineProps(['area']);
+const props = defineProps(['species']);
 
 const {t} = useI18n({});
 
-const form = useForm(props.area);
+const months = [
+  "january","february","march",
+  "april","may","june",
+  "july","august","september",
+  "october","november","december"
+];
+
+const form = useForm(props.species);
 
 const rules = {
   required: [
@@ -68,7 +95,7 @@ async function submit(event) {
   const results = await event;
 
   if (results.valid) {
-    form.put(route('species.update', props.group.id));
+    form.put(route('species.update', props.species.uuid));
   }
 }
 

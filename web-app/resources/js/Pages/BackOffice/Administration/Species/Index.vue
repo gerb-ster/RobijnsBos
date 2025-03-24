@@ -48,6 +48,11 @@
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
+      <template v-slot:item.blossom_month="{ item }">
+        <span v-for="(month, index) in item.blossom_month">
+          {{ $t('months.'+month) }}<span v-if="index+1 < item.blossom_month.length">, </span>
+        </span>
+      </template>
       <template v-slot:item.actions="{ item }">
         <v-icon @click.stop="deleteItem(item)" v-if="!item.deleted_at">
           mdi-trash-can-outline
@@ -73,7 +78,11 @@ import {openStorage, storeInput} from "../../../../Logic/Helpers";
 const {t} = useI18n({});
 
 const headers = ref([
-  {title: t('species.fields.name'), align: 'start', key: 'name'},
+  {title: t('species.fields.dutchName'), align: 'start', key: 'dutch_name'},
+  {title: t('species.fields.latinName'), align: 'start', key: 'latin_name'},
+  {title: t('species.fields.latinFamily'), align: 'start', key: 'latin_family.name'},
+  {title: t('species.fields.blossomMonth'), align: 'start', key: 'blossom_month'},
+  {title: t('species.fields.height'), align: 'start', key: 'height'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 
@@ -177,7 +186,7 @@ function deleteItem(item) {
     }
   ).then((confirm) => {
     if (confirm) {
-      router.delete(route('species.destroy', {user: item}));
+      router.delete(route('species.destroy', {species: item.uuid}));
     }
   });
 }

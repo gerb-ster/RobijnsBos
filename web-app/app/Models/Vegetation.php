@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
@@ -52,13 +53,12 @@ class Vegetation extends Model
    * @var string[]
    */
 	protected $casts = [
+    'location' => 'array',
 		'status_id' => 'int',
 		'group_id' => 'int',
 		'specie_id' => 'int',
 		'amount' => 'int',
-		'created_by' => 'int',
-    'placed' => 'date',
-    'removed' => 'date'
+		'created_by' => 'int'
 	];
 
   /**
@@ -67,6 +67,7 @@ class Vegetation extends Model
 	protected $fillable = [
 		'uuid',
 		'number',
+    'location',
 		'status_id',
 		'group_id',
 		'specie_id',
@@ -75,7 +76,6 @@ class Vegetation extends Model
     'removed',
 		'remarks',
 		'qr_filename',
-		'location',
 		'created_by'
 	];
 
@@ -90,7 +90,7 @@ class Vegetation extends Model
 
     static::creating(function (Vegetation $model) {
       $model->uuid = Str::uuid();
-      $model->status_id = VegetationStatus::NEW;
+      $model->status_id = VegetationStatus::TO_BO_PLANTED;
 
       // generate a number
       $currentMax = Vegetation
@@ -100,6 +100,10 @@ class Vegetation extends Model
 
       $currentMax++;
       $counter = str_pad($currentMax, 5, "0", STR_PAD_LEFT);
+
+      if(is_null($model->created_by)) {
+        $model->created_by = Auth::user()->id;
+      }
 
       $model->number = "P.{$counter}";
     });

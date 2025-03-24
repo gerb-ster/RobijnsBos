@@ -1,26 +1,28 @@
 [
   {
     "id": 1,
-    "uuid": "84d9a209-8ade-4253-93f4-42a5f265e083",
+    "uuid": "8cb7cfec-a6bf-4d91-971b-194e62dfcc9f",
     "name": "Gerbrand Sterrenburg-Buijs",
+    "role_id": 1,
     "locale": "nl",
-    "admin": true,
     "email": "gerb@gerbster.nl",
     "password": "secret",
-    "role_id": 1,
+    "admin": true,
     "created_at": "2021-11-17T15:17:38.000000Z",
-    "updated_at": "2021-11-17T15:17:39.000000Z"
+    "updated_at": "2021-11-17T15:17:39.000000Z",
+    "deleted_at": null
   },
   {
     "id": 2,
-    "uuid": "84d9a209-8ade-4253-93f4-42a5f265e081",
+    "uuid": "b9425f0e-9513-4291-89d8-b3e9e283732a",
     "name": "Ianus Keller",
+    "role_id": 1,
     "locale": "nl",
-    "admin": true,
     "email": "ianus@robijnsbos.nl",
     "password": "secret",
-    "role_id": 1,
+    "admin": true,
     "created_at": "2021-11-17T15:17:38.000000Z",
-    "updated_at": "2021-11-17T15:17:39.000000Z"
+    "updated_at": "2021-11-17T15:17:39.000000Z",
+    "deleted_at": null
   }
 ]
