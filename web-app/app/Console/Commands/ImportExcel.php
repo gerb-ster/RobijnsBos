@@ -107,6 +107,7 @@ class ImportExcel extends Command
               'xa' => $rowData["X'"],
               'ya' => $rowData["Y'"],
             ],
+            'label' => $species->dutch_name . "-" . $rowData['X'] . "-" . $rowData['Y'],
             'amount' => 1,
             'placed' => $rowData['Plantjaar'],
             'remarks' => $rowData['Opmerking'],
@@ -123,6 +124,10 @@ class ImportExcel extends Command
     return 0;
   }
 
+  /**
+   * @param string $value
+   * @return void
+   */
   private function handleAreaLine(string $value): void
   {
     $area = Area::updateOrCreate(['name' => $value]);
@@ -156,6 +161,10 @@ class ImportExcel extends Command
     ]);
   }
 
+  /**
+   * @param string $month
+   * @return string
+   */
   private function translateMonth(string $month): string
   {
     return match ($month) {

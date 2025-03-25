@@ -19,6 +19,10 @@ Route::get('/v/{shortCode}', [PublicVegetationController::class, 'redirect'])
   ->name('public.vegetation.redirect');
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
   ->name('public.vegetation.show');
+Route::get('/vegetation/list', [PublicVegetationController::class, 'list'])
+  ->name('public.vegetation.list');
+Route::get('/vegetation/map', [PublicVegetationController::class, 'map'])
+  ->name('public.vegetation.map');
 
 Route::group(['middleware' => ['guest']], function () {
   Route::get('/back-office/login', [AuthenticatedSessionController::class, 'create'])
@@ -29,8 +33,6 @@ Route::group(['middleware' => ['guest']], function () {
 
 // BackOffice
 Route::group(['middleware' => ['auth']], function () {
-  Route::inertia('/back-office/', 'BackOffice/Dashboard');
-
   // Vegetation
   Route::resource('/back-office/vegetation', VegetationController::class);
   Route::post('/back-office/vegetation/list', [VegetationController::class, 'list'])
@@ -59,7 +61,6 @@ Route::group(['middleware' => ['auth']], function () {
     ]);
   Route::post('/back-office/vegetation/{vegetation}/mutations/list', [MutationsController::class, 'list'])
     ->name('mutations.list');
-
 
   // logout url
   Route::delete('/back-office/logout', [AuthenticatedSessionController::class, 'destroy'])

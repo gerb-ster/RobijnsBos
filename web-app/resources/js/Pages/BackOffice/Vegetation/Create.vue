@@ -57,6 +57,11 @@
               </v-row>
             </v-card-text>
           </v-card>
+          <v-text-field
+            v-model="form.label"
+            :label="$t('vegetation.fields.label')"
+            :rules="rules.required"
+          ></v-text-field>
           <v-select
             v-model="form.group_id"
             :label="$t('vegetation.fields.area')"
@@ -133,6 +138,7 @@ const {t} = useI18n({});
 
 const form = useForm({
   location: {x : null, y: null, xa: null, ya: null},
+  label: null,
   group_id: null,
   specie_id: null,
   placed: null,

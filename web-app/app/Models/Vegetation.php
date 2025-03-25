@@ -22,6 +22,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property int $status_id
  * @property int $group_id
  * @property int $specie_id
+ * @property string $label
  * @property int $amount
  * @property Carbon|null $placed
  * @property Carbon|null $removed
@@ -71,6 +72,7 @@ class Vegetation extends Model
     'qr_shortcode',
     'location',
 		'status_id',
+    'label',
 		'group_id',
 		'specie_id',
 		'amount',

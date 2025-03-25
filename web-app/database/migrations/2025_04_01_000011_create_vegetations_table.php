@@ -23,6 +23,7 @@ return new class extends Migration {
       $table->foreignId('status_id')->constrained('vegetation_status');
 
       // fields
+      $table->string('label', 256)->nullable();
       $table->foreignId('group_id')->constrained('groups');
       $table->foreignId('specie_id')->constrained('species');
       $table->integer('amount');

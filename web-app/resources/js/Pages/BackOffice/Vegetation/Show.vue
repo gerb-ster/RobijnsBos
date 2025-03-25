@@ -66,6 +66,11 @@
                       </v-row>
                     </v-card-text>
                   </v-card>
+                  <v-text-field
+                    v-model="form.label"
+                    :label="$t('vegetation.fields.label')"
+                    :rules="rules.required"
+                  ></v-text-field>
                   <v-select
                     v-model="form.group_id"
                     :label="$t('vegetation.fields.area')"

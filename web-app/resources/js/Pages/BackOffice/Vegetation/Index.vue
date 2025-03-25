@@ -88,6 +88,7 @@ const {t} = useI18n({});
 
 const headers = ref([
   {title: t('vegetation.fields.number'), align: 'start', key: 'number'},
+  {title: t('vegetation.fields.label'), align: 'start', key: 'label'},
   {title: t('vegetation.fields.status'), align: 'start', key: 'status.name'},
   {title: t('vegetation.fields.location.name'), align: 'start', key: 'location'},
   {title: t('vegetation.fields.area'), align: 'start', key: 'group.name'},
