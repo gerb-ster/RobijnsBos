@@ -130,6 +130,27 @@ class Vegetation extends Model
   }
 
   /**
+   * Retrieve the model for a bound value.
+   *
+   * @param $childType
+   * @param mixed $value
+   * @param null $field
+   * @return Model|null
+   */
+  public function resolveChildRouteBinding($childType, $value, $field = null): ?Model
+  {
+    if ($childType === 'comment') {
+      return $this->comments()->where('uuid', $value)->firstOrFail();
+    }
+
+    if ($childType === 'mutation') {
+      return $this->mutations()->where('uuid', $value)->firstOrFail();
+    }
+
+    return parent::resolveChildRouteBinding($childType, $value, $field);
+  }
+
+  /**
    * @return BelongsTo
    */
 	public function user(): BelongsTo

@@ -72,7 +72,7 @@ class Comment extends Model
 
     static::creating(function (Comment $model) {
       $model->uuid = Str::uuid();
-      $model->status_id = CommentStatus::NEW;
+      $model->status_id = CommentStatus::APPROVED;
 
       // generate a number
       $currentMax = Comment

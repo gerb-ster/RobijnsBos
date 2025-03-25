@@ -16,8 +16,9 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'title' => 'nullable|string|min:1|max:32',
-      'remarks' => 'nullable|string|min:1|max:32'
+      'status_id' => 'required|exists:mutation_status,id',
+      'title' => 'nullable|string|min:1|max:128',
+      'remarks' => 'nullable|string'
     ];
   }
 

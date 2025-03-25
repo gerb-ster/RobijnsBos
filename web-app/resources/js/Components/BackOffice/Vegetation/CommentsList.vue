@@ -27,8 +27,12 @@
     class="elevation-1"
     item-value="name"
     @update:options="loadItems"
+    @click:row="rowClick"
     density="comfortable"
   >
+    <template v-slot:item.status.name="{ item }">
+      <strong :class="getStatusColor(item.status.name)">{{ $t('commentStatus.'+item.status.name) }}</strong>
+    </template>
     <template v-slot:item.actions="{ item }">
       <div class="text-end" @click.stop>
         <v-icon
@@ -69,7 +73,10 @@ const itemsPerPage = ref(10);
 const sortBy = ref([]);
 
 const headers = [
-  { title: t('comments.fields.text'), value: 'name' },
+  { title: t('comments.fields.number'), value: 'number' },
+  { title: t('comments.fields.status'), value: 'status.name' },
+  { title: t('comments.fields.title'), value: 'title' },
+  { title: t('comments.fields.remarks'), value: 'remarks' },
   { title: t('form.actions'), align: 'end', key: 'actions', sortable: false },
 ];
 
@@ -100,10 +107,10 @@ function loadItems({page, itemsPerPage, sortBy}) {
   });
 }
 
-function rowClick (item) {
+function rowClick(event, dataObj) {
   router.get(route('comments.show', {
     vegetation: props.vegetation.uuid,
-    comment: item.id
+    comment: dataObj.item.uuid
   }));
 }
 
@@ -121,6 +128,20 @@ function deleteItem (item) {
       }));
     }
   });
+}
+
+/**
+ * getStatusColor
+ * @param status
+ * @returns {string}
+ */
+function getStatusColor(status) {
+  switch (status) {
+    case "approved":
+      return "text-green";
+    case "declined":
+      return "text-red";
+  }
 }
 
 </script>

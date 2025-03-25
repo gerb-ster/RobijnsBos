@@ -18,7 +18,7 @@ class MutationFactory extends Factory
     public function definition(): array
     {
         return [
-          'title' => $this->faker->words(3),
+          'title' => $this->faker->word(),
           'remarks' => $this->faker->text(128),
         ];
     }

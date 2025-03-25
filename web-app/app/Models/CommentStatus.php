@@ -21,7 +21,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  */
 class CommentStatus extends Model
 {
-  const NEW = 1;
+  const APPROVED = 1;
+  const BLOCKED = 2;
 
   /**
    * @var string

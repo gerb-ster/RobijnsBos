@@ -58,6 +58,15 @@
     "planted": "Geplant",
     "removed": "Verwijderd"
   },
+  "commentStatus": {
+    "approved": "Goedgekeurd",
+    "blocked": "Geblokkeerd"
+  },
+  "mutationStatus": {
+    "new": "Nieuw",
+    "approved": "Goedgekeurd",
+    "blocked": "Geblokkeerd"
+  },
   "months": {
     "january": "Januari",
     "february": "Februari",
@@ -197,7 +206,10 @@
     "confirmRemoveDialogText": "Weet u zeker dat u deze opmerking wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u deze opmerking wilt herstellen?",
     "fields": {
-      "text": "Opmerking"
+      "title": "Titel",
+      "remarks": "Opmerking",
+      "status": "Status",
+      "number": "Nummer"
     },
     "messages": {
       "updated": "Opmerking succesvol aangepast",
@@ -211,7 +223,11 @@
     "confirmRemoveDialogText": "Weet u zeker dat u deze mutatie wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u deze mutatie wilt herstellen?",
     "fields": {
-      "text": "Opmerking"
+      "title": "Titel",
+      "user": "Gebruiker",
+      "remarks": "Opmerking",
+      "status": "Status",
+      "number": "Nummer"
     },
     "messages": {
       "updated": "Mutatie succesvol aangepast",

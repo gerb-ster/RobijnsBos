@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
+use App\Http\Requests\BackOffice\Mutation\UpdateRequest;
 use App\Models\Mutation;
+use App\Models\MutationStatus;
+use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -19,6 +21,7 @@ use Inertia\Response;
 class MutationsController extends Controller
 {
   /**
+   * @param Vegetation $vegetation
    * @param int $page
    * @param int $itemsPerPage
    * @param array $sortBy
@@ -27,6 +30,7 @@ class MutationsController extends Controller
    * @return array
    */
   private function listMutations(
+    Vegetation $vegetation,
     int     $page,
     int     $itemsPerPage,
     array   $sortBy,
@@ -34,7 +38,7 @@ class MutationsController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Mutation::with('status');
+    $queryBuilder = Mutation::with('status', 'user')->where('vegetation_id', $vegetation->id);
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -86,10 +90,11 @@ class MutationsController extends Controller
   /**
    * Display the specified resource.
    *
+   * @param Vegetation $vegetation
    * @param Request $request
    * @return JsonResponse
    */
-  public function list(Request $request): JsonResponse
+  public function list(Vegetation $vegetation, Request $request): JsonResponse
   {
     $withTrashed = $request->boolean('withTrashed');
     $page = $request->integer('page');
@@ -98,64 +103,73 @@ class MutationsController extends Controller
     $search = $request->post('search');
 
     return response()->json(
-      $this->listMutations($page, $itemsPerPage, $sortBy, $search, $withTrashed)
+      $this->listMutations($vegetation, $page, $itemsPerPage, $sortBy, $search, $withTrashed)
     );
   }
 
   /**
+   * @param Vegetation $vegetation
    * @param Mutation $mutation
    * @return Response
    */
-  public function show(Mutation $mutation): Response
+  public function show(Vegetation $vegetation, Mutation $mutation): Response
   {
     return inertia('BackOffice/Mutation/Show', [
-      'mutation' => $mutation
+      'vegetation' => $vegetation,
+      'mutation' => $mutation,
+      'statuses' => MutationStatus::all()
     ]);
   }
 
   /**
    * Update the specified resource in storage.
    *
+   * @param Vegetation $vegetation
    * @param UpdateRequest $request
    * @param Mutation $mutation
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(UpdateRequest $request, Mutation $mutation): Redirector|RedirectResponse|Application
+  public function update(Vegetation $vegetation, UpdateRequest $request, Mutation $mutation): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
     // update area
     $mutation->update($validated);
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.updated');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'mutations.messages.updated');
   }
 
   /**
    * Remove the specified resource from storage.
    *
+   * @param Vegetation $vegetation
    * @param Mutation $mutation
    * @return Redirector|RedirectResponse|Application
    */
-  public function destroy(Mutation $mutation): Redirector|RedirectResponse|Application
+  public function destroy(Vegetation $vegetation, Mutation $mutation): Redirector|RedirectResponse|Application
   {
     $mutation->delete();
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.deleted');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'mutations.messages.deleted');
   }
 
   /**
    * Restore the specified resource from storage.
    *
+   * @param Vegetation $vegetation
    * @param int $mutationId
    * @return Redirector|RedirectResponse|Application
    */
-  public function restore(int $mutationId): Redirector|RedirectResponse|Application
+  public function restore(Vegetation $vegetation, int $mutationId): Redirector|RedirectResponse|Application
   {
     Mutation::withTrashed()->find($mutationId)->restore();
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.restored');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'mutations.messages.restored');
   }
 }

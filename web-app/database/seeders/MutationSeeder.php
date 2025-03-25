@@ -17,10 +17,13 @@ class MutationSeeder extends Seeder
   public function run(): void
   {
     foreach (Vegetation::all() as $vegetation) {
-      Mutation::factory()->create([
-        'vegetation_id' => $vegetation->id,
-        'created_by' => User::all()->random()->id,
-      ]);
+      Mutation
+        ::factory()
+        ->count(8)
+        ->create([
+          'vegetation_id' => $vegetation->id,
+          'created_by' => User::all()->random()->id,
+        ]);
     }
   }
 }

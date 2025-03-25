@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\BackOffice;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
+use App\Http\Requests\BackOffice\Comment\UpdateRequest;
 use App\Models\Comment;
+use App\Models\CommentStatus;
 use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -108,14 +109,15 @@ class CommentsController extends Controller
 
   /**
    * @param Vegetation $vegetation
-   * @param Comment $mutation
+   * @param Comment $comment
    * @return Response
    */
-  public function show(Vegetation $vegetation, Comment $mutation): Response
+  public function show(Vegetation $vegetation, Comment $comment): Response
   {
     return inertia('BackOffice/Comment/Show', [
       'vegetation' => $vegetation,
-      'mutation' => $mutation
+      'comment' => $comment,
+      'statuses' => CommentStatus::all()
     ]);
   }
 
@@ -134,8 +136,9 @@ class CommentsController extends Controller
     // update area
     $mutation->update($validated);
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.updated');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'comments.messages.updated');
   }
 
   /**
@@ -149,8 +152,9 @@ class CommentsController extends Controller
   {
     $mutation->delete();
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.deleted');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'comments.messages.deleted');
   }
 
   /**
@@ -164,7 +168,8 @@ class CommentsController extends Controller
   {
     Comment::withTrashed()->find($mutationId)->restore();
 
-    return redirect(route('vegetation.index'))
-      ->with('success', 'mutations.messages.restored');
+    return redirect(route('vegetation.show', [
+      'vegetation' => $vegetation->uuid
+    ]))->with('success', 'comments.messages.restored');
   }
 }

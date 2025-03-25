@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class MutationStatus extends Model
 {
   const NEW = 1;
+  const APPROVED = 2;
+  const BLOCKED = 3;
 
   /**
    * @var string

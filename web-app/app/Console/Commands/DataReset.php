@@ -3,8 +3,10 @@
 namespace App\Console\Commands;
 
 use Database\Seeders\AreaSeeder;
+use Database\Seeders\CommentStatusSeeder;
 use Database\Seeders\GroupSeeder;
 use Database\Seeders\LatinFamilySeeder;
+use Database\Seeders\MutationStatusSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\SpeciesSeeder;
 use Database\Seeders\UserSeeder;
@@ -62,10 +64,8 @@ class DataReset extends Command
       // seed some tables with base data
       $this->call('db:seed', ['--class' => RoleSeeder::class, '--force' => true]);
       $this->call('db:seed', ['--class' => VegetationStatusSeeder::class, '--force' => true]);
-      //$this->call('db:seed', ['--class' => AreaSeeder::class, '--force' => true]);
-      //$this->call('db:seed', ['--class' => GroupSeeder::class, '--force' => true]);
-      //$this->call('db:seed', ['--class' => LatinFamilySeeder::class, '--force' => true]);
-      //$this->call('db:seed', ['--class' => SpeciesSeeder::class, '--force' => true]);
+      $this->call('db:seed', ['--class' => CommentStatusSeeder::class, '--force' => true]);
+      $this->call('db:seed', ['--class' => MutationStatusSeeder::class, '--force' => true]);
     }
 
     if ($this->confirm('Do you wish create some demo data?', true)) {
