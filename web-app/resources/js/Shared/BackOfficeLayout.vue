@@ -31,23 +31,41 @@
       temporary
     >
       <v-list>
-        <Link as="div" :href="$route('plant.index')">
+        <Link as="div" :href="$route('vegetation.index')">
           <v-list-item
-            prepend-icon="mdi-sprout"
-            :title="$t('navigation.plantLink')"
-            value="plants"
-            :href="$route('plant.index')"
+            prepend-icon="mdi-forest-outline"
+            :title="$t('navigation.vegetationLink')"
+            value="vegetation"
+            :href="$route('vegetation.index')"
             @click="drawer=!drawer"
           ></v-list-item>
         </Link>
         <div v-if="auth.user.admin">
           <v-divider></v-divider>
-          <Link as="div" :href="$route('user.index')">
+          <Link as="div" :href="$route('species.index')">
+            <v-list-item
+              prepend-icon="mdi-sprout"
+              :title="$t('navigation.speciesLink')"
+              value="species"
+              :href="$route('species.index')"
+              @click="drawer=!drawer"
+            ></v-list-item>
+          </Link>
+          <Link as="div" :href="$route('areas.index')">
+            <v-list-item
+              prepend-icon="mdi-map-legend"
+              :title="$t('navigation.areaLink')"
+              value="areaGroup"
+              :href="$route('areas.index')"
+              @click="drawer=!drawer"
+            ></v-list-item>
+          </Link>
+          <Link as="div" :href="$route('users.index')">
             <v-list-item
               prepend-icon="mdi-account-group-outline"
               :title="$t('navigation.userLink')"
               value="users"
-              :href="$route('user.index')"
+              :href="$route('users.index')"
               @click="drawer=!drawer"
             ></v-list-item>
           </Link>

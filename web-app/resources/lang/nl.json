@@ -1,9 +1,29 @@
 {
+  "appName": "DT RobijnsBos - {page}",
+  "public": {
+    "homepage": {
+      "title": "Welkom"
+    },
+    "vegetation": {
+      "list": {
+        "title": "Overzicht beplanting"
+      },
+      "map": {
+        "title": "Interactieve kaart"
+      },
+      "overview": {
+        "title": "Detail beplanting"
+      }
+    }
+  },
   "appBar": {
-    "appTitle": "RobijnsBos"
+    "appTitle": "DT RobijnsBos - BackOffice",
+    "userIsAdministrator": "U bent beheerder"
   },
   "navigation": {
-    "plantLink": "Bomen & Planten",
+    "vegetationLink": "Beplanting",
+    "speciesLink": "Soorten beplanting",
+    "areaLink": "Gebieden & groepen",
     "userLink": "Gebruikers",
     "signOutLink": "Uitloggen",
     "confirmSignOutTitle": "Weet u het zeker?",
@@ -46,6 +66,41 @@
     },
     "okBtn": "OK"
   },
+  "roles": {
+    "owner": "Eigenaar",
+    "volunteer": "Vrijwilliger"
+  },
+  "vegetationStatus": {
+    "to_be_planted": "Nog te planten",
+    "planted": "Geplant",
+    "removed": "Verwijderd"
+  },
+  "commentStatus": {
+    "approved": "Goedgekeurd",
+    "blocked": "Geblokkeerd"
+  },
+  "mutationStatus": {
+    "new": "Nieuw",
+    "approved": "Goedgekeurd",
+    "blocked": "Geblokkeerd"
+  },
+  "months": {
+    "january": "Januari",
+    "february": "Februari",
+    "march": "Maart",
+    "april": "April",
+    "may": "Mei",
+    "june": "Juni",
+    "july": "Juli",
+    "august": "Augustus",
+    "september": "September",
+    "october": "Oktober",
+    "november": "November",
+    "december": "December"
+  },
+  "dashboard": {
+    "title": "Dashboard"
+  },
   "users": {
     "listTitle": "Gebruikersbeheer",
     "withTrashed": "Toon verwijderde gebruikers",
@@ -60,6 +115,7 @@
     "fields": {
       "name": "Naam",
       "admin": "Beheerder",
+      "role": "Rol",
       "email": "Email adres",
       "password": "Wachtwoord"
     },
@@ -70,10 +126,130 @@
       "restored": "Gebruiker succesvol hersteld"
     }
   },
-  "dashboard": {
-    "title": "Dashboard"
+  "areas": {
+    "listTitle": "Gebieden & Groepen beheer",
+    "withTrashed": "Toon verwijderde gebieden",
+    "createTitle": "Gebied toevoegen",
+    "showTitle": "Gebied bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u dit gebied '{name}' wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u dit gebied '{name}' wilt herstellen?",
+    "fields": {
+      "name": "Naam"
+    },
+    "messages": {
+      "created": "Gebied succesvol toegevoegd",
+      "updated": "Gebied succesvol aangepast",
+      "deleted": "Gebied succesvol verwijderd",
+      "restored": "Gebied succesvol hersteld"
+    }
   },
-  "plants": {
-    "listTitle": "Bomen & Platen overzicht"
+  "groups": {
+    "withTrashed": "Toon verwijderde groepen",
+    "createTitle": "Groep toevoegen aan gebied '{name}'",
+    "showTitle": "Groep bewerken",
+    "createBtn": "Groep toevoegen",
+    "confirmRemoveDialogText": "Weet u zeker dat u deze groep '{name}' wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u deze groep '{name}' wilt herstellen?",
+    "fields": {
+      "name": "Naam"
+    },
+    "messages": {
+      "created": "Groep succesvol toegevoegd",
+      "updated": "Groep succesvol aangepast",
+      "deleted": "Groep succesvol verwijderd",
+      "restored": "Groep succesvol hersteld"
+    }
+  },
+  "species": {
+    "listTitle": "Soort beplantingen beheer",
+    "withTrashed": "Toon verwijderde soorten beplanting",
+    "createTitle": "Soort beplanting toevoegen",
+    "showTitle": "Soort beplanting bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt herstellen?",
+    "fields": {
+      "dutchName": "Nederlandse naam",
+      "latinName": "Latijnse naam",
+      "latinFamily": "Latijnse familie",
+      "blossomMonth": "Bloeimaand",
+      "height": "Hoogte"
+    },
+    "messages": {
+      "created": "Soort beplanting succesvol toegevoegd",
+      "updated": "Soort beplanting succesvol aangepast",
+      "deleted": "Soort beplanting succesvol verwijderd",
+      "restored": "Soort beplanting succesvol hersteld"
+    }
+  },
+  "vegetation": {
+    "listTitle": "Beplanting beheer",
+    "withTrashed": "Toon verwijderde beplanting",
+    "createTitle": "Beplanting toevoegen",
+    "showTitle": "Beplanting bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u beplanting '{name}' wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u beplanting '{name}' wilt herstellen?",
+    "fields": {
+      "number": "Nummer",
+      "location": {
+        "name": "Coördinaten",
+        "x": "X",
+        "y": "Y",
+        "xa": "X'",
+        "ya": "Y'"
+      },
+      "label": "Label",
+      "area": "Gebied/Groep",
+      "species": "Soort",
+      "status": "Status",
+      "placed": "Plantjaar",
+      "amount": "Aantal",
+      "remarks": "Opmerkingen"
+    },
+    "tabs": {
+      "data": "Algemene gegevens",
+      "mutations": "Onderhoud",
+      "comments": "Opmerkingen"
+    },
+    "messages": {
+      "created": "Beplanting succesvol toegevoegd",
+      "updated": "Beplanting succesvol aangepast",
+      "deleted": "Beplanting succesvol verwijderd",
+      "restored": "Beplanting succesvol hersteld"
+    }
+  },
+  "comments": {
+    "withTrashed": "Toon verwijderde opmerkingen",
+    "showTitle": "Opmerking bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u deze opmerking wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u deze opmerking wilt herstellen?",
+    "fields": {
+      "title": "Titel",
+      "remarks": "Opmerking",
+      "status": "Status",
+      "number": "Nummer"
+    },
+    "messages": {
+      "updated": "Opmerking succesvol aangepast",
+      "deleted": "Opmerking succesvol verwijderd",
+      "restored": "Opmerking succesvol hersteld"
+    }
+  },
+  "mutations": {
+    "withTrashed": "Toon verwijderde soorten mutaties",
+    "showTitle": "Mutatie bewerken",
+    "confirmRemoveDialogText": "Weet u zeker dat u deze mutatie wilt verwijderen?",
+    "confirmRestoreDialogText": "Weet u zeker dat u deze mutatie wilt herstellen?",
+    "fields": {
+      "title": "Titel",
+      "user": "Gebruiker",
+      "remarks": "Opmerking",
+      "status": "Status",
+      "number": "Nummer"
+    },
+    "messages": {
+      "updated": "Mutatie succesvol aangepast",
+      "deleted": "Mutatie succesvol verwijderd",
+      "restored": "Mutatie succesvol hersteld"
+    }
   }
 }

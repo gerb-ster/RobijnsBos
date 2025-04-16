@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\BackOffice\Administration;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\BackOffice\Administration\User\CreateRequest;
+use App\Http\Requests\BackOffice\Administration\User\UpdateRequest;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -35,7 +37,7 @@ class UserController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = new User();
+    $queryBuilder = User::with('role');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -70,7 +72,7 @@ class UserController extends Controller
    */
   public function index(): Response
   {
-    return inertia('BackOffice/User/Index');
+    return inertia('BackOffice/Administration/User/Index');
   }
 
   /**
@@ -97,16 +99,18 @@ class UserController extends Controller
    */
   public function create(): Response
   {
-    return inertia('BackOffice/User/Create');
+    return inertia('BackOffice/Administration/User/Create', [
+      'roles' => Role::all()
+    ]);
   }
 
   /**
    * Store a newly created resource in storage.
    *
-   * @param UserUpdateRequest $request
+   * @param UpdateRequest $request
    * @return Redirector|Application|RedirectResponse
    */
-  public function store(UserUpdateRequest $request): Redirector|Application|RedirectResponse
+  public function store(CreateRequest $request): Redirector|Application|RedirectResponse
   {
     $validated = $request->validated();
 
@@ -119,7 +123,7 @@ class UserController extends Controller
       $user->sections()->sync($validated['sections']);
     }
 
-    return redirect(route('user.index'))
+    return redirect(route('users.index'))
       ->with('success', 'users.messages.created');
   }
 
@@ -129,29 +133,29 @@ class UserController extends Controller
    */
   public function show(User $user): Response
   {
-    return inertia('BackOffice/User/Show', [
-      'user' => $user
+    return inertia('BackOffice/Administration/User/Show', [
+      'user' => $user,
+      'roles' => Role::all()
     ]);
   }
 
   /**
    * Update the specified resource in storage.
    *
-   * @param UserUpdateRequest $request
+   * @param UpdateRequest $request
    * @param User $user
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(UserUpdateRequest $request, User $user): Redirector|RedirectResponse|Application
+  public function update(UpdateRequest $request, User $user): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
     $validated['admin'] = $request->boolean('admin');
-    $validated['inactive'] = $request->boolean('inactive');
 
     // update user
     $user->update($validated);
 
-    return redirect(route('user.index'))
+    return redirect(route('users.index'))
       ->with('success', 'users.messages.updated');
   }
 
@@ -164,13 +168,13 @@ class UserController extends Controller
   public function destroy(User $user): Redirector|RedirectResponse|Application
   {
     if ($user->id === Auth::user()->id) {
-      return redirect(route('user.index'))
+      return redirect(route('users.index'))
         ->with('warning', 'users.messages.cannotDeleteYourself');
     }
 
     $user->delete();
 
-    return redirect(route('user.index'))
+    return redirect(route('users.index'))
       ->with('success', 'users.messages.deleted');
   }
 
@@ -184,7 +188,7 @@ class UserController extends Controller
   {
     User::withTrashed()->find($userId)->restore();
 
-    return redirect(route('user.index'))
+    return redirect(route('users.index'))
       ->with('success', 'users.messages.restored');
   }
 

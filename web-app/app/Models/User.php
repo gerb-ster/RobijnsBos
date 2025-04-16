@@ -3,64 +3,72 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 
 /**
  * Class User
  *
  * @property int $id
- * @property string $name
  * @property string $uuid
- * @property bool $admin
+ * @property string $name
+ * @property int $role_id
  * @property string $locale
- * @property string|null $email
- * @property Carbon $created_at
+ * @property string $email
+ * @property string $password
+ * @property bool $admin
+ * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
+ *
+ * @property Role $role
+ * @property Collection|Comment[] $comments
+ * @property Collection|Mutation[] $mutations
+ * @property Collection|Vegetation[] $vegetations
  *
  * @package App\Models
  */
 class User extends Authenticatable
 {
-  use HasFactory, Notifiable;
+	use SoftDeletes;
 
   /**
-   * The attributes that are mass assignable.
-   *
-   * @var array<int, string>
+   * @var string
    */
-  protected $fillable = [
-    'name',
-    'email',
-    'password',
-  ];
+	protected $table = 'users';
 
   /**
-   * The attributes that should be hidden for serialization.
-   *
-   * @var array<int, string>
+   * @var string[]
    */
-  protected $hidden = [
-    'password',
-    'remember_token',
-  ];
+	protected $casts = [
+		'role_id' => 'int',
+		'admin' => 'bool'
+	];
 
   /**
-   * Get the attributes that should be cast.
-   *
-   * @return array<string, string>
+   * @var string[]
    */
-  protected function casts(): array
-  {
-    return [
-      'email_verified_at' => 'datetime',
-      'password' => 'hashed',
-    ];
-  }
+	protected $hidden = [
+		'password'
+	];
+
+  /**
+   * @var string[]
+   */
+	protected $fillable = [
+		'uuid',
+		'name',
+		'role_id',
+		'locale',
+		'email',
+		'password',
+		'admin'
+	];
 
   /**
    * The "booting" method of the model.
@@ -71,7 +79,7 @@ class User extends Authenticatable
   {
     parent::boot();
 
-    static::creating(function ($model) {
+    static::creating(function (User $model) {
       $model->uuid = Str::uuid();
     });
   }
@@ -82,10 +90,41 @@ class User extends Authenticatable
    * @param  mixed  $value
    * @param  string|null  $field
    * @return Model|null
-   * @SuppressWarnings(PHPMD.UnusedFormalParameter)
    */
   public function resolveRouteBinding($value, $field = null): ?Model
   {
     return $this->where('uuid', $value)->firstOrFail();
   }
+
+  /**
+   * @return BelongsTo
+   */
+	public function role(): BelongsTo
+  {
+		return $this->belongsTo(Role::class);
+	}
+
+  /**
+   * @return HasMany
+   */
+	public function comments(): HasMany
+  {
+		return $this->hasMany(Comment::class, 'created_by');
+	}
+
+  /**
+   * @return HasMany
+   */
+	public function mutations(): HasMany
+  {
+		return $this->hasMany(Mutation::class, 'created_by');
+	}
+
+  /**
+   * @return HasMany
+   */
+	public function vegetations(): HasMany
+  {
+		return $this->hasMany(Vegetation::class, 'created_by');
+	}
 }

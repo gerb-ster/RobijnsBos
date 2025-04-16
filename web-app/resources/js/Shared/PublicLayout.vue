@@ -5,17 +5,16 @@
         <v-row>
           <v-col>
             <v-sheet
-              max-width="1080"
+              max-width="96%"
               class="mx-auto"
               color="transparent"
             >
               <v-row>
                 <v-col>
                   <v-img
-                    src='/images/logo.png'
+                    src='/images/logo_full.png'
                     max-height="100"
                     max-width="380"
-                    cover
                   ></v-img>
                 </v-col>
               </v-row>
@@ -28,7 +27,7 @@
               class="mx-auto"
               rounded="0"
               elevation="0"
-              max-width="1080"
+              max-width="96%"
               min-height="480"
             >
               <slot/>

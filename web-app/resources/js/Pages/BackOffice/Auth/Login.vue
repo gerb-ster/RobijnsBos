@@ -1,5 +1,5 @@
 <template>
-  <v-app id="layout" class="bg-cyan-lighten-5">
+  <v-app id="layout" class="bg-light-green-lighten-2">
     <v-main>
       <Head>
         <title>RobijnsBos - Login</title>
@@ -37,7 +37,7 @@
           ></v-text-field>
           <v-btn
             class="mt-5 mb-8"
-            color="blue"
+            color="light-green-darken-4"
             size="large"
             variant="tonal"
             block
@@ -57,6 +57,9 @@ import {Head, useForm} from "@inertiajs/vue3";
 import {ref} from "vue";
 import {required} from "@vee-validate/rules";
 import LoginLayout from "../../../Shared/LoginLayout.vue";
+import {useI18n} from "vue-i18n";
+
+const {t} = useI18n({});
 
 defineOptions({
   layout: LoginLayout,
