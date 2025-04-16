@@ -107,13 +107,29 @@
                     :label="$t('vegetation.fields.remarks')"
                   ></v-textarea>
                 </v-col>
-                <v-col cols="12" md="4">
-                  <v-img
-                    :width="200"
-                    cover
-                    :src=qrUrl
-                  ></v-img>
-                  <a :href="$route('public.vegetation.redirect', {shortCode: vegetation.qr_shortcode})" target="_blank">Open QR Link</a>
+                <v-col cols="12" md="2">
+                  <v-btn
+                    color="primary"
+                    rounded="xl"
+                    size="large"
+                    block
+                    elevation="0"
+                    class="mb-3"
+                    :href="$route('vegetation.board', {vegetation: vegetation.uuid})"
+                    target="_blank"
+                    prepend-icon="mdi-download-circle-outline"
+                  >{{ $t('vegetation.downloadBoardBtn') }}</v-btn>
+                  <v-btn
+                    color="primary"
+                    rounded="xl"
+                    size="large"
+                    block
+                    elevation="0"
+                    variant="outlined"
+                    :href="$route('public.vegetation.redirect', {shortCode: vegetation.qr_shortcode})"
+                    target="_blank"
+                    prepend-icon="mdi-link-variant"
+                  >{{ $t('vegetation.openPublicProfileBtn') }}</v-btn>
                 </v-col>
               </v-row>
             </v-window-item>
@@ -188,10 +204,6 @@ function speciesItemProps (item) {
     subtitle: item.latin_name,
   }
 }
-
-const qrUrl = computed(() => {
-  return "/images/qr/" + props.vegetation.uuid + ".png";
-});
 
 async function submit(event) {
   const results = await event;

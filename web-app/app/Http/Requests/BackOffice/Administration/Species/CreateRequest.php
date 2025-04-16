@@ -16,6 +16,7 @@ class CreateRequest extends FormRequest
   public function rules(): array
   {
     return [
+      'type_id' => 'required|numeric',
       'dutch_name' => 'required|string|min:1|max:512',
       'latin_name' => 'required|string|min:1|max:512',
       'blossom_month' => 'required|array',

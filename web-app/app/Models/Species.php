@@ -29,6 +29,7 @@ use Illuminate\Support\Str;
  * @property string|null $deleted_at
  *
  * @property LatinFamily $latinFamily
+ * @property SpeciesType $type
  * @property Collection|Vegetation[] $vegetation
  *
  * @package App\Models
@@ -115,7 +116,7 @@ class Species extends Model
    */
   public function type(): BelongsTo
   {
-    return $this->belongsTo(SpeciesTypes::class, 'type_id');
+    return $this->belongsTo(SpeciesType::class, 'type_id');
   }
 
   /**

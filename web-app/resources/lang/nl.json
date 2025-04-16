@@ -172,7 +172,8 @@
       "latinName": "Latijnse naam",
       "latinFamily": "Latijnse familie",
       "blossomMonth": "Bloeimaand",
-      "height": "Hoogte"
+      "height": "Hoogte",
+      "type": "Soort"
     },
     "messages": {
       "created": "Soort beplanting succesvol toegevoegd",
@@ -188,6 +189,8 @@
     "showTitle": "Beplanting bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u beplanting '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u beplanting '{name}' wilt herstellen?",
+    "downloadBoardBtn": "Download Bord SVG",
+    "openPublicProfileBtn": "Open Public Profiel",
     "fields": {
       "number": "Nummer",
       "location": {

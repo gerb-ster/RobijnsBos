@@ -78,6 +78,7 @@ import {openStorage, storeInput} from "../../../../Logic/Helpers";
 const {t} = useI18n({});
 
 const headers = ref([
+  {title: t('species.fields.type'), align: 'start', key: 'type.name'},
   {title: t('species.fields.dutchName'), align: 'start', key: 'dutch_name'},
   {title: t('species.fields.latinName'), align: 'start', key: 'latin_name'},
   {title: t('species.fields.latinFamily'), align: 'start', key: 'latin_family.name'},

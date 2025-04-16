@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\CommentStatus;
-use App\Models\SpeciesTypes;
+use App\Models\SpeciesType;
 use Illuminate\Database\Seeder;
 
 class SpeciesTypesSeeder extends Seeder
@@ -19,7 +19,7 @@ class SpeciesTypesSeeder extends Seeder
     $data = json_decode($jsonString, true); // decode the JSON into an array
 
     foreach ($data as $entry) {
-      $object = new SpeciesTypes($entry);
+      $object = new SpeciesType($entry);
       $object->save();
     }
   }

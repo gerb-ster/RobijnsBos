@@ -13,7 +13,10 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class VegetationController
@@ -199,5 +202,17 @@ class VegetationController extends Controller
 
     return redirect(route('vegetation.index'))
       ->with('success', 'vegetation.messages.restored');
+  }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return BinaryFileResponse
+   */
+  public function board(Vegetation $vegetation): BinaryFileResponse
+  {
+    return response()->download(
+      storage_path("app/boards/{$vegetation->uuid}.svg"),
+      $vegetation->uuid . '.svg'
+    );
   }
 }
