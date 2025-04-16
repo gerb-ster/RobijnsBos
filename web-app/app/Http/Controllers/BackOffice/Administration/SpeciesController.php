@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Administration\Species\CreateRequest;
 use App\Http\Requests\BackOffice\Administration\Species\UpdateRequest;
 use App\Models\Species;
+use App\Models\SpeciesType;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,7 @@ class SpeciesController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Species::with('latinFamily');
+    $queryBuilder = Species::with('latinFamily', 'type');
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -96,7 +97,9 @@ class SpeciesController extends Controller
    */
   public function create(): Response
   {
-    return inertia('BackOffice/Administration/Species/Create');
+    return inertia('BackOffice/Administration/Species/Create', [
+      'types' => SpeciesType::all()
+    ]);
   }
 
   /**
@@ -122,7 +125,8 @@ class SpeciesController extends Controller
   public function show(Species $species): Response
   {
     return inertia('BackOffice/Administration/Species/Show', [
-      'species' => $species
+      'species' => $species,
+      'types' => SpeciesType::all()
     ]);
   }
 

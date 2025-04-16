@@ -20,10 +20,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @package App\Models
  */
-class SpeciesTypes extends Model
+class SpeciesType extends Model
 {
-  use SoftDeletes;
-
   /**
    * @var string
    */

@@ -10,6 +10,14 @@
       </v-row>
       <v-row>
         <v-col cols="12" md="4">
+          <v-select
+            v-model="form.type_id"
+            :label="$t('species.fields.type')"
+            :items="types"
+            :rules="rules.required"
+            :item-title="item => item.name"
+            item-value="id"
+          ></v-select>
           <v-text-field
             v-model="form.dutch_name"
             :label="$t('species.fields.dutchName')"
@@ -72,7 +80,7 @@ import {required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
 
-const props = defineProps(['species']);
+const props = defineProps(['species', 'types']);
 
 const {t} = useI18n({});
 
