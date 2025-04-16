@@ -1,6 +1,23 @@
 {
+  "appName": "DT RobijnsBos - {page}",
+  "public": {
+    "homepage": {
+      "title": "Welkom"
+    },
+    "vegetation": {
+      "list": {
+        "title": "Overzicht beplanting"
+      },
+      "map": {
+        "title": "Interactieve kaart"
+      },
+      "overview": {
+        "title": "Detail beplanting"
+      }
+    }
+  },
   "appBar": {
-    "appTitle": "RobijnsBos",
+    "appTitle": "DT RobijnsBos - BackOffice",
     "userIsAdministrator": "U bent beheerder"
   },
   "navigation": {

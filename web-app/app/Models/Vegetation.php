@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Tools\BoardGenerator;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -114,6 +115,9 @@ class Vegetation extends Model
 
     static::created(function (Vegetation $model) {
       $model->generateQRCodeFile();
+
+      $boardGenerator = new BoardGenerator($model);
+      $boardGenerator->render();
     });
   }
 
@@ -204,7 +208,7 @@ class Vegetation extends Model
   public function generateQRCodeFile(): void
   {
     $data = QrCode::size(512)
-      ->format('png')
+      ->format('svg')
       ->merge('/public/images/logo.png')
       ->errorCorrection('M')
       ->generate(
@@ -215,6 +219,6 @@ class Vegetation extends Model
       mkdir(public_path(env('QR_CODES_PATH')));
     }
 
-    file_put_contents(public_path(env('QR_CODES_PATH').$this->uuid.'.png'), $data);
+    file_put_contents(public_path(env('QR_CODES_PATH').$this->uuid.'.svg'), $data);
   }
 }

@@ -158,6 +158,7 @@ class ImportExcel extends Command
       'latin_name' => $row['Latijnse naam'],
       'blossom_month' => $blossomMonth,
       'height' => $row['Hoogte'],
+      'type_id' => 4
     ]);
   }
 

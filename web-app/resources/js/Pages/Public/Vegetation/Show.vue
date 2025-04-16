@@ -1,5 +1,5 @@
 <template>
-  <Head><title>Homepage</title></Head>
+  <Head><title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title></Head>
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="12">

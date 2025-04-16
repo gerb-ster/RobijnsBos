@@ -9,6 +9,7 @@
         "inertiajs/inertia-laravel": "^2.0",
         "laravel/framework": "^11.31",
         "laravel/tinker": "^2.9",
+        "meyfa/php-svg": "^0.16.1",
         "phpoffice/phpspreadsheet": "^4.1",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-ray": "^1.39",

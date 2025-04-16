@@ -20,6 +20,7 @@ use Illuminate\Support\Str;
  * @property string $number
  * @property string $dutch_name
  * @property string $latin_name
+ * @property int $type_id
  * @property int $latin_family_id
  * @property string|null $blossom_month
  * @property string|null $height
@@ -28,7 +29,7 @@ use Illuminate\Support\Str;
  * @property string|null $deleted_at
  *
  * @property LatinFamily $latinFamily
- * @property Collection|Vegetation[] $vegetations
+ * @property Collection|Vegetation[] $vegetation
  *
  * @package App\Models
  */
@@ -58,6 +59,7 @@ class Species extends Model
 		'number',
 		'dutch_name',
 		'latin_name',
+    'type_id',
 		'latin_family_id',
 		'blossom_month',
 		'height'
@@ -109,9 +111,17 @@ class Species extends Model
 	}
 
   /**
+   * @return BelongsTo
+   */
+  public function type(): BelongsTo
+  {
+    return $this->belongsTo(SpeciesTypes::class, 'type_id');
+  }
+
+  /**
    * @return HasMany
    */
-	public function vegetations(): HasMany
+	public function vegetation(): HasMany
   {
 		return $this->hasMany(Vegetation::class, 'specie_id');
 	}

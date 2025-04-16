@@ -17,12 +17,15 @@ Route::get('/', [HomeController::class, 'index'])
 
 Route::get('/v/{shortCode}', [PublicVegetationController::class, 'redirect'])
   ->name('public.vegetation.redirect');
-Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
-  ->name('public.vegetation.show');
-Route::get('/vegetation/list', [PublicVegetationController::class, 'list'])
-  ->name('public.vegetation.list');
+Route::get('/vegetation/overview', [PublicVegetationController::class, 'overview'])
+  ->name('public.vegetation.overview');
 Route::get('/vegetation/map', [PublicVegetationController::class, 'map'])
   ->name('public.vegetation.map');
+Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
+  ->name('public.vegetation.list');
+Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
+  ->name('public.vegetation.show');
+
 
 Route::group(['middleware' => ['guest']], function () {
   Route::get('/back-office/login', [AuthenticatedSessionController::class, 'create'])

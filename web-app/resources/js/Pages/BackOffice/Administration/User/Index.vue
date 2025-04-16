@@ -1,5 +1,5 @@
 <template>
-  <Head><title>{{ $t('users.listTitle') }}</title></Head>
+  <Head><title>{{ $t('appName', {page: $t('user.listTitle')}) }}</title></Head>
   <confirm ref="confirmDelete"></confirm>
   <confirm ref="confirmRestore"></confirm>
   <v-container fluid>

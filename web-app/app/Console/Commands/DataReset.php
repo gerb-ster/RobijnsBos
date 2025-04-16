@@ -9,6 +9,7 @@ use Database\Seeders\LatinFamilySeeder;
 use Database\Seeders\MutationStatusSeeder;
 use Database\Seeders\RoleSeeder;
 use Database\Seeders\SpeciesSeeder;
+use Database\Seeders\SpeciesTypesSeeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\VegetationStatusSeeder;
 use Illuminate\Console\Command;
@@ -66,6 +67,7 @@ class DataReset extends Command
       $this->call('db:seed', ['--class' => VegetationStatusSeeder::class, '--force' => true]);
       $this->call('db:seed', ['--class' => CommentStatusSeeder::class, '--force' => true]);
       $this->call('db:seed', ['--class' => MutationStatusSeeder::class, '--force' => true]);
+      $this->call('db:seed', ['--class' => SpeciesTypesSeeder::class, '--force' => true]);
     }
 
     if ($this->confirm('Do you wish create some demo data?', true)) {

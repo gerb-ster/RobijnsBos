@@ -1,9 +1,9 @@
 <template>
-  <Head><title>Homepage</title></Head>
+  <Head><title>{{ $t('appName', {page: $t('public.vegetation.overview.title')}) }}</title></Head>
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="12">
-        Lijst
+        <h3 class="mb-8">RobijnsBos Homepage</h3>
       </v-col>
     </v-row>
   </v-container>
@@ -12,7 +12,5 @@
 <script setup>
 
 import {Head} from '@inertiajs/vue3';
-
-defineProps();
 
 </script>

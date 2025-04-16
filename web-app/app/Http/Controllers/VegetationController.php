@@ -33,4 +33,26 @@ class VegetationController extends Controller
       'vegetation' => $vegetation
     ]);
   }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return Response
+   */
+  public function map(Vegetation $vegetation): Response
+  {
+    $vegetation->load('species');
+
+    return Inertia::render('Public/Vegetation/Map');
+  }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return Response
+   */
+  public function overview(Vegetation $vegetation): Response
+  {
+    $vegetation->load('species');
+
+    return Inertia::render('Public/Vegetation/Overview');
+  }
 }
