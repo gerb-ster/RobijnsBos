@@ -103,4 +103,4 @@ createInertiaApp({
   },
 }).then(r => {
   console.log('Application Booted')
-})
+});

@@ -21,6 +21,8 @@ Route::get('/vegetation/overview', [PublicVegetationController::class, 'overview
   ->name('public.vegetation.overview');
 Route::get('/vegetation/map', [PublicVegetationController::class, 'map'])
   ->name('public.vegetation.map');
+Route::get('/vegetation/map/image', [PublicVegetationController::class, 'mapImage'])
+  ->name('public.vegetation.map.image');
 Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
   ->name('public.vegetation.list');
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
@@ -44,7 +46,6 @@ Route::group(['middleware' => ['auth']], function () {
     ->name('vegetation.restore');
   Route::get('/back-office/vegetation/{vegetation}/board', [VegetationController::class, 'board'])
     ->name('vegetation.board');
-
 
   // Comments
   Route::resource('/back-office/vegetation/{vegetation}/comments', CommentsController::class)

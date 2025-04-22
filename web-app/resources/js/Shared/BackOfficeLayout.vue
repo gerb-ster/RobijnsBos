@@ -98,8 +98,8 @@ const props = defineProps(['settings', 'auth']);
 const {t, locale} = useI18n();
 locale.value = props.auth?.user.locale || 'en';
 
-const drawer = ref(false)
-const group = ref(null)
+const drawer = ref(false);
+const group = ref(null);
 
 watch(group, () => {
   drawer.value = false
