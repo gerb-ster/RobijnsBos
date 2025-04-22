@@ -36,7 +36,7 @@ class BoardGenerator
     // add latin name
     $latinName = $this->createTextNode(
       style: 'italic',
-      text: "Latijnse naam: {$this->vegetation->species->latin_name}",
+      text: $this->vegetation->species->latin_name,
       fontSize: 24,
       yValue: 42,
       bold: false
@@ -46,7 +46,7 @@ class BoardGenerator
     // add regular name
     $regularName = $this->createTextNode(
       style: 'regular',
-      text: "Volksmond naam: {$this->vegetation->species->dutch_name}",
+      text: $this->vegetation->species->dutch_name,
       fontSize: 24,
       yValue: 70,
       bold: true
@@ -56,7 +56,7 @@ class BoardGenerator
     // add location and year
     $yearLocation = $this->createTextNode(
       style: 'regular',
-      text: "Jaar en locatie: {$this->vegetation->placed} / {$this->vegetation->location['x']},{$this->vegetation->location['y']}",
+      text: "{$this->vegetation->placed} @ {$this->vegetation->location['x']},{$this->vegetation->location['y']}",
       fontSize: 18,
       yValue: 90,
       bold: false

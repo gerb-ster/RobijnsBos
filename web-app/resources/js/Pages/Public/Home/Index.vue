@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="12">
-        <h3 class="mb-8">RobijnsBos Homepage</h3>
+        <h3 class="mb-8">Welkom op de RobijnsBos Digital Twin</h3>
       </v-col>
     </v-row>
   </v-container>

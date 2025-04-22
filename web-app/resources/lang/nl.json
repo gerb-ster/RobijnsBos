@@ -5,13 +5,13 @@
       "title": "Welkom"
     },
     "vegetation": {
-      "list": {
+      "overview": {
         "title": "Overzicht beplanting"
       },
       "map": {
         "title": "Interactieve kaart"
       },
-      "overview": {
+      "show": {
         "title": "Detail beplanting"
       }
     }
