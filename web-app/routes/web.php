@@ -9,6 +9,8 @@ use App\Http\Controllers\BackOffice\CommentsController;
 use App\Http\Controllers\BackOffice\MutationsController;
 use App\Http\Controllers\BackOffice\VegetationController;
 use App\Http\Controllers\VegetationController as PublicVegetationController;
+use App\Http\Controllers\MutationController as PublicMutationController;
+use App\Http\Controllers\CommentController as PublicCommentController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +29,16 @@ Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
   ->name('public.vegetation.list');
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
   ->name('public.vegetation.show');
+
+Route::get('/vegetation/{vegetation}/comment/create', [PublicMutationController::class, 'create'])
+  ->name('public.vegetation.comment.create');
+Route::post('/vegetation/{vegetation}/comment/store', [PublicMutationController::class, 'store'])
+  ->name('public.vegetation.comment.store');
+
+Route::get('/vegetation/{vegetation}/mutation/create', [PublicMutationController::class, 'create'])
+  ->name('public.vegetation.mutation.create');
+Route::post('/vegetation/{vegetation}/mutation/store', [PublicMutationController::class, 'store'])
+  ->name('public.vegetation.mutation.store');
 
 
 Route::group(['middleware' => ['guest']], function () {

@@ -90,7 +90,7 @@ class VegetationController extends Controller
    */
   public function show(Vegetation $vegetation): Response
   {
-    $vegetation->load('species');
+    $vegetation->load('status', 'species', 'group', 'group.area', 'comments', 'mutations', 'species.type');
 
     return Inertia::render('Public/Vegetation/Show', [
       'vegetation' => $vegetation
