@@ -13,6 +13,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Response;
 
 /**
@@ -114,14 +115,8 @@ class UserController extends Controller
   {
     $validated = $request->validated();
 
-    $validated['admin'] = $request->boolean('admin');
-
-    $user = User::create($validated);
-
-    // sync sections
-    if (array_key_exists('sections', $validated) && !empty($validated['sections'])) {
-      $user->sections()->sync($validated['sections']);
-    }
+    $validated['password'] = Hash::make($validated['password']);
+    User::create($validated);
 
     return redirect(route('users.index'))
       ->with('success', 'users.messages.created');
@@ -149,8 +144,6 @@ class UserController extends Controller
   public function update(UpdateRequest $request, User $user): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
-
-    $validated['admin'] = $request->boolean('admin');
 
     // update user
     $user->update($validated);
