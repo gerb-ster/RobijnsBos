@@ -72,15 +72,23 @@
         <v-card
           color="secondary"
           variant="tonal"
-          class="mx-auto"
+          class="mx-auto mb-5"
           v-for="(mutation, index) in vegetation.mutations"
         >
-          <v-card-title>{{ mutation.name }}</v-card-title>
+          <v-card-title>{{ mutation.title }}</v-card-title>
           <v-card-text>
             {{ mutation.remarks }}
-            <div class="text-caption mt-4">{{ renderDateTime(mutation.created_at) }}</div>
+            <div class="text-caption mt-4">Op {{ renderDateTime(mutation.created_at) }} door {{ mutation.user.name }}</div>
           </v-card-text>
         </v-card>
+        <v-btn
+          v-if="auth.user !== null"
+          prepend-icon="mdi-plus"
+          color="primary"
+          :href="$route('public.vegetation.mutation.create', {vegetation: vegetation.uuid})"
+          elevation="0"
+        > {{ $t('public.mutations.addBtn') }}
+        </v-btn>
       </v-col>
     </v-row>
   </v-container>
@@ -88,8 +96,12 @@
 
 <script setup>
 
-import {Head} from '@inertiajs/vue3';
+import {Head, usePage} from '@inertiajs/vue3';
 import {renderDateTime} from "../../../Logic/Helpers.ts";
+import {computed} from "vue";
+
+const page = usePage()
+const auth = computed(() => page.props.auth)
 
 const props = defineProps({vegetation: Object});
 

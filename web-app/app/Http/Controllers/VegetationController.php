@@ -98,6 +98,7 @@ class VegetationController extends Controller
       'group',
       'group.area',
       'mutations' => fn ($query) => $query->where('status_id', MutationStatus::APPROVED),
+      'mutations.user',
       'comments' => fn ($query) => $query->where('status_id', CommentStatus::APPROVED),
       'species.type'
     ]);

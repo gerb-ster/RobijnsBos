@@ -19,8 +19,7 @@ class UpdateRequest extends FormRequest
       'name' => 'required|string|min:3|max:50',
       'email' => 'required|email:rfc,dns',
       'password' => 'nullable|string|min:3|max:64',
-      'role_id' => 'required|numeric',
-      'admin' => 'nullable|boolean'
+      'role_id' => 'required|numeric'
     ];
   }
 

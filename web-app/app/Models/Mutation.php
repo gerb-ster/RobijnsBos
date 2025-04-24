@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 /**
@@ -72,7 +73,8 @@ class Mutation extends Model
 
     static::creating(function (Mutation $model) {
       $model->uuid = Str::uuid();
-      $model->status_id = MutationStatus::NEW;
+      $model->status_id = MutationStatus::APPROVED;
+      $model->created_by = Auth::user()->id;
 
       // generate a number
       $currentMax = Mutation

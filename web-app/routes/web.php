@@ -35,89 +35,91 @@ Route::get('/vegetation/{vegetation}/comment/create', [PublicCommentController::
 Route::post('/vegetation/{vegetation}/comment/store', [PublicCommentController::class, 'store'])
   ->name('public.vegetation.comment.store');
 
-Route::get('/vegetation/{vegetation}/mutation/create', [PublicCommentController::class, 'create'])
-  ->name('public.vegetation.mutation.create');
-Route::post('/vegetation/{vegetation}/mutation/store', [PublicMutationController::class, 'store'])
-  ->name('public.vegetation.mutation.store');
-
-
 Route::group(['middleware' => ['guest']], function () {
-  Route::get('/back-office/login', [AuthenticatedSessionController::class, 'create'])
+  Route::get('/account/login', [AuthenticatedSessionController::class, 'create'])
     ->name('login');
-  Route::post('/back-office/login', [AuthenticatedSessionController::class, 'store'])
+  Route::post('/account/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login.store');
 });
 
 // BackOffice
 Route::group(['middleware' => ['auth']], function () {
-  // Vegetation
-  Route::resource('/back-office/vegetation', VegetationController::class);
-  Route::post('/back-office/vegetation/list', [VegetationController::class, 'list'])
-    ->name('vegetation.list');
-  Route::get('/back-office/vegetation/restore/{id}', [VegetationController::class, 'restore'])
-    ->name('vegetation.restore');
-  Route::get('/back-office/vegetation/{vegetation}/board', [VegetationController::class, 'board'])
-    ->name('vegetation.board');
-
-  // Comments
-  Route::resource('/back-office/vegetation/{vegetation}/comments', CommentsController::class)
-    ->names('comments')
-    ->scoped()
-    ->parameters([
-      'vegetation' => 'vegetation',
-      'comment' => 'comment',
-    ]);
-  Route::post('/back-office/vegetation/{vegetation}/comments/list', [CommentsController::class, 'list'])
-    ->name('comments.list');
-
-  // Mutation
-  Route::resource('/back-office/vegetation/{vegetation}/mutations', MutationsController::class)
-    ->names('mutations')
-    ->scoped()
-    ->parameters([
-      'vegetation' => 'vegetation',
-      'mutation' => 'mutation',
-    ]);
-  Route::post('/back-office/vegetation/{vegetation}/mutations/list', [MutationsController::class, 'list'])
-    ->name('mutations.list');
+  // mutation
+  Route::get('/vegetation/{vegetation}/mutation/create', [PublicMutationController::class, 'create'])
+    ->name('public.vegetation.mutation.create');
+  Route::post('/vegetation/{vegetation}/mutation/store', [PublicMutationController::class, 'store'])
+    ->name('public.vegetation.mutation.store');
 
   // logout url
-  Route::delete('/back-office/logout', [AuthenticatedSessionController::class, 'destroy'])
+  Route::delete('/account/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
-  /* Administration */
-  Route::middleware(['can:administrate'])->group(function () {
-    // User management related
-    Route::resource('/back-office/admin/users', UserController::class);
-    Route::post('/back-office/admin/users/list', [UserController::class, 'list'])
-      ->name('users.list');
-    Route::get('/back-office/admin/users/restore/{id}', [UserController::class, 'restore'])
-      ->name('users.restore');
+  Route::middleware(['can:accessBackOffice'])->group(function () {
+    // Vegetation
+    Route::resource('/back-office/vegetation', VegetationController::class);
+    Route::post('/back-office/vegetation/list', [VegetationController::class, 'list'])
+      ->name('vegetation.list');
+    Route::get('/back-office/vegetation/restore/{id}', [VegetationController::class, 'restore'])
+      ->name('vegetation.restore');
+    Route::get('/back-office/vegetation/{vegetation}/board', [VegetationController::class, 'board'])
+      ->name('vegetation.board');
 
-    // Species
-    Route::resource('/back-office/admin/species', SpeciesController::class);
-    Route::post('/back-office/admin/species/list', [SpeciesController::class, 'list'])
-      ->name('species.list');
-    Route::get('/back-office/admin/species/restore/{id}', [SpeciesController::class, 'restore'])
-      ->name('species.restore');
-
-    // Area
-    Route::resource('/back-office/admin/areas', AreaController::class);
-    Route::post('/back-office/admin/areas/list', [AreaController::class, 'list'])
-      ->name('areas.list');
-    Route::get('/back-office/admin/areas/restore/{id}', [AreaController::class, 'restore'])
-      ->name('areas.restore');
-
-    // Group
-    Route::resource(
-      '/back-office/admin/areas/{area}/groups',
-      GroupController::class
-    )
-      ->names('groups')
+    // Comments
+    Route::resource('/back-office/vegetation/{vegetation}/comments', CommentsController::class)
+      ->names('comments')
       ->scoped()
       ->parameters([
-        'area' => 'area',
-        'group' => 'group',
+        'vegetation' => 'vegetation',
+        'comment' => 'comment',
       ]);
+    Route::post('/back-office/vegetation/{vegetation}/comments/list', [CommentsController::class, 'list'])
+      ->name('comments.list');
+
+    // Mutation
+    Route::resource('/back-office/vegetation/{vegetation}/mutations', MutationsController::class)
+      ->names('mutations')
+      ->scoped()
+      ->parameters([
+        'vegetation' => 'vegetation',
+        'mutation' => 'mutation',
+      ]);
+    Route::post('/back-office/vegetation/{vegetation}/mutations/list', [MutationsController::class, 'list'])
+      ->name('mutations.list');
+
+    /* Administration */
+    Route::middleware(['can:administrate'])->group(function () {
+      // User management related
+      Route::resource('/back-office/admin/users', UserController::class);
+      Route::post('/back-office/admin/users/list', [UserController::class, 'list'])
+        ->name('users.list');
+      Route::get('/back-office/admin/users/restore/{id}', [UserController::class, 'restore'])
+        ->name('users.restore');
+
+      // Species
+      Route::resource('/back-office/admin/species', SpeciesController::class);
+      Route::post('/back-office/admin/species/list', [SpeciesController::class, 'list'])
+        ->name('species.list');
+      Route::get('/back-office/admin/species/restore/{id}', [SpeciesController::class, 'restore'])
+        ->name('species.restore');
+
+      // Area
+      Route::resource('/back-office/admin/areas', AreaController::class);
+      Route::post('/back-office/admin/areas/list', [AreaController::class, 'list'])
+        ->name('areas.list');
+      Route::get('/back-office/admin/areas/restore/{id}', [AreaController::class, 'restore'])
+        ->name('areas.restore');
+
+      // Group
+      Route::resource(
+        '/back-office/admin/areas/{area}/groups',
+        GroupController::class
+      )
+        ->names('groups')
+        ->scoped()
+        ->parameters([
+          'area' => 'area',
+          'group' => 'group',
+        ]);
+    });
   });
 });

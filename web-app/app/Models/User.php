@@ -21,7 +21,6 @@ use Illuminate\Support\Str;
  * @property string $locale
  * @property string $email
  * @property string $password
- * @property bool $admin
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at
@@ -29,7 +28,7 @@ use Illuminate\Support\Str;
  * @property Role $role
  * @property Collection|Comment[] $comments
  * @property Collection|Mutation[] $mutations
- * @property Collection|Vegetation[] $vegetations
+ * @property Collection|Vegetation[] $vegetation
  *
  * @package App\Models
  */
@@ -46,8 +45,7 @@ class User extends Authenticatable
    * @var string[]
    */
 	protected $casts = [
-		'role_id' => 'int',
-		'admin' => 'bool'
+		'role_id' => 'int'
 	];
 
   /**
@@ -66,8 +64,7 @@ class User extends Authenticatable
 		'role_id',
 		'locale',
 		'email',
-		'password',
-		'admin'
+		'password'
 	];
 
   /**
@@ -123,7 +120,7 @@ class User extends Authenticatable
   /**
    * @return HasMany
    */
-	public function vegetations(): HasMany
+	public function vegetation(): HasMany
   {
 		return $this->hasMany(Vegetation::class, 'created_by');
 	}

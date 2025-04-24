@@ -83,7 +83,6 @@ const headers = ref([
   {title: t('users.fields.name'), align: 'start', key: 'name'},
   {title: t('users.fields.email'), align: 'start', key: 'email'},
   {title: t('users.fields.role'), align: 'start', key: 'role.name'},
-  {title: t('users.fields.admin'), align: 'start', key: 'admin'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 

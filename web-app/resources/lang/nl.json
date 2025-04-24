@@ -4,6 +4,14 @@
     "homepage": {
       "title": "Welkom"
     },
+    "navigation": {
+      "home": "Home",
+      "overview": "Overview",
+      "map": "Kaart",
+      "login": "Inloggen",
+      "backOffice": "BackOffice",
+      "signOut": "Uitloggen"
+    },
     "vegetation": {
       "overview": {
         "title": "Overzicht beplanting"
@@ -23,6 +31,16 @@
       "saveBtn": "Opslaan",
       "fields": {
         "name": "Naam",
+        "remark": "Opmerking",
+        "date": "Datum"
+      }
+    },
+    "mutations": {
+      "addBtn": "Onderhoud toevoegen",
+      "createTitle": "Onderhoud",
+      "saveBtn": "Opslaan",
+      "fields": {
+        "title": "Titel",
         "remark": "Opmerking",
         "date": "Datum"
       }
@@ -79,6 +97,7 @@
     "okBtn": "OK"
   },
   "roles": {
+    "administrator": "Beheerder",
     "owner": "Eigenaar",
     "volunteer": "Vrijwilliger"
   },

@@ -44,8 +44,9 @@ class HandleInertiaRequests extends Middleware
             'uuid' => $request->user()->uuid,
             'name' => $request->user()->name,
             'email' => $request->user()->email,
-            'admin' => $request->user()->admin,
-            'locale' => $request->user()->locale
+            'locale' => $request->user()->locale,
+            'canAdministrate' => $request->user()->can('administrate'),
+            'canAccessBackOffice' => $request->user()->can('accessBackOffice'),
           ] : null,
         ];
       },

@@ -37,11 +37,6 @@
             :rules="rules.required"
             item-value="id"
           ></v-select>
-          <v-switch
-            :label="$t('users.fields.admin')"
-            v-model="form.admin"
-            color="indigo"
-          ></v-switch>
         </v-col>
       </v-row>
       <v-row>
@@ -85,8 +80,7 @@ const form = useForm({
   name: null,
   email: null,
   password: null,
-  role_id: null,
-  is_admin: false
+  role_id: null
 });
 
 const rules = {

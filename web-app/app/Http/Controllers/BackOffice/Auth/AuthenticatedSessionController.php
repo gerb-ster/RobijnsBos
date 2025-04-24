@@ -4,6 +4,7 @@ namespace App\Http\Controllers\BackOffice\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Auth\LoginRequest;
+use App\Models\Role;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,7 +32,11 @@ class AuthenticatedSessionController extends Controller
 
     $request->session()->regenerate();
 
-    return redirect()->intended('/back-office/vegetation');
+    if(Auth::user()->role_id === Role::VOLUNTEER) {
+      return redirect()->intended(route('homePage.index'));
+    }
+
+    return redirect()->intended(route('vegetation.index'));
   }
 
   /**
@@ -44,6 +49,6 @@ class AuthenticatedSessionController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect('/back-office/login');
+    return redirect(route('homePage.index'));
   }
 }
