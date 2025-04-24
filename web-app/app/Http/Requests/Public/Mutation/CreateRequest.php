@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\BackOffice\Comment;
+namespace App\Http\Requests\Public\Mutation;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class UpdateRequest
- * @package App\Http\Requests\BackOffice\Comment
+ * @package App\Http\Requests\Public\Mutation
  */
-class UpdateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
   /**
    * @return string[]
@@ -16,8 +16,7 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'status_id' => 'required|exists:comment_status,id',
-      'name' => 'nullable|string|min:1|max:128',
+      'title' => 'nullable|string|min:1|max:128',
       'remarks' => 'nullable|string'
     ];
   }
@@ -30,7 +29,7 @@ class UpdateRequest extends FormRequest
   public function messages(): array
   {
     return [
-      'name.required' => 'Name is required!',
+      'title.required' => 'Name is required!',
     ];
   }
 }

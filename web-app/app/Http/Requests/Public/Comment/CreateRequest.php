@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\BackOffice\Administration\User;
+namespace App\Http\Requests\Public\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class UserUpdateRequest
- * @package App\Http\Requests
+ * Class UpdateRequest
+ * @package App\Http\Requests\Public\Comment
  */
-class UpdateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
   /**
    * @return string[]
@@ -16,10 +16,8 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'name' => 'required|string|min:3|max:50',
-      'email' => 'required|email:rfc,dns',
-      'password' => 'nullable|string|min:3|max:64',
-      'role_id' => 'required|numeric'
+      'name' => 'nullable|string|min:1|max:128',
+      'remarks' => 'nullable|string'
     ];
   }
 

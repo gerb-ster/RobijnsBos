@@ -29,11 +29,6 @@
             :rules="rules.required"
             item-value="id"
           ></v-select>
-          <v-switch
-            :label="$t('users.fields.admin')"
-            v-model="form.admin"
-            color="indigo"
-          ></v-switch>
         </v-col>
       </v-row>
       <v-row>

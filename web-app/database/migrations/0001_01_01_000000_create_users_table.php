@@ -22,7 +22,6 @@ return new class extends Migration
       $table->string('locale')->default('nl');
       $table->string('email')->unique();
       $table->string('password');
-      $table->boolean('admin')->default(false);
 
       $table->timestamps();
       $table->softDeletes();

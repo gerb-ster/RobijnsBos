@@ -14,7 +14,7 @@
       <v-tooltip
         :text="$t('appBar.userIsAdministrator')"
         location="bottom"
-        v-if="auth.user.admin"
+        v-if="auth.user.canAdministrate"
       >
         <template v-slot:activator="{ props }">
           <v-icon
@@ -40,7 +40,7 @@
             @click="drawer=!drawer"
           ></v-list-item>
         </Link>
-        <div v-if="auth.user.admin">
+        <div v-if="auth.user.canAdministrate">
           <v-divider></v-divider>
           <Link as="div" :href="$route('species.index')">
             <v-list-item

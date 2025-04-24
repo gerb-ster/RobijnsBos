@@ -75,7 +75,7 @@ const sortBy = ref([]);
 const headers = [
   { title: t('comments.fields.number'), value: 'number' },
   { title: t('comments.fields.status'), value: 'status.name' },
-  { title: t('comments.fields.title'), value: 'title' },
+  { title: t('comments.fields.name'), value: 'name' },
   { title: t('comments.fields.remarks'), value: 'remarks' },
   { title: t('form.actions'), align: 'end', key: 'actions', sortable: false },
 ];
