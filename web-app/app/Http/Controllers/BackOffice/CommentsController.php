@@ -129,12 +129,12 @@ class CommentsController extends Controller
    * @param Comment $mutation
    * @return Application|RedirectResponse|Redirector
    */
-  public function update(Vegetation $vegetation, UpdateRequest $request, Comment $mutation): Redirector|RedirectResponse|Application
+  public function update(Vegetation $vegetation, UpdateRequest $request, Comment $comment): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
 
     // update area
-    $mutation->update($validated);
+    $comment->update($validated);
 
     return redirect(route('vegetation.show', [
       'vegetation' => $vegetation->uuid

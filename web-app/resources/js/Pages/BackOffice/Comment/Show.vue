@@ -19,9 +19,8 @@
             item-value="id"
           ></v-select>
           <v-text-field
-            v-model="form.title"
-            name="name"
-            :label="$t('comments.fields.title')"
+            v-model="form.name"
+            :label="$t('comments.fields.name')"
             :rules="rules.required"
           ></v-text-field>
           <v-textarea

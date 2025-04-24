@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Requests\BackOffice\Comment;
+namespace App\Http\Requests\Public\Comment;
 
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
  * Class UpdateRequest
- * @package App\Http\Requests\BackOffice\Comment
+ * @package App\Http\Requests\Public\Comment
  */
-class UpdateRequest extends FormRequest
+class CreateRequest extends FormRequest
 {
   /**
    * @return string[]
@@ -16,7 +16,6 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'status_id' => 'required|exists:comment_status,id',
       'name' => 'nullable|string|min:1|max:128',
       'remarks' => 'nullable|string'
     ];

@@ -46,31 +46,39 @@
         </v-list>
       </v-col>
       <v-col cols="12" md="4">
-        <h2 class="mb-5">Opmerkingen</h2>
+        <h2 class="mb-5">{{ $t('public.vegetation.show.comments') }}</h2>
         <v-card
           color="primary"
           variant="tonal"
-          class="mx-auto"
+          class="mx-auto mb-5"
+          v-for="(comment, index) in vegetation.comments"
         >
-          <v-card-title>Titel</v-card-title>
+          <v-card-title>{{ comment.name }}</v-card-title>
           <v-card-text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-            <div class="text-caption mt-4">23 mei 2025</div>
+            {{ comment.remarks }}
+            <div class="text-caption mt-4">{{ renderDateTime(comment.created_at) }}</div>
           </v-card-text>
         </v-card>
+        <v-btn
+          prepend-icon="mdi-plus"
+          color="primary"
+          :href="$route('public.vegetation.comment.create', {vegetation: vegetation.uuid})"
+          elevation="0"
+        > {{ $t('public.comments.addBtn') }}
+        </v-btn>
       </v-col>
       <v-col cols="12" md="4">
-        <h2 class="mb-5">Onderhoud</h2>
+        <h2 class="mb-5">{{ $t('public.vegetation.show.mutations') }}</h2>
         <v-card
           color="secondary"
           variant="tonal"
           class="mx-auto"
+          v-for="(mutation, index) in vegetation.mutations"
         >
-          <v-card-title>Titel</v-card-title>
+          <v-card-title>{{ mutation.name }}</v-card-title>
           <v-card-text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-
-            <div class="text-caption mt-4">23 mei 2025</div>
+            {{ mutation.remarks }}
+            <div class="text-caption mt-4">{{ renderDateTime(mutation.created_at) }}</div>
           </v-card-text>
         </v-card>
       </v-col>
@@ -81,9 +89,8 @@
 <script setup>
 
 import {Head} from '@inertiajs/vue3';
+import {renderDateTime} from "../../../Logic/Helpers.ts";
 
 const props = defineProps({vegetation: Object});
-
-console.log(props.vegetation);
 
 </script>

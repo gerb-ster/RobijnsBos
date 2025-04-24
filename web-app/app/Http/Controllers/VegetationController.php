@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CommentStatus;
+use App\Models\MutationStatus;
 use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -90,7 +92,15 @@ class VegetationController extends Controller
    */
   public function show(Vegetation $vegetation): Response
   {
-    $vegetation->load('status', 'species', 'group', 'group.area', 'comments', 'mutations', 'species.type');
+    $vegetation->load([
+      'status',
+      'species',
+      'group',
+      'group.area',
+      'mutations' => fn ($query) => $query->where('status_id', MutationStatus::APPROVED),
+      'comments' => fn ($query) => $query->where('status_id', CommentStatus::APPROVED),
+      'species.type'
+    ]);
 
     return Inertia::render('Public/Vegetation/Show', [
       'vegetation' => $vegetation

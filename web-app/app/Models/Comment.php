@@ -17,7 +17,7 @@ use Illuminate\Support\Str;
  * @property string $number
  * @property int $status_id
  * @property int $vegetation_id
- * @property string $title
+ * @property string $name
  * @property string $remarks
  * @property int|null $created_by
  * @property Carbon|null $created_at
@@ -56,7 +56,7 @@ class Comment extends Model
 		'number',
 		'status_id',
 		'vegetation_id',
-		'title',
+		'name',
 		'remarks',
 		'created_by'
 	];

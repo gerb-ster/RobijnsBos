@@ -30,12 +30,12 @@ Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
   ->name('public.vegetation.show');
 
-Route::get('/vegetation/{vegetation}/comment/create', [PublicMutationController::class, 'create'])
+Route::get('/vegetation/{vegetation}/comment/create', [PublicCommentController::class, 'create'])
   ->name('public.vegetation.comment.create');
-Route::post('/vegetation/{vegetation}/comment/store', [PublicMutationController::class, 'store'])
+Route::post('/vegetation/{vegetation}/comment/store', [PublicCommentController::class, 'store'])
   ->name('public.vegetation.comment.store');
 
-Route::get('/vegetation/{vegetation}/mutation/create', [PublicMutationController::class, 'create'])
+Route::get('/vegetation/{vegetation}/mutation/create', [PublicCommentController::class, 'create'])
   ->name('public.vegetation.mutation.create');
 Route::post('/vegetation/{vegetation}/mutation/store', [PublicMutationController::class, 'store'])
   ->name('public.vegetation.mutation.store');

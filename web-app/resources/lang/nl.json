@@ -1,5 +1,5 @@
 {
-  "appName": "DT RobijnsBos - {page}",
+  "appName": "RobijnsBos Digital Twin - {page}",
   "public": {
     "homepage": {
       "title": "Welkom"
@@ -12,12 +12,24 @@
         "title": "Interactieve kaart"
       },
       "show": {
-        "title": "Detail beplanting"
+        "title": "Detail beplanting",
+        "comments": "Opmerkingen",
+        "mutations": "Onderhoud"
+      }
+    },
+    "comments": {
+      "addBtn": "Opmerking toevoegen",
+      "createTitle": "Uw opmerking",
+      "saveBtn": "Opslaan",
+      "fields": {
+        "name": "Naam",
+        "remark": "Opmerking",
+        "date": "Datum"
       }
     }
   },
   "appBar": {
-    "appTitle": "DT RobijnsBos - BackOffice",
+    "appTitle": "RobijnsBos Digital Twin - BackOffice",
     "userIsAdministrator": "U bent beheerder"
   },
   "navigation": {
