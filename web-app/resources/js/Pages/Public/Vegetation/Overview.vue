@@ -10,7 +10,34 @@
           single-line
           hide-details
           density="comfortable"
+          clearable
         ></v-text-field>
+      </v-col>
+      <v-col cols="12" md="5">
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="selectedGroup"
+              :label="$t('vegetation.fields.area')"
+              :items="groups"
+              :item-props="groupProps"
+              item-value="id"
+              density="comfortable"
+              clearable
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="selectedSpecie"
+              :label="$t('species.fields.dutchName')"
+              :items="species"
+              :item-props="speciesProps"
+              item-value="id"
+              density="comfortable"
+              clearable
+            ></v-select>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
     <v-data-table-server
@@ -29,14 +56,11 @@
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
-      <template v-slot:item.status.name="{ item }">
-        {{ $t('vegetationStatus.'+item.status.name) }}
-      </template>
       <template v-slot:item.location="{ item }">
         {{ item.location.x }}, {{ item.location.y }}<span v-if="item.location.xa">, {{ item.location.xa }}, {{ item.location.ya }}</span>
       </template>
       <template v-slot:item.group.name="{ item }">
-        {{ item.group.area.name }} / {{ item.group.name }}
+        {{ item.group.area.name }}<br /><span class="text-medium-emphasis text-caption">{{ item.group.name }}</span>
       </template>
       <template v-slot:item.species.blossom_month="{ item }">
         <span v-for="(month, index) in item.species.blossom_month">
@@ -59,9 +83,14 @@ import {openStorage, storeInput} from "../../../Logic/Helpers";
 
 const {t} = useI18n({});
 
+const props = defineProps({
+  species: Array,
+  status: Array,
+  groups: Array
+});
+
 const headers = ref([
   {title: t('vegetation.fields.label'), align: 'start', key: 'label'},
-  {title: t('vegetation.fields.status'), align: 'start', key: 'status.name'},
   {title: t('vegetation.fields.location.name'), align: 'start', key: 'location'},
   {title: t('vegetation.fields.area'), align: 'start', key: 'group.name'},
   {title: t('species.fields.dutchName'), align: 'start', key: 'species.dutch_name'},
@@ -77,16 +106,21 @@ const serverItems = ref([]);
 const loading = ref(false);
 const totalItems = ref(0);
 
+const selectedGroup = ref(null);
+const selectedSpecie = ref(null);
+
 const currentPage = ref(1);
 const itemsPerPage = ref(25);
 const sortBy = ref([]);
 
 onBeforeMount(() => {
-  const storedForm = openStorage('vegetationAdmin');
+  const storedForm = openStorage('vegetationPublic');
 
   if (storedForm) {
     // filters
     searchField.value = storedForm['searchField'] ?? '';
+    selectedGroup.value = storedForm['selectedGroup'] ?? null
+    selectedSpecie.value = storedForm['selectedSpecie'] ?? null;
 
     // paging & sorting
     currentPage.value = storedForm['currentPage'] ?? 1;
@@ -99,21 +133,31 @@ watch(searchField, () => {
   clearTimeout(searchFieldTimer.value);
 
   searchFieldTimer.value = setTimeout(() => {
-    storeInput('vegetationAdmin', 'searchField', searchField.value);
+    storeInput('vegetationPublic', 'searchField', searchField.value);
     search.value = String(Math.random());
   }, 300);
 });
 
 watch(sortBy, () => {
-  storeInput('vegetationAdmin', 'sortBy', sortBy.value);
+  storeInput('vegetationPublic', 'sortBy', sortBy.value);
 });
 
 watch(currentPage, () => {
-  storeInput('vegetationAdmin', 'currentPage', currentPage.value);
+  storeInput('vegetationPublic', 'currentPage', currentPage.value);
 });
 
 watch(itemsPerPage, () => {
-  storeInput('vegetationAdmin', 'itemsPerPage', itemsPerPage.value);
+  storeInput('vegetationPublic', 'itemsPerPage', itemsPerPage.value);
+});
+
+watch(selectedGroup, () => {
+  storeInput('vegetationPublic', 'selectedGroup', selectedGroup.value);
+  search.value = String(Math.random());
+});
+
+watch(selectedSpecie, () => {
+  storeInput('vegetationPublic', 'selectedSpecie', selectedSpecie.value);
+  search.value = String(Math.random());
 });
 
 onUpdated(() => {
@@ -128,12 +172,16 @@ function loadItems({page, itemsPerPage, sortBy}) {
   loading.value = true;
 
   let search = searchField.value;
+  let selectedGroupValue = selectedGroup.value;
+  let selectedSpecieValue = selectedSpecie.value;
 
   axios.post(route('public.vegetation.list'), {
     page,
     itemsPerPage,
     sortBy,
-    search
+    search,
+    selectedGroupValue,
+    selectedSpecieValue,
   }).then(response => {
     currentPage.value = page;
     serverItems.value = response.data.items;
@@ -146,6 +194,20 @@ function loadItems({page, itemsPerPage, sortBy}) {
 
 function rowClick(event, dataObj) {
   router.get(route('public.vegetation.show', dataObj.item.uuid));
+}
+
+function groupProps (item) {
+  return {
+    title: item.name,
+    subtitle: item.area.name
+  }
+}
+
+function speciesProps (item) {
+  return {
+    title: item.dutch_name,
+    subtitle: item.latin_name
+  }
 }
 
 </script>

@@ -6,6 +6,7 @@ use App\Models\Area;
 use App\Models\Group;
 use App\Models\Species;
 use App\Models\Vegetation;
+use App\Models\VegetationStatus;
 use Exception;
 use Illuminate\Console\Command;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -98,8 +99,11 @@ class ImportExcel extends Command
         try {
           $species = $this->findSpecies($rowData);
 
+          $status = $this->determineStatus($rowData);
+
           Vegetation::create([
             'specie_id' => $species->id,
+            'status_id' => $status,
             'group_id' => $this->currentGroupId,
             'location' => [
               'x' => $rowData['X'],
@@ -183,5 +187,26 @@ class ImportExcel extends Command
       'december' => 'december',
       default => $month,
     };
+  }
+
+  /**
+   * @param array $row
+   * @return int
+   */
+  private function determineStatus(array $row): int
+  {
+    $yearInNumbers = intval(preg_replace("/[^0-9]/", "", strtolower(trim($row['Plantjaar']))));
+
+    ray($yearInNumbers);
+
+    if ($yearInNumbers === 0) {
+      return VegetationStatus::TO_BO_PLANTED;
+    }
+
+    if ($yearInNumbers <= 2025) {
+      return VegetationStatus::PLANTED;
+    }
+
+    return VegetationStatus::TO_BO_PLANTED;
   }
 }

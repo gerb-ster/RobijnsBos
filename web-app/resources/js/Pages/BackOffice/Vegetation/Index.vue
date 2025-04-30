@@ -12,15 +12,50 @@
           :label="$t('form.search')"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-col>
-      <v-col cols="12" md="7">
+      <v-col cols="12" md="5">
+        <v-row>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="selectedStatus"
+              :label="$t('vegetation.fields.status')"
+              :items="status"
+              :item-title="item => $t('vegetationStatus.' + item.name)"
+              item-value="id"
+              clearable
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="selectedGroup"
+              :label="$t('vegetation.fields.area')"
+              :items="groups"
+              :item-props="groupProps"
+              item-value="id"
+              clearable
+            ></v-select>
+          </v-col>
+          <v-col cols="12" md="4">
+            <v-select
+              v-model="selectedSpecie"
+              :label="$t('species.fields.dutchName')"
+              :items="species"
+              :item-props="speciesProps"
+              item-value="id"
+              clearable
+            ></v-select>
+          </v-col>
+        </v-row>
+      </v-col>
+      <v-col cols="12" md="3">
         <v-checkbox
           v-model="showDeleted"
           :label="$t('vegetation.withTrashed')"
         ></v-checkbox>
       </v-col>
-      <v-col cols="12" md="2">
+      <v-col cols="12" md="1">
         <Link as="div" :href="$route('vegetation.create')">
           <v-btn
             icon="mdi-plus"
@@ -55,7 +90,7 @@
         {{ item.location.x }}, {{ item.location.y }}<span v-if="item.location.xa">, {{ item.location.xa }}, {{ item.location.ya }}</span>
       </template>
       <template v-slot:item.group.name="{ item }">
-        {{ item.group.area.name }} / {{ item.group.name }}
+        {{ item.group.area.name }}<br /><span class="text-medium-emphasis text-caption">{{ item.group.name }}</span>
       </template>
       <template v-slot:item.species.blossom_month="{ item }">
         <span v-for="(month, index) in item.species.blossom_month">
@@ -85,6 +120,11 @@ import FlashMessages from "../../../Shared/FlashMessages.vue";
 import {openStorage, storeInput} from "../../../Logic/Helpers";
 
 const {t} = useI18n({});
+const props = defineProps({
+  species: Array,
+  status: Array,
+  groups: Array
+});
 
 const headers = ref([
   {title: t('vegetation.fields.number'), align: 'start', key: 'number'},
@@ -107,6 +147,10 @@ const loading = ref(false);
 const totalItems = ref(0);
 const showDeleted = ref(false);
 
+const selectedGroup = ref(null);
+const selectedSpecie = ref(null);
+const selectedStatus = ref(null);
+
 const confirmDelete = ref(null);
 const confirmRestore = ref(null);
 
@@ -121,6 +165,9 @@ onBeforeMount(() => {
     // filters
     searchField.value = storedForm['searchField'] ?? '';
     showDeleted.value = storedForm['showDeleted'] ?? false;
+    selectedGroup.value = storedForm['selectedGroup'] ?? null
+    selectedSpecie.value = storedForm['selectedSpecie'] ?? null;
+    selectedStatus.value = storedForm['selectedStatus'] ?? null;
 
     // paging & sorting
     currentPage.value = storedForm['currentPage'] ?? 1;
@@ -155,6 +202,21 @@ watch(itemsPerPage, () => {
   storeInput('vegetationAdmin', 'itemsPerPage', itemsPerPage.value);
 });
 
+watch(selectedGroup, () => {
+  storeInput('vegetationAdmin', 'selectedGroup', selectedGroup.value);
+  search.value = String(Math.random());
+});
+
+watch(selectedSpecie, () => {
+  storeInput('vegetationAdmin', 'selectedSpecie', selectedSpecie.value);
+  search.value = String(Math.random());
+});
+
+watch(selectedStatus, () => {
+  storeInput('vegetationAdmin', 'selectedStatus', selectedStatus.value);
+  search.value = String(Math.random());
+});
+
 onUpdated(() => {
   search.value = String(Math.random());
 });
@@ -168,13 +230,19 @@ function loadItems({page, itemsPerPage, sortBy}) {
 
   let withTrashed = showDeleted.value;
   let search = searchField.value;
+  let selectedGroupValue = selectedGroup.value;
+  let selectedSpecieValue = selectedSpecie.value;
+  let selectedStatusValue = selectedStatus.value;
 
   axios.post(route('vegetation.list'), {
     page,
     itemsPerPage,
     sortBy,
     search,
-    withTrashed
+    withTrashed,
+    selectedGroupValue,
+    selectedSpecieValue,
+    selectedStatusValue
   }).then(response => {
     currentPage.value = page;
     serverItems.value = response.data.items;
@@ -220,6 +288,20 @@ function restoreItem(item) {
 function setRowProps(row) {
   if (row.item.deleted_at) {
     return {class: 'removedRow'};
+  }
+}
+
+function groupProps (item) {
+  return {
+    title: item.name,
+    subtitle: item.area.name
+  }
+}
+
+function speciesProps (item) {
+  return {
+    title: item.dutch_name,
+    subtitle: item.latin_name
   }
 }
 

@@ -49,7 +49,6 @@
                           <v-text-field
                             v-model="form.location.xa"
                             :label="$t('vegetation.fields.location.xa')"
-                            :rules="rules.required"
                             required
                             hide-details
                           ></v-text-field>
@@ -58,7 +57,6 @@
                           <v-text-field
                             v-model="form.location.ya"
                             :label="$t('vegetation.fields.location.ya')"
-                            :rules="rules.required"
                             required
                             hide-details
                           ></v-text-field>

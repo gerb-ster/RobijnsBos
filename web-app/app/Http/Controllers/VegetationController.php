@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommentStatus;
+use App\Models\Group;
 use App\Models\MutationStatus;
+use App\Models\Species;
 use App\Models\Vegetation;
+use App\Models\VegetationStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -28,7 +31,9 @@ class VegetationController extends Controller
     int     $page,
     int     $itemsPerPage,
     array   $sortBy,
-    ?string $search
+    ?string $search,
+    ?int    $selectedGroup,
+    ?int    $selectedSpecies
   ): array
   {
     $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
@@ -39,6 +44,14 @@ class VegetationController extends Controller
         $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
       }
     }
+
+    $queryBuilder->when($selectedGroup, function ($query, $selectedGroup) {
+      $query->where('group_id', $selectedGroup);
+    });
+
+    $queryBuilder->when($selectedSpecies, function ($query, $selectedSpecies) {
+      $query->where('specie_id', $selectedSpecies);
+    });
 
     if (!empty($search)) {
       $queryBuilder->when($search, function ($query, $search) {
@@ -139,7 +152,10 @@ class VegetationController extends Controller
   {
     $vegetation->load('species');
 
-    return Inertia::render('Public/Vegetation/Overview');
+    return Inertia::render('Public/Vegetation/Overview', [
+      'species' => Species::all(),
+      'groups' => Group::with('area')->get()
+    ]);
   }
 
   /**
@@ -154,9 +170,18 @@ class VegetationController extends Controller
     $itemsPerPage = $request->integer('itemsPerPage');
     $sortBy = $request->post('sortBy');
     $search = $request->post('search');
+    $selectedGroup = $request->post('selectedGroupValue');
+    $selectedSpecie = $request->post('selectedSpecieValue');
 
     return response()->json(
-      $this->listVegetation($page, $itemsPerPage, $sortBy, $search)
+      $this->listVegetation(
+        page: $page,
+        itemsPerPage: $itemsPerPage,
+        sortBy: $sortBy,
+        search: $search,
+        selectedGroup: $selectedGroup,
+        selectedSpecies: $selectedSpecie
+      )
     );
   }
 }
