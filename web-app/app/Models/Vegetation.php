@@ -94,7 +94,6 @@ class Vegetation extends Model
 
     static::creating(function (Vegetation $model) {
       $model->uuid = Str::uuid();
-      $model->status_id = VegetationStatus::TO_BO_PLANTED;
       $model->qr_shortcode = Str::random(6);
 
       // generate a number
@@ -108,6 +107,10 @@ class Vegetation extends Model
 
       if(is_null($model->created_by)) {
         $model->created_by = Auth::user()->id;
+      }
+
+      if(is_null($model->status_id)) {
+        $model->status_id = VegetationStatus::TO_BO_PLANTED;
       }
 
       $model->number = "P.{$counter}";

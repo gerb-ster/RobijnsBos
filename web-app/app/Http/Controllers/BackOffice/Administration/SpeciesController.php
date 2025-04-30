@@ -50,7 +50,10 @@ class SpeciesController extends Controller
     }
 
     if (!empty($search)) {
-      $queryBuilder->where('name', 'LIKE', "%$search%");
+      $queryBuilder->whereAny([
+        'dutch_name',
+        'latin_name'
+      ], 'LIKE', "%$search%");
     }
 
     // do a count

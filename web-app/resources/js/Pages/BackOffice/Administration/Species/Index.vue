@@ -12,6 +12,7 @@
           :label="$t('form.search')"
           single-line
           hide-details
+          clearable
         ></v-text-field>
       </v-col>
       <v-col cols="12" md="7">

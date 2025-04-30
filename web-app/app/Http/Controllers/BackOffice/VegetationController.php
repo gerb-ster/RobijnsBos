@@ -8,6 +8,7 @@ use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
 use App\Models\Group;
 use App\Models\Species;
 use App\Models\Vegetation;
+use App\Models\VegetationStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,10 @@ class VegetationController extends Controller
     int     $itemsPerPage,
     array   $sortBy,
     ?string $search,
-    bool    $withTrashed
+    bool    $withTrashed,
+    ?int    $selectedGroup,
+    ?int    $selectedSpecies,
+    ?int    $selectedStatus
   ): array
   {
     $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
@@ -43,6 +47,18 @@ class VegetationController extends Controller
     if ($withTrashed) {
       $queryBuilder->withTrashed();
     }
+
+    $queryBuilder->when($selectedGroup, function ($query, $selectedGroup) {
+      $query->where('group_id', $selectedGroup);
+    });
+
+    $queryBuilder->when($selectedSpecies, function ($query, $selectedSpecies) {
+      $query->where('specie_id', $selectedSpecies);
+    });
+
+    $queryBuilder->when($selectedStatus, function ($query, $selectedStatus) {
+      $query->where('status_id', $selectedStatus);
+    });
 
     if (!empty($sortBy)) {
       // these joins are only needed for sorting
@@ -92,7 +108,11 @@ class VegetationController extends Controller
    */
   public function index(): Response
   {
-    return inertia('BackOffice/Vegetation/Index');
+    return inertia('BackOffice/Vegetation/Index', [
+      'species' => Species::all(),
+      'status' => VegetationStatus::all(),
+      'groups' => Group::with('area')->get()
+    ]);
   }
 
   /**
@@ -108,9 +128,21 @@ class VegetationController extends Controller
     $itemsPerPage = $request->integer('itemsPerPage');
     $sortBy = $request->post('sortBy');
     $search = $request->post('search');
+    $selectedGroup = $request->post('selectedGroupValue');
+    $selectedSpecie = $request->post('selectedSpecieValue');
+    $selectedStatus = $request->post('selectedStatusValue');
 
     return response()->json(
-      $this->listVegetation($page, $itemsPerPage, $sortBy, $search, $withTrashed)
+      $this->listVegetation(
+        page: $page,
+        itemsPerPage: $itemsPerPage,
+        sortBy: $sortBy,
+        search: $search,
+        withTrashed: $withTrashed,
+        selectedGroup: $selectedGroup,
+        selectedSpecies: $selectedSpecie,
+        selectedStatus: $selectedStatus
+      )
     );
   }
 

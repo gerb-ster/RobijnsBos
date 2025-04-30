@@ -40,7 +40,6 @@
                   <v-text-field
                     v-model="form.location.xa"
                     :label="$t('vegetation.fields.location.xa')"
-                    :rules="rules.required"
                     required
                     hide-details
                   ></v-text-field>
@@ -49,7 +48,6 @@
                   <v-text-field
                     v-model="form.location.ya"
                     :label="$t('vegetation.fields.location.ya')"
-                    :rules="rules.required"
                     required
                     hide-details
                   ></v-text-field>
@@ -168,6 +166,8 @@ function speciesItemProps (item) {
 
 async function submit(event) {
   const results = await event;
+
+  console.log(results);
 
   if (results.valid) {
     form.post(route('vegetation.store'));
