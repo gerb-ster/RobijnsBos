@@ -52,23 +52,23 @@ class MapGenerator
     $vegetationLayer = $templateDoc->getElementById('Beplanting');
     $vegetationTextLayer = $templateDoc->getElementById('Benaming-Beplanting');
 
-    $allVegetation->each(function (Vegetation $vegetation) use ($templateDoc, $vegetationLayer, $vegetationTextLayer) {
+    $allVegetation->each(function (Vegetation $vegetation) use ($vegetationLayer, $vegetationTextLayer) {
       $calculatedLocation = $this->calculateLocation($vegetation->location);
 
       $vegetationLayer->addChild($this->createImageNode($calculatedLocation, $vegetation));
       $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation->species->dutch_name, 15, false));
     });
 
-    // write to file
-    if (!is_dir(storage_path(env('MAP_PATH')))) {
-      mkdir(storage_path(env('MAP_PATH')));
-    }
-
     // clean up XML
     $dom = new DOMDocument();
     $dom->preserveWhiteSpace = false;
     $dom->loadXML($this->mapFile->toXMLString());
     $dom->formatOutput = true;
+
+    // write to file
+    if (!is_dir(storage_path(env('MAP_PATH')))) {
+      mkdir(storage_path(env('MAP_PATH')));
+    }
 
     file_put_contents(storage_path(env('MAP_PATH').'full_map.svg'), $dom->saveXML());
   }
