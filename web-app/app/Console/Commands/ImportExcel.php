@@ -197,8 +197,6 @@ class ImportExcel extends Command
   {
     $yearInNumbers = intval(preg_replace("/[^0-9]/", "", strtolower(trim($row['Plantjaar']))));
 
-    ray($yearInNumbers);
-
     if ($yearInNumbers === 0) {
       return VegetationStatus::TO_BO_PLANTED;
     }
