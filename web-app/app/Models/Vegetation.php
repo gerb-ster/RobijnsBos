@@ -28,7 +28,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property Carbon|null $placed
  * @property Carbon|null $removed
  * @property string $remarks
- * @property string|null $location
+ * @property array $location
  * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

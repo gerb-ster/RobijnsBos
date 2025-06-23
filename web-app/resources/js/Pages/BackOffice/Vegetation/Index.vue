@@ -267,7 +267,7 @@ function deleteItem(item) {
     }
   ).then((confirm) => {
     if (confirm) {
-      router.delete(route('vegetation.destroy', {user: item}));
+      router.delete(route('vegetation.destroy', {vegetation: item.uuid}));
     }
   });
 }
