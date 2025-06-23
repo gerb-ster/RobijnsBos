@@ -80,13 +80,14 @@ class MapGenerator
    */
   private function calculateLocation(array $location): array
   {
-    $xOrigin = 2867;
-    $yOrigin = 5098;
-    $stepSize = 120;
+    $xOrigin = 2988;
+    $yOrigin = 5220;
+    $stepSizeW = 117.6;
+    $stepSizeH = 118.1;
 
     return [
-      'x' =>  $xOrigin + ((float) $location['x'] * $stepSize),
-      'y' =>  $yOrigin - ((float) $location['y'] * $stepSize),
+      'x' =>  $xOrigin + ((float) $location['x'] * $stepSizeW),
+      'y' =>  $yOrigin - ((float) $location['y'] * $stepSizeH),
     ];
   }
 
@@ -99,9 +100,9 @@ class MapGenerator
       case $treeAge <= 10:
         return 60.0;
       case $treeAge > 10 && $treeAge <= 20:
-        return 120.0;
+        return 90.0;
       case $treeAge > 20:
-        return 180.0;
+        return 120.0;
     }
   }
 
@@ -136,6 +137,7 @@ class MapGenerator
     $cordNode->setAttribute('y', $location['y'] + 12);
 
     $link->setAttribute('xlink:href', route('public.vegetation.redirect', ['shortCode' => $vegetation->qr_shortcode]));
+    $link->setAttribute('xlink:show',"new");
     $link->addChild($textNode);
     $link->addChild($cordNode);
 

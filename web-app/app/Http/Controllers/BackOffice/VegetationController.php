@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\BackOffice;
 
+use App\Events\VegetationDataChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
 use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
@@ -169,6 +170,8 @@ class VegetationController extends Controller
 
     Vegetation::create($validated);
 
+    VegetationDataChanged::dispatch();
+
     return redirect(route('vegetation.index'))
       ->with('success', 'vegetation.messages.created');
   }
@@ -202,6 +205,8 @@ class VegetationController extends Controller
     // update area
     $vegetation->update($validated);
 
+    VegetationDataChanged::dispatch();
+
     return redirect(route('vegetation.index'))
       ->with('success', 'vegetation.messages.updated');
   }
@@ -216,6 +221,8 @@ class VegetationController extends Controller
   {
     $vegetation->delete();
 
+    VegetationDataChanged::dispatch();
+
     return redirect(route('vegetation.index'))
       ->with('success', 'vegetation.messages.deleted');
   }
@@ -229,6 +236,8 @@ class VegetationController extends Controller
   public function restore(int $vegetationId): Redirector|RedirectResponse|Application
   {
     Vegetation::withTrashed()->find($vegetationId)->restore();
+
+    VegetationDataChanged::dispatch();
 
     return redirect(route('vegetation.index'))
       ->with('success', 'vegetation.messages.restored');

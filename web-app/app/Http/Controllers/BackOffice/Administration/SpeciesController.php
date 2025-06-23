@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\BackOffice\Administration;
 
+use App\Events\VegetationDataChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Administration\Species\CreateRequest;
 use App\Http\Requests\BackOffice\Administration\Species\UpdateRequest;
@@ -117,6 +118,8 @@ class SpeciesController extends Controller
 
     Species::create($validated);
 
+    VegetationDataChanged::dispatch();
+
     return redirect(route('species.index'))
       ->with('success', 'species.messages.created');
   }
@@ -146,6 +149,8 @@ class SpeciesController extends Controller
 
     // update area
     $species->update($validated);
+
+    VegetationDataChanged::dispatch();
 
     return redirect(route('species.index'))
       ->with('success', 'species.messages.updated');
