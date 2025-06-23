@@ -6,8 +6,9 @@ use App\Models\Vegetation;
 use App\Models\VegetationStatus;
 use Carbon\Carbon;
 use DOMDocument;
-use SVG\Nodes\Embedded\SVGImage;
 use SVG\Nodes\Structures\SVGDocumentFragment;
+use SVG\Nodes\Structures\SVGGroup;
+use SVG\Nodes\Structures\SVGLinkGroup;
 use SVG\Nodes\SVGNode;
 use SVG\Nodes\Texts\SVGText;
 use SVG\SVG;
@@ -56,7 +57,7 @@ class MapGenerator
       $calculatedLocation = $this->calculateLocation($vegetation->location);
 
       $vegetationLayer->addChild($this->createImageNode($calculatedLocation, $vegetation));
-      $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation->species->dutch_name, 15, false));
+      $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation));
     });
 
     // clean up XML
@@ -106,28 +107,41 @@ class MapGenerator
 
   /**
    * @param array $location
-   * @param string $text
-   * @param int $fontSize
-   * @param bool $bold
-   * @return SVGText
+   * @param Vegetation $vegetation
+   * @return SVGGroup
    */
-  private function createTextNode(array $location, string $text, int $fontSize, bool $bold): SVGText
+  private function createTextNode(array $location, Vegetation $vegetation): SVGGroup
   {
-    $textNode = new SVGText($text);
+    $group = new SVGGroup();
+    $link = new SVGLinkGroup();
 
-    $textNode->setAttribute('font-family', 'Roboto, Roboto-Regular');
-    $textNode->setAttribute('font-size', $fontSize);
+    $textNode = new SVGText($vegetation->species->dutch_name);
+
+    $textNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
+    $textNode->setAttribute('font-size', 16);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
 
     $textNode->setAttribute('x', $location['x']);
-    $textNode->setAttribute('y', $location['y']);
+    $textNode->setAttribute('y', $location['y'] - 8);
 
-    if($bold) {
-      $textNode->setAttribute(' font-weight', 'bold');
-    }
+    $cordNode = new SVGText($vegetation->location['x'] . ", " . $vegetation->location['y']);
 
-    return $textNode;
+    $textNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
+    $cordNode->setAttribute('font-size', 18);
+    $cordNode->setAttribute('dominant-baseline', 'middle');
+    $cordNode->setAttribute('text-anchor', 'middle');
+
+    $cordNode->setAttribute('x', $location['x']);
+    $cordNode->setAttribute('y', $location['y'] + 12);
+
+    $link->setAttribute('xlink:href', route('public.vegetation.redirect', ['shortCode' => $vegetation->qr_shortcode]));
+    $link->addChild($textNode);
+    $link->addChild($cordNode);
+
+    $group->addChild($link);
+
+    return $group;
   }
 
   /**
