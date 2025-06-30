@@ -92,7 +92,8 @@
     "readonly": "Alleen-lezen",
     "validation": {
       "required": "Dit is een verplicht veld",
-      "email": "Dit veld moet een correct email adres bevatten"
+      "email": "Dit veld moet een correct email adres bevatten",
+      "onlyFloats": "Dit veld mag alleen getallen met een punt bevatten"
     },
     "okBtn": "OK"
   },

@@ -22,18 +22,14 @@
                   <v-text-field
                     v-model="form.location.x"
                     :label="$t('vegetation.fields.location.x')"
-                    :rules="rules.required"
-                    required
-                    hide-details
+                    :rules="[rules.required, rules.float]"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                   <v-text-field
                     v-model="form.location.y"
                     :label="$t('vegetation.fields.location.y')"
-                    :rules="rules.required"
-                    required
-                    hide-details
+                    :rules="[rules.required, rules.float]"
                   ></v-text-field>
                 </v-col>
               </v-row>
@@ -42,13 +38,13 @@
           <v-text-field
             v-model="form.label"
             :label="$t('vegetation.fields.label')"
-            :rules="rules.required"
+            :rules="[rules.required]"
           ></v-text-field>
           <v-select
             v-model="form.group_id"
             :label="$t('vegetation.fields.area')"
             :items="groups"
-            :rules="rules.required"
+            :rules="[rules.required]"
             :item-props="areaItemProps"
             item-value="id"
           ></v-select>
@@ -56,23 +52,21 @@
             v-model="form.specie_id"
             :label="$t('vegetation.fields.species')"
             :items="species"
-            :rules="rules.required"
+            :rules="[rules.required]"
             :item-props="speciesItemProps"
             item-value="id"
           ></v-select>
           <v-text-field
             v-model="form.placed"
             :label="$t('vegetation.fields.placed')"
-            :rules="rules.required"
-            required
+            :rules="[rules.required]"
           ></v-text-field>
         </v-col>
         <v-col cols="12" md="4">
           <v-text-field
             v-model="form.amount"
             :label="$t('vegetation.fields.amount')"
-            :rules="rules.required"
-            required
+            :rules="[rules.required]"
             type="number"
           ></v-text-field>
           <v-textarea
@@ -129,10 +123,13 @@ const form = useForm({
 });
 
 const rules = {
-  required: [
-    value => required(value) || t('form.validation.required')
-  ]
+  required: value => !!value || t('form.validation.required'),
+  float: value => {
+    const pattern = /^[-+]?[0-9]+(?:\.[0-9]+)?(?:[eE][-+][0-9]+)?$/;
+    return pattern.test(value) || t('form.validation.onlyFloats')
+  },
 }
+
 
 function areaItemProps (item) {
   return {
