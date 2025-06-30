@@ -83,7 +83,11 @@
                     :label="$t('vegetation.fields.remarks')"
                   ></v-textarea>
                 </v-col>
-                <v-col cols="12" md="2">
+                <v-col cols="12" md="4">
+                  <v-img
+                    class="border border-error mb-3"
+                    :src="$route('vegetation.showBoard', {vegetation: vegetation.uuid})"
+                  ></v-img>
                   <v-btn
                     color="primary"
                     rounded="xl"
@@ -91,7 +95,7 @@
                     block
                     elevation="0"
                     class="mb-3"
-                    :href="$route('vegetation.board', {vegetation: vegetation.uuid})"
+                    :href="$route('vegetation.downloadBoard', {vegetation: vegetation.uuid})"
                     target="_blank"
                     prepend-icon="mdi-download-circle-outline"
                   >{{ $t('vegetation.downloadBoardBtn') }}</v-btn>

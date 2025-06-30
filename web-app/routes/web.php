@@ -61,8 +61,10 @@ Route::group(['middleware' => ['auth']], function () {
       ->name('vegetation.list');
     Route::get('/back-office/vegetation/restore/{id}', [VegetationController::class, 'restore'])
       ->name('vegetation.restore');
-    Route::get('/back-office/vegetation/{vegetation}/board', [VegetationController::class, 'board'])
-      ->name('vegetation.board');
+    Route::get('/back-office/vegetation/{vegetation}/board.svg', [VegetationController::class, 'showBoard'])
+      ->name('vegetation.showBoard');
+    Route::get('/back-office/vegetation/{vegetation}/board-download', [VegetationController::class, 'downloadBoard'])
+      ->name('vegetation.downloadBoard');
 
     // Comments
     Route::resource('/back-office/vegetation/{vegetation}/comments', CommentsController::class)
