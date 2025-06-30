@@ -87,7 +87,7 @@
         {{ $t('vegetationStatus.'+item.status.name) }}
       </template>
       <template v-slot:item.location="{ item }">
-        {{ item.location.x }}, {{ item.location.y }}<span v-if="item.location.xa">, {{ item.location.xa }}, {{ item.location.ya }}</span>
+        {{ item.location.x }}, {{ item.location.y }}
       </template>
       <template v-slot:item.group.name="{ item }">
         {{ item.group.area.name }}<br /><span class="text-medium-emphasis text-caption">{{ item.group.name }}</span>

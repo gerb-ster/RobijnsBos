@@ -7,14 +7,13 @@ use App\Models\Group;
 use App\Models\MutationStatus;
 use App\Models\Species;
 use App\Models\Vegetation;
-use App\Models\VegetationStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Inertia\Inertia;
 use Inertia\Response;
-use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class VegetationController extends Controller
@@ -24,7 +23,8 @@ class VegetationController extends Controller
    * @param int $itemsPerPage
    * @param array $sortBy
    * @param string|null $search
-   * @param bool $withTrashed
+   * @param int|null $selectedGroup
+   * @param int|null $selectedSpecies
    * @return array
    */
   private function listVegetation(

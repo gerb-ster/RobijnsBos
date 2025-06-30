@@ -33,44 +33,47 @@ class BoardGenerator
     $svgTemplate = SVG::fromFile(resource_path("images/board-template.svg"));
     $templateDoc = $svgTemplate->getDocument();
 
+    $qrLayer = $templateDoc->getElementById('qrLayer');
+    $textLayer = $templateDoc->getElementById('textLayer');
+
     // add latin name
     $latinName = $this->createTextNode(
       style: 'italic',
       text: $this->vegetation->species->latin_name,
-      fontSize: 24,
-      yValue: 42,
+      fontSize: 40,
+      yValue: 75,
       bold: false
     );
-    $templateDoc->addChild($latinName);
+    $textLayer->addChild($latinName);
 
     // add regular name
     $regularName = $this->createTextNode(
       style: 'regular',
       text: $this->vegetation->species->dutch_name,
-      fontSize: 24,
-      yValue: 70,
+      fontSize: 40,
+      yValue: 122,
       bold: true
     );
-    $templateDoc->addChild($regularName);
+    $textLayer->addChild($regularName);
 
     // add location and year
     $yearLocation = $this->createTextNode(
       style: 'regular',
       text: "{$this->vegetation->placed} @ {$this->vegetation->location['x']},{$this->vegetation->location['y']}",
-      fontSize: 18,
-      yValue: 90,
+      fontSize: 34,
+      yValue: 165,
       bold: false
     );
-    $templateDoc->addChild($yearLocation);
+    $textLayer->addChild($yearLocation);
 
     // add QR Code
     $svgQRCode = SVG::fromFile(public_path(env('QR_CODES_PATH').$this->vegetation->uuid.'.svg'));
     $svgQRCodeDoc = $svgQRCode->getDocument();
-    $svgQRCodeDoc->setAttribute('x', 340);
-    $svgQRCodeDoc->setAttribute('y', 181);
-    $svgQRCodeDoc->setHeight(62);
-    $svgQRCodeDoc->setWidth(62);
-    $templateDoc->addChild($svgQRCodeDoc);
+    $svgQRCodeDoc->setAttribute('x', 520);
+    $svgQRCodeDoc->setAttribute('y', 200);
+    $svgQRCodeDoc->setHeight(110);
+    $svgQRCodeDoc->setWidth(110);
+    $qrLayer->addChild($svgQRCodeDoc);
 
     if (!is_dir(storage_path(env('BOARDS_PATH')))) {
       mkdir(storage_path(env('BOARDS_PATH')));
@@ -90,7 +93,7 @@ class BoardGenerator
   private function createTextNode(string $style, string $text, int $fontSize, int $yValue, bool $bold): SVGText
   {
     $textNode = new SVGText($text);
-    $textNode->setAttribute('font-family', 'Roboto, Roboto-Regular');
+    $textNode->setAttribute('font-family', 'Roboto, Roboto-Regular, ArialMT, Arial, sans-serif');
     $textNode->setAttribute('font-style', $style);
     $textNode->setAttribute('font-size', $fontSize);
     $textNode->setAttribute('dominant-baseline', 'middle');

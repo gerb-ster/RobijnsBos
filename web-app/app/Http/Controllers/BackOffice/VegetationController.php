@@ -10,6 +10,7 @@ use App\Models\Group;
 use App\Models\Species;
 use App\Models\Vegetation;
 use App\Models\VegetationStatus;
+use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -17,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class VegetationController
@@ -30,6 +32,9 @@ class VegetationController extends Controller
    * @param array $sortBy
    * @param string|null $search
    * @param bool $withTrashed
+   * @param int|null $selectedGroup
+   * @param int|null $selectedSpecies
+   * @param int|null $selectedStatus
    * @return array
    */
   private function listVegetation(
@@ -247,11 +252,30 @@ class VegetationController extends Controller
    * @param Vegetation $vegetation
    * @return BinaryFileResponse
    */
-  public function board(Vegetation $vegetation): BinaryFileResponse
+  public function downloadBoard(Vegetation $vegetation): BinaryFileResponse
   {
     return response()->download(
       storage_path("app/boards/{$vegetation->uuid}.svg"),
       $vegetation->uuid . '.svg'
     );
+  }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return StreamedResponse
+   */
+  public function showBoard(Vegetation $vegetation): StreamedResponse
+  {
+    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
+      $boardGenerator = new BoardGenerator($vegetation);
+      $boardGenerator->render();
+    }
+
+    $svgContent = file_get_contents(storage_path("app/boards/{$vegetation->uuid}.svg"));
+
+    return response()
+      ->stream(function () use ($svgContent) {
+        echo $svgContent;
+      }, 200, ['Content-Type' => 'image/svg+xml']);
   }
 }

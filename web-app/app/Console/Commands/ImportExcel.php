@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Area;
 use App\Models\Group;
 use App\Models\Species;
+use App\Models\SpeciesType;
 use App\Models\Vegetation;
 use App\Models\VegetationStatus;
 use Exception;
@@ -78,7 +79,7 @@ class ImportExcel extends Command
             $color = $cell->getAppliedStyle()->getFill()->getStartColor()->getRGB();
             $fontSize = $cell->getAppliedStyle()->getFont()->getSize();
 
-            if ($color === '93C47D') {
+            if ($color === '93C47D' || $color === '93C47E') {
               $this->handleGroupLine($cell->getValue());
               continue;
             }
@@ -107,9 +108,7 @@ class ImportExcel extends Command
             'group_id' => $this->currentGroupId,
             'location' => [
               'x' => $rowData['X'],
-              'y' => $rowData['Y'],
-              'xa' => $rowData["X'"],
-              'ya' => $rowData["Y'"],
+              'y' => $rowData['Y']
             ],
             'label' => $species->dutch_name . "-" . $rowData['X'] . "-" . $rowData['Y'],
             'amount' => 1,
@@ -156,13 +155,19 @@ class ImportExcel extends Command
       $value = $this->translateMonth(strtolower(trim($value)));
     });
 
+    if (empty($row['Type'])) {
+      ray($row);
+    }
+
+    $typeId = SpeciesType::firstOrCreate(['name' => $row['Type']], ['name' => $row['Type']]);
+
     return Species::updateOrCreate([
       'dutch_name' => $row['Nederlandse naam']
     ], [
       'latin_name' => $row['Latijnse naam'],
       'blossom_month' => $blossomMonth,
       'height' => $row['Hoogte'],
-      'type_id' => 4
+      'type_id' => $typeId->id
     ]);
   }
 
