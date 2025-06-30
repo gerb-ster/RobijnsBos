@@ -27,7 +27,7 @@
                     <v-card-title>{{ $t('vegetation.fields.location.name') }}</v-card-title>
                     <v-card-text>
                       <v-row>
-                        <v-col cols="12" md="3">
+                        <v-col cols="12" md="6">
                           <v-text-field
                             v-model="form.location.x"
                             :label="$t('vegetation.fields.location.x')"
@@ -36,27 +36,11 @@
                             hide-details
                           ></v-text-field>
                         </v-col>
-                        <v-col cols="12" md="3">
+                        <v-col cols="12" md="6">
                           <v-text-field
                             v-model="form.location.y"
                             :label="$t('vegetation.fields.location.y')"
                             :rules="rules.required"
-                            required
-                            hide-details
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="3">
-                          <v-text-field
-                            v-model="form.location.xa"
-                            :label="$t('vegetation.fields.location.xa')"
-                            required
-                            hide-details
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12" md="3">
-                          <v-text-field
-                            v-model="form.location.ya"
-                            :label="$t('vegetation.fields.location.ya')"
                             required
                             hide-details
                           ></v-text-field>

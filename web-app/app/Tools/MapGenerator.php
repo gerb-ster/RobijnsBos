@@ -2,6 +2,7 @@
 
 namespace App\Tools;
 
+use App\Models\SpeciesType;
 use App\Models\Vegetation;
 use App\Models\VegetationStatus;
 use Carbon\Carbon;
@@ -17,7 +18,7 @@ class MapGenerator
 {
   private SVG $mapFile;
 
-  private SVGDocumentFragment $mapAssets;
+  private array $mapAssets;
 
   /**
    *
@@ -36,8 +37,10 @@ class MapGenerator
     SVG::addFont(resource_path('/fonts/Roboto-Italic.ttf'));
     SVG::addFont(resource_path('/fonts/Roboto-Regular.ttf'));
 
-    $assetsFile = SVG::fromFile(resource_path("images/map_assets.svg"));
-    $this->mapAssets = $assetsFile->getDocument();
+    SpeciesType::all()->each(function (SpeciesType $speciesType) {
+      $assetFile = SVG::fromFile(resource_path("images/assets/{$speciesType->name}.svg"));
+      $this->mapAssets[$speciesType->name] = $assetFile->getDocument();
+    });
 
     $this->mapFile = SVG::fromFile(resource_path("images/empty_map.svg"));
   }
@@ -91,18 +94,17 @@ class MapGenerator
     ];
   }
 
-  private function calculateTreeSize(string $placed): float
+  private function calculateTreeSize(Vegetation $vegetation): float
   {
-    $year = (int) preg_replace("/[^0-9]/", "", $placed );
+    $year = (int) preg_replace("/[^0-9]/", "", $vegetation->placed);
     $treeAge = Carbon::now()->year - $year;
+    $maxTreeHeight = (int) preg_replace("/[^0-9.]/", "", $vegetation->species->height);
+    $maxTreeSize = ($maxTreeHeight / 2) * 20;
 
-    switch ($treeAge) {
-      case $treeAge <= 10:
-        return 60.0;
-      case $treeAge > 10 && $treeAge <= 20:
-        return 90.0;
-      case $treeAge > 20:
-        return 120.0;
+    if ($treeAge <= 10) {
+      return $maxTreeSize * ($treeAge / 10);
+    } else {
+      return $maxTreeSize;
     }
   }
 
@@ -155,14 +157,18 @@ class MapGenerator
   {
     $speciesType = $vegetation->species->type->name;
 
-    $assetNode = clone $this->mapAssets->getElementById($speciesType);
+    $assetNode = clone $this->mapAssets[$speciesType];
+    $vegetationSize = 120;
 
-    $assetNode->setAttribute('cx', $calculatedLocation['x']);
-    $assetNode->setAttribute('cy', $calculatedLocation['y']);
-
-    if (in_array($speciesType, ['kroon_boom', 'fruit_boom'])) {
-      $assetNode->setAttribute('r', $this->calculateTreeSize($vegetation->placed));
+    if (in_array($speciesType, ['Kroonboom', 'Fruitboom'])) {
+      $vegetationSize = $this->calculateTreeSize($vegetation);
     }
+
+    $assetNode->setAttribute('width', $vegetationSize);
+    $assetNode->setAttribute('height', $vegetationSize);
+
+    $assetNode->setAttribute('x', $calculatedLocation['x'] - $vegetationSize / 2);
+    $assetNode->setAttribute('y', $calculatedLocation['y'] - $vegetationSize / 2);
 
     return $assetNode;
   }

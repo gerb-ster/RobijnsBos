@@ -30,6 +30,9 @@ class VegetationController extends Controller
    * @param array $sortBy
    * @param string|null $search
    * @param bool $withTrashed
+   * @param int|null $selectedGroup
+   * @param int|null $selectedSpecies
+   * @param int|null $selectedStatus
    * @return array
    */
   private function listVegetation(
