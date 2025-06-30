@@ -224,4 +224,18 @@ class Vegetation extends Model
 
     file_put_contents(public_path(env('QR_CODES_PATH').$this->uuid.'.svg'), $data);
   }
+
+  /**
+   * @return string
+   */
+  public function getQRCodeFilePath(): string
+  {
+    $filePath = public_path(env('QR_CODES_PATH').$this->uuid.'.svg');
+
+    if(!file_exists($filePath)) {
+      $this->generateQRCodeFile();
+    }
+
+    return $filePath;
+  }
 }

@@ -67,7 +67,7 @@ class BoardGenerator
     $textLayer->addChild($yearLocation);
 
     // add QR Code
-    $svgQRCode = SVG::fromFile(public_path(env('QR_CODES_PATH').$this->vegetation->uuid.'.svg'));
+    $svgQRCode = SVG::fromFile($this->vegetation->getQRCodeFilePath());
     $svgQRCodeDoc = $svgQRCode->getDocument();
     $svgQRCodeDoc->setAttribute('x', 520);
     $svgQRCodeDoc->setAttribute('y', 200);
