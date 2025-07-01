@@ -6,6 +6,7 @@ use App\Models\CommentStatus;
 use App\Models\Group;
 use App\Models\MutationStatus;
 use App\Models\Species;
+use App\Models\SpeciesType;
 use App\Models\Vegetation;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -127,9 +128,9 @@ class VegetationController extends Controller
    */
   public function map(Vegetation $vegetation): Response
   {
-    $vegetation->load('species');
-
-    return Inertia::render('Public/Vegetation/Map');
+    return Inertia::render('Public/Vegetation/Map', [
+      'speciesTypes' => SpeciesType::all()
+    ]);
   }
 
   /**
