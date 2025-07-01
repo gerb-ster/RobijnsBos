@@ -96,11 +96,15 @@ watch(raster, () => {
 });
 
 watch(coords, () => {
-  mapRef.value.getElementById('Coordinaten').classList.toggle('hide');
+  mapRef.value.querySelectorAll('.coordinates').forEach((item) => {
+    item.classList.toggle('hide');
+  });
 });
 
 watch(names, () => {
-  mapRef.value.getElementById('Nederlandse-namen').classList.toggle('hide');
+  mapRef.value.querySelectorAll('.speciesName').forEach((item) => {
+    item.classList.toggle('hide');
+  });
 });
 
 </script>

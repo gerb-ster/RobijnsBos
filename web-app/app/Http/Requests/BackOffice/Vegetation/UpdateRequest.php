@@ -23,6 +23,7 @@ class UpdateRequest extends FormRequest
       'placed' => 'required|string|min:1|max:32',
       'amount' => 'required|numeric|min:0',
       'remarks' => 'nullable|string|min:1|max:1024',
+      'show_text_on_map' => 'nullable|boolean',
     ];
   }
 
