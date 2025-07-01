@@ -29,6 +29,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property Carbon|null $removed
  * @property string $remarks
  * @property array $location
+ * @property boolean $show_text_on_map
  * @property int $created_by
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
@@ -61,7 +62,8 @@ class Vegetation extends Model
 		'group_id' => 'int',
 		'specie_id' => 'int',
 		'amount' => 'int',
-		'created_by' => 'int'
+		'created_by' => 'int',
+    'show_text_on_map' => 'bool',
 	];
 
   /**
@@ -80,7 +82,8 @@ class Vegetation extends Model
 		'placed',
     'removed',
 		'remarks',
-		'created_by'
+		'created_by',
+    'show_text_on_map'
 	];
 
   /**

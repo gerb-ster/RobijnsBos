@@ -102,7 +102,7 @@ class SpeciesController extends Controller
   public function create(): Response
   {
     return inertia('BackOffice/Administration/Species/Create', [
-      'types' => SpeciesType::all()
+      'speciesTypes' => SpeciesType::all()->toArray()
     ]);
   }
 

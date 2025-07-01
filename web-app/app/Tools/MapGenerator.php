@@ -7,7 +7,6 @@ use App\Models\Vegetation;
 use App\Models\VegetationStatus;
 use Carbon\Carbon;
 use DOMDocument;
-use SVG\Nodes\Structures\SVGDocumentFragment;
 use SVG\Nodes\Structures\SVGGroup;
 use SVG\Nodes\Structures\SVGLinkGroup;
 use SVG\Nodes\SVGNode;
@@ -60,7 +59,10 @@ class MapGenerator
       $calculatedLocation = $this->calculateLocation($vegetation->location);
 
       $vegetationLayer->addChild($this->createImageNode($calculatedLocation, $vegetation));
-      $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation));
+
+      if ($vegetation->show_text_on_map) {
+        $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation));
+      }
     });
 
     // clean up XML
@@ -94,17 +96,42 @@ class MapGenerator
     ];
   }
 
+  /**
+   * @param Vegetation $vegetation
+   * @return float
+   */
   private function calculateTreeSize(Vegetation $vegetation): float
   {
     $year = (int) preg_replace("/[^0-9]/", "", $vegetation->placed);
     $treeAge = Carbon::now()->year - $year;
     $maxTreeHeight = (int) preg_replace("/[^0-9.]/", "", $vegetation->species->height);
-    $maxTreeSize = ($maxTreeHeight / 2) * 20;
 
-    if ($treeAge <= 10) {
-      return $maxTreeSize * ($treeAge / 10);
-    } else {
-      return $maxTreeSize;
+    $sizeConstant = 30;
+
+    switch ($vegetation->species->type->name) {
+      case 'Kroonboom':
+        $maxTreeSize = ($maxTreeHeight / 2) * $sizeConstant;
+        if ($treeAge <= 20) {
+          return $maxTreeSize * ($treeAge / 20);
+        }
+        return $maxTreeSize;
+
+      case "Fruitboom":
+        $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
+        if ($treeAge <= 10) {
+          return $maxTreeSize * ($treeAge / 10);
+        }
+        return $maxTreeSize;
+
+      case "Struik":
+        $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
+        if ($treeAge <= 5) {
+          return $maxTreeSize * ($treeAge / 5);
+        }
+        return $maxTreeSize;
+
+      default:
+        return 3 * $sizeConstant;
     }
   }
 
@@ -124,22 +151,25 @@ class MapGenerator
     $textNode->setAttribute('font-size', 16);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
+    $textNode->setAttribute('class', "speciesName");
 
     $textNode->setAttribute('x', $location['x']);
     $textNode->setAttribute('y', $location['y'] - 8);
 
     $cordNode = new SVGText($vegetation->location['x'] . ", " . $vegetation->location['y']);
 
-    $textNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
+    $cordNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
     $cordNode->setAttribute('font-size', 18);
     $cordNode->setAttribute('dominant-baseline', 'middle');
     $cordNode->setAttribute('text-anchor', 'middle');
+    $cordNode->setAttribute('class', "coordinates");
 
     $cordNode->setAttribute('x', $location['x']);
     $cordNode->setAttribute('y', $location['y'] + 12);
 
     $link->setAttribute('xlink:href', route('public.vegetation.redirect', ['shortCode' => $vegetation->qr_shortcode]));
     $link->setAttribute('xlink:show',"new");
+
     $link->addChild($textNode);
     $link->addChild($cordNode);
 
@@ -158,11 +188,7 @@ class MapGenerator
     $speciesType = $vegetation->species->type->name;
 
     $assetNode = clone $this->mapAssets[$speciesType];
-    $vegetationSize = 120;
-
-    if (in_array($speciesType, ['Kroonboom', 'Fruitboom'])) {
-      $vegetationSize = $this->calculateTreeSize($vegetation);
-    }
+    $vegetationSize = $this->calculateTreeSize($vegetation);
 
     $assetNode->setAttribute('width', $vegetationSize);
     $assetNode->setAttribute('height', $vegetationSize);

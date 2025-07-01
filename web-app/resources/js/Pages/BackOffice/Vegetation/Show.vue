@@ -70,6 +70,13 @@
                     :label="$t('vegetation.fields.placed')"
                     :rules="[rules.required]"
                   ></v-text-field>
+                  <v-switch
+                    v-model="form.show_text_on_map"
+                    :label="$t('vegetation.fields.showTextOnMap')"
+                    color="indigo-darken-3"
+                    hide-details
+                    class="ms-2"
+                  ></v-switch>
                 </v-col>
                 <v-col cols="12" md="4">
                   <v-text-field

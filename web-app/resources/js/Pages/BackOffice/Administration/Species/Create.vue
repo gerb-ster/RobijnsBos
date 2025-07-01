@@ -13,7 +13,7 @@
           <v-select
             v-model="form.type_id"
             :label="$t('species.fields.type')"
-            :items="types"
+            :items="speciesTypes"
             :rules="rules.required"
             :item-title="item => item.name"
             item-value="id"
@@ -80,7 +80,7 @@ import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
 
-const props = defineProps('types');
+const props = defineProps(['speciesTypes']);
 
 const {t} = useI18n({});
 

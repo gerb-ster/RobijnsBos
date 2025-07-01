@@ -238,7 +238,8 @@
       "status": "Status",
       "placed": "Plantjaar",
       "amount": "Aantal",
-      "remarks": "Opmerkingen"
+      "remarks": "Opmerkingen",
+      "showTextOnMap": "Toon naam & coördinaten op de kaart"
     },
     "tabs": {
       "data": "Algemene gegevens",
