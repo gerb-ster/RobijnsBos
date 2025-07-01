@@ -53,16 +53,20 @@ class MapGenerator
     $templateDoc = $this->mapFile->getDocument();
 
     $vegetationLayer = $templateDoc->getElementById('Beplanting');
-    $vegetationTextLayer = $templateDoc->getElementById('Benaming-Beplanting');
 
-    $allVegetation->each(function (Vegetation $vegetation) use ($vegetationLayer, $vegetationTextLayer) {
+    $allVegetation->each(function (Vegetation $vegetation) use ($vegetationLayer) {
+      $group = new SVGGroup();
+      $group->setAttribute('class', "{$vegetation->species->type->name}");
+
       $calculatedLocation = $this->calculateLocation($vegetation->location);
 
-      $vegetationLayer->addChild($this->createImageNode($calculatedLocation, $vegetation));
+      $group->addChild($this->createImageNode($calculatedLocation, $vegetation));
 
       if ($vegetation->show_text_on_map) {
-        $vegetationTextLayer->addChild($this->createTextNode($calculatedLocation, $vegetation));
+        $group->addChild($this->createTextNode($calculatedLocation, $vegetation));
       }
+
+      $vegetationLayer->addChild($group);
     });
 
     // clean up XML
@@ -148,7 +152,7 @@ class MapGenerator
     $textNode = new SVGText($vegetation->species->dutch_name);
 
     $textNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
-    $textNode->setAttribute('font-size', 16);
+    $textNode->setAttribute('font-size', 20);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
     $textNode->setAttribute('class', "speciesName");
@@ -159,7 +163,7 @@ class MapGenerator
     $cordNode = new SVGText($vegetation->location['x'] . ", " . $vegetation->location['y']);
 
     $cordNode->setAttribute('font-family', 'ArialMT, Arial, sans-serif');
-    $cordNode->setAttribute('font-size', 18);
+    $cordNode->setAttribute('font-size', 22);
     $cordNode->setAttribute('dominant-baseline', 'middle');
     $cordNode->setAttribute('text-anchor', 'middle');
     $cordNode->setAttribute('class', "coordinates");
