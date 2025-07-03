@@ -116,21 +116,21 @@ class MapGenerator
       case 'Kroonboom':
         $maxTreeSize = ($maxTreeHeight / 2) * $sizeConstant;
         if ($treeAge <= 20) {
-          return $maxTreeSize * ($treeAge / 20);
+          return $maxTreeSize * (($treeAge + 2) / 18);
         }
         return $maxTreeSize;
 
       case "Fruitboom":
         $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
         if ($treeAge <= 10) {
-          return $maxTreeSize * ($treeAge / 10);
+          return $maxTreeSize * (($treeAge + 2) / 8);
         }
         return $maxTreeSize;
 
       case "Struik":
         $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
         if ($treeAge <= 5) {
-          return $maxTreeSize * ($treeAge / 5);
+          return $maxTreeSize * (($treeAge + 2) / 3);
         }
         return $maxTreeSize;
 
