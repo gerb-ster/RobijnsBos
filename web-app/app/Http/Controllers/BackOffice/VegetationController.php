@@ -191,8 +191,8 @@ class VegetationController extends Controller
 
     return inertia('BackOffice/Vegetation/Show', [
       'vegetation' => $vegetation,
-      'groups' => Group::with('area')->get(),
-      'species' => Species::all()
+      'groups' => Group::with('area')->orderBy('name')->get(),
+      'species' => Species::orderBy('dutch_name', 'asc')->get()
     ]);
   }
 

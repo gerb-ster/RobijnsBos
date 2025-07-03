@@ -49,22 +49,22 @@
                     :label="$t('vegetation.fields.label')"
                     :rules="[rules.required]"
                   ></v-text-field>
-                  <v-select
+                  <v-autocomplete
                     v-model="form.group_id"
                     :label="$t('vegetation.fields.area')"
                     :items="groups"
                     :rules="[rules.required]"
                     :item-props="areaItemProps"
                     item-value="id"
-                  ></v-select>
-                  <v-select
+                  ></v-autocomplete>
+                  <v-autocomplete
                     v-model="form.specie_id"
                     :label="$t('vegetation.fields.species')"
                     :items="species"
                     :rules="[rules.required]"
                     :item-props="speciesItemProps"
                     item-value="id"
-                  ></v-select>
+                  ></v-autocomplete>
                   <v-text-field
                     v-model="form.placed"
                     :label="$t('vegetation.fields.placed')"
