@@ -70,6 +70,14 @@
           ></v-switch>
         </v-col>
         <v-col cols="12" md="4">
+          <v-select
+            v-model="form.status_id"
+            :label="$t('vegetation.fields.status')"
+            :items="status"
+            :item-title="item => $t('vegetationStatus.'+item.name)"
+            :rules="[rules.required]"
+            item-value="id"
+          ></v-select>
           <v-text-field
             v-model="form.amount"
             :label="$t('vegetation.fields.amount')"
@@ -115,7 +123,7 @@ import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
 
-const props = defineProps(['groups', 'species']);
+const props = defineProps(['groups', 'species', 'status']);
 
 const {t} = useI18n({});
 
@@ -124,6 +132,7 @@ const form = useForm({
   label: null,
   group_id: null,
   specie_id: null,
+  status_id: null,
   placed: null,
   amount: 1,
   remarks: null,

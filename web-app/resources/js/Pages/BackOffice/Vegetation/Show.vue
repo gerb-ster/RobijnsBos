@@ -79,6 +79,14 @@
                   ></v-switch>
                 </v-col>
                 <v-col cols="12" md="4">
+                  <v-select
+                    v-model="form.status_id"
+                    :label="$t('vegetation.fields.status')"
+                    :items="status"
+                    :item-title="item => $t('vegetationStatus.'+item.name)"
+                    :rules="[rules.required]"
+                    item-value="id"
+                  ></v-select>
                   <v-text-field
                     v-model="form.amount"
                     :label="$t('vegetation.fields.amount')"
@@ -165,7 +173,7 @@ import {ref, computed} from "vue";
 import MutationsList from "../../../Components/BackOffice/Vegetation/MutationsList.vue";
 import CommentsList from "../../../Components/BackOffice/Vegetation/CommentsList.vue";
 
-const props = defineProps(['vegetation', 'groups', 'species']);
+const props = defineProps(['vegetation', 'groups', 'species', 'status']);
 
 const {t} = useI18n({});
 
