@@ -159,7 +159,8 @@ class VegetationController extends Controller
   {
     return inertia('BackOffice/Vegetation/Create',[
       'groups' => Group::with('area')->get(),
-      'species' => Species::all()
+      'species' => Species::all(),
+      'status' => VegetationStatus::all(),
     ]);
   }
 
@@ -192,7 +193,8 @@ class VegetationController extends Controller
     return inertia('BackOffice/Vegetation/Show', [
       'vegetation' => $vegetation,
       'groups' => Group::with('area')->orderBy('name')->get(),
-      'species' => Species::orderBy('dutch_name', 'asc')->get()
+      'species' => Species::orderBy('dutch_name', 'asc')->get(),
+      'status' => VegetationStatus::all(),
     ]);
   }
 
