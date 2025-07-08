@@ -181,7 +181,7 @@ class Vegetation extends Model
    */
 	public function species(): BelongsTo
   {
-		return $this->belongsTo(Species::class, 'specie_id');
+		return $this->belongsTo(Species::class, 'specie_id')->withTrashed();
 	}
 
   /**
