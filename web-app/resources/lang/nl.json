@@ -205,7 +205,8 @@
       "latinFamily": "Latijnse familie",
       "blossomMonth": "Bloeimaand",
       "height": "Hoogte",
-      "type": "Soort"
+      "type": "Soort",
+      "vegetationCount": "Aantal keer geplant"
     },
     "messages": {
       "created": "Soort beplanting succesvol toegevoegd",

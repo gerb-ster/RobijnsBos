@@ -85,6 +85,7 @@ const headers = ref([
   {title: t('species.fields.latinFamily'), align: 'start', key: 'latin_family.name'},
   {title: t('species.fields.blossomMonth'), align: 'start', key: 'blossom_month'},
   {title: t('species.fields.height'), align: 'start', key: 'height'},
+  {title: t('species.fields.vegetationCount'), align: 'start', key: 'vegetation_count'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 
