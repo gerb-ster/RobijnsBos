@@ -7,7 +7,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
 use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
 use App\Models\Group;
+use App\Models\Role;
 use App\Models\Species;
+use App\Models\SpeciesType;
 use App\Models\Vegetation;
 use App\Models\VegetationStatus;
 use App\Tools\BoardGenerator;
@@ -48,7 +50,15 @@ class VegetationController extends Controller
     ?int    $selectedStatus
   ): array
   {
-    $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
+    $queryBuilder = Vegetation::with(
+      'status',
+      'species',
+      'group',
+      'group.area',
+      'comments',
+      'mutations',
+      'species.type'
+    );
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -69,7 +79,50 @@ class VegetationController extends Controller
     if (!empty($sortBy)) {
       // these joins are only needed for sorting
       foreach ($sortBy as $sortByRule) {
-        $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        switch ($sortByRule['key']) {
+          case 'status.name':
+            $queryBuilder
+              ->orderBy(
+                VegetationStatus::select('name')
+                  ->whereColumn('vegetation_status.id', 'vegetations.status_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.dutch_name':
+            $queryBuilder
+              ->orderBy(
+                Species::select('dutch_name')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.latin_name':
+            $queryBuilder
+              ->orderBy(
+                Species::select('latin_name')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.blossom_month':
+            $queryBuilder
+              ->orderBy(
+                Species::select('blossom_month')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'group.name':
+            $queryBuilder
+              ->orderBy(
+                Group::select('name')
+                  ->whereColumn('groups.id', 'vegetations.group_id')
+                , $sortByRule['order']
+              );
+            break;
+          default:
+            $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        }
       }
     }
 

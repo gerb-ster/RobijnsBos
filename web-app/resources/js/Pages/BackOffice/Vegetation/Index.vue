@@ -135,6 +135,7 @@ const headers = ref([
   {title: t('species.fields.dutchName'), align: 'start', key: 'species.dutch_name'},
   {title: t('species.fields.latinName'), align: 'start', key: 'species.latin_name'},
   {title: t('vegetation.fields.placed'), align: 'start', key: 'placed'},
+  {title: t('species.fields.type'), align: 'start', key: 'species.type.name', sortable: false},
   {title: t('species.fields.blossomMonth'), align: 'start', key: 'species.blossom_month'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);

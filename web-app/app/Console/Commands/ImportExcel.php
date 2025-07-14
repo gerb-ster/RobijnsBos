@@ -161,10 +161,14 @@ class ImportExcel extends Command
 
     $typeId = SpeciesType::firstOrCreate(['name' => $row['Type']], ['name' => $row['Type']]);
 
+    if (empty($row['Latijnse naam'])) {
+      ray($row);
+    }
+
     return Species::updateOrCreate([
-      'dutch_name' => $row['Nederlandse naam']
+      'latin_name' => $row['Latijnse naam']
     ], [
-      'latin_name' => $row['Latijnse naam'],
+      'dutch_name' => $row['Nederlandse naam'],
       'blossom_month' => $blossomMonth,
       'height' => $row['Hoogte'],
       'type_id' => $typeId->id

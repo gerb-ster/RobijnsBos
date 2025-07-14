@@ -47,7 +47,18 @@ class UserController extends Controller
     if (!empty($sortBy)) {
       // these joins are only needed for sorting
       foreach ($sortBy as $sortByRule) {
-        $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        switch ($sortByRule['key']) {
+          case 'role.name':
+            $queryBuilder
+              ->orderBy(
+                Role::select('name')
+                  ->whereColumn('roles.id', 'users.role_id')
+                , $sortByRule['order']
+              );
+            break;
+          default:
+            $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        }
       }
     }
 

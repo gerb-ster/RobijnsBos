@@ -37,7 +37,15 @@ class VegetationController extends Controller
     ?int    $selectedSpecies
   ): array
   {
-    $queryBuilder = Vegetation::with('status', 'species', 'group', 'group.area', 'comments', 'mutations');
+    $queryBuilder = Vegetation::with(
+      'status',
+      'species',
+      'group',
+      'group.area',
+      'comments',
+      'mutations',
+      'species.type'
+    );
 
     if (!empty($sortBy)) {
       // these joins are only needed for sorting

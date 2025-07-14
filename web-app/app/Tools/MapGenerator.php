@@ -41,6 +41,9 @@ class MapGenerator
       $this->mapAssets[$speciesType->name] = $assetFile->getDocument();
     });
 
+    // load 'dead image'
+    $this->mapAssets["Dood"] = SVG::fromFile(resource_path("images/assets/Dood.svg"))->getDocument();
+
     $this->mapFile = SVG::fromFile(resource_path("images/empty_map.svg"));
   }
 
@@ -49,7 +52,11 @@ class MapGenerator
    */
   public function render(): void
   {
-    $allVegetation = Vegetation::where('status_id', VegetationStatus::PLANTED)->get();
+    $allVegetation = Vegetation::whereIn('status_id', [
+      VegetationStatus::PLANTED,
+      VegetationStatus::REMOVED
+    ])->get();
+
     $templateDoc = $this->mapFile->getDocument();
 
     $vegetationLayer = $templateDoc->getElementById('Beplanting');
@@ -190,6 +197,10 @@ class MapGenerator
   private function createImageNode(array $calculatedLocation, Vegetation $vegetation): SVGNode
   {
     $speciesType = $vegetation->species->type->name;
+
+    if ($vegetation->status_id === VegetationStatus::REMOVED) {
+      $speciesType = "Dood";
+    }
 
     $assetNode = clone $this->mapAssets[$speciesType];
     $vegetationSize = $this->calculateTreeSize($vegetation);

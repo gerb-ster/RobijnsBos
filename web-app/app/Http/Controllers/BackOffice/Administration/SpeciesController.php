@@ -6,6 +6,8 @@ use App\Events\VegetationDataChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Administration\Species\CreateRequest;
 use App\Http\Requests\BackOffice\Administration\Species\UpdateRequest;
+use App\Models\LatinFamily;
+use App\Models\Role;
 use App\Models\Species;
 use App\Models\SpeciesType;
 use Illuminate\Contracts\Foundation\Application;
@@ -46,7 +48,26 @@ class SpeciesController extends Controller
     if (!empty($sortBy)) {
       // these joins are only needed for sorting
       foreach ($sortBy as $sortByRule) {
-        $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        switch ($sortByRule['key']) {
+          case 'type.name':
+            $queryBuilder
+              ->orderBy(
+                SpeciesType::select('name')
+                  ->whereColumn('species_types.id', 'species.type_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'latin_family.name':
+            $queryBuilder
+              ->orderBy(
+                LatinFamily::select('name')
+                  ->whereColumn('latin_families.id', 'species.latin_family_id')
+                , $sortByRule['order']
+              );
+            break;
+          default:
+            $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        }
       }
     }
 
