@@ -77,9 +77,10 @@
           v-if="mapData"
           :style="{'width': '100%', 'height': pageHeight}"
           :zoomEnabled="true"
-          :controlIconsEnabled="false"
+          :controlIconsEnabled="true"
           :fit="false"
           :center="true"
+          @created="registerSvgPanZoom"
         >
           <svg width="100%" :height="pageHeight" v-html="mapData" ref="mapRef"></svg>
         </svg-pan-zoom>
@@ -115,7 +116,7 @@ const drawer = ref(true)
 const rail = ref(true)
 
 const pageHeight = computed(() => {
-  return height.value - 69;
+  return height.value - 65;
 });
 
 onBeforeMount(() => {
@@ -128,6 +129,14 @@ onBeforeMount(() => {
 
 function registerSvgPanZoom(objectRef) {
   svgPanZoomRef.value = objectRef;
+}
+
+function zoomInHandler(e) {
+  console.log(e);
+}
+
+function onTapItem(e) {
+  console.log(e);
 }
 
 watch(raster, () => {
