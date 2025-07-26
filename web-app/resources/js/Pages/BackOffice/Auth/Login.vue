@@ -10,6 +10,7 @@
           elevation="0"
           max-width="448"
         >
+          <flash-messages/>
           <div class="text-subtitle-1 text-medium-emphasis">
             Account
           </div>
@@ -58,6 +59,7 @@ import {ref} from "vue";
 import {required} from "@vee-validate/rules";
 import LoginLayout from "../../../Shared/LoginLayout.vue";
 import {useI18n} from "vue-i18n";
+import FlashMessages from "../../../Shared/FlashMessages.vue";
 
 const {t} = useI18n({});
 
