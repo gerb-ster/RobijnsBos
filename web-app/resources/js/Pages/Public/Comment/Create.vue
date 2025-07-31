@@ -53,13 +53,21 @@ import {useForm, Head, Link} from '@inertiajs/vue3';
 import {required, email} from '@vee-validate/rules';
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
+import { computed } from 'vue'
+import { usePage } from '@inertiajs/vue3'
 
-const props = defineProps(['vegetation']);
+const page = usePage()
+
+const user = computed(() => page.props.auth.user);
+
+const props = defineProps({
+  vegetation: Object
+});
 
 const {t} = useI18n({});
 
 const form = useForm({
-  name: null,
+  name: (user.value ? user.value.name : null),
   remarks: null
 });
 

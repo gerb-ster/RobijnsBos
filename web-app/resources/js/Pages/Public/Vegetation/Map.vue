@@ -65,7 +65,7 @@
               v-for="type in speciesTypes"
               hide-details
               v-model="selectedSpecies"
-              :label="type.name"
+              :label="$t('specieTypes.'+type.name)"
               density="compact"
               :value="type.name"
             ></v-checkbox>

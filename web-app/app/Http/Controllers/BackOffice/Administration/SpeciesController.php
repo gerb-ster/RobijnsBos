@@ -10,12 +10,16 @@ use App\Models\LatinFamily;
 use App\Models\Role;
 use App\Models\Species;
 use App\Models\SpeciesType;
+use App\Models\Vegetation;
+use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Str;
 use Inertia\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class SpeciesController
@@ -123,7 +127,7 @@ class SpeciesController extends Controller
   public function create(): Response
   {
     return inertia('BackOffice/Administration/Species/Create', [
-      'speciesTypes' => SpeciesType::all()->toArray()
+      'speciesTypes' => SpeciesType::orderBy('order')->get()
     ]);
   }
 
@@ -153,7 +157,7 @@ class SpeciesController extends Controller
   {
     return inertia('BackOffice/Administration/Species/Show', [
       'species' => $species,
-      'types' => SpeciesType::all()
+      'types' => SpeciesType::orderBy('order')->get()
     ]);
   }
 
@@ -203,5 +207,34 @@ class SpeciesController extends Controller
 
     return redirect(route('species.index'))
       ->with('success', 'species.messages.restored');
+  }
+
+  /**
+   * @param Species $species
+   * @return StreamedResponse
+   */
+  public function showBoard(Species $species): StreamedResponse
+  {
+    $vegetation = new Vegetation();
+    $vegetation->uuid = Str::uuid();
+    $vegetation->species = $species;
+    $vegetation->location = ['x' => 10, 'y' => 10];
+    $vegetation->placed = "1999";
+    $vegetation->qr_shortcode = 'tester';
+
+    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
+      $boardGenerator = new BoardGenerator($vegetation);
+      $boardGenerator->render();
+    }
+
+    $svgPath = storage_path("app/boards/{$vegetation->uuid}.svg");
+
+    $svgContent = file_get_contents($svgPath);
+    unlink($svgPath);
+
+    return response()
+      ->stream(function () use ($svgContent) {
+        echo $svgContent;
+      }, 200, ['Content-Type' => 'image/svg+xml']);
   }
 }

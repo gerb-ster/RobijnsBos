@@ -19,7 +19,7 @@ class AuthenticatedSessionController extends Controller
    */
   public function create(): Response
   {
-    return Inertia::render('BackOffice/Auth/Login');
+    return Inertia::render('Public/Auth/Login');
   }
 
   /**
@@ -33,7 +33,7 @@ class AuthenticatedSessionController extends Controller
     $request->session()->regenerate();
 
     if(Auth::user()->role_id === Role::VOLUNTEER) {
-      return redirect()->intended(route('homePage.index'));
+      return redirect()->intended(route('public.vegetation.map'));
     }
 
     return redirect()->intended(route('vegetation.index'));
@@ -49,6 +49,6 @@ class AuthenticatedSessionController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect(route('homePage.index'));
+    return redirect(route('public.vegetation.map'));
   }
 }

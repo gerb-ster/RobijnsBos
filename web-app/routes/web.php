@@ -11,20 +11,18 @@ use App\Http\Controllers\BackOffice\VegetationController;
 use App\Http\Controllers\VegetationController as PublicVegetationController;
 use App\Http\Controllers\MutationController as PublicMutationController;
 use App\Http\Controllers\CommentController as PublicCommentController;
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])
-  ->name('homePage.index');
+Route::get('/', [PublicVegetationController::class, 'map'])
+  ->name('public.vegetation.map');
+Route::get('/map/image', [PublicVegetationController::class, 'mapImage'])
+  ->name('public.vegetation.map.image');
 
 Route::get('/v/{shortCode}', [PublicVegetationController::class, 'redirect'])
   ->name('public.vegetation.redirect');
 Route::get('/vegetation/overview', [PublicVegetationController::class, 'overview'])
   ->name('public.vegetation.overview');
-Route::get('/vegetation/map', [PublicVegetationController::class, 'map'])
-  ->name('public.vegetation.map');
-Route::get('/vegetation/map/image', [PublicVegetationController::class, 'mapImage'])
-  ->name('public.vegetation.map.image');
+
 Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
   ->name('public.vegetation.list');
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
@@ -40,6 +38,7 @@ Route::group(['middleware' => ['guest']], function () {
     ->name('login');
   Route::post('/account/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login.store');
+
 });
 
 // BackOffice
@@ -103,6 +102,8 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('species.list');
       Route::get('/back-office/admin/species/restore/{id}', [SpeciesController::class, 'restore'])
         ->name('species.restore');
+      Route::get('/back-office/admin/species/{species}/board.svg', [SpeciesController::class, 'showBoard'])
+        ->name('species.showBoard');
 
       // Area
       Route::resource('/back-office/admin/areas', AreaController::class);

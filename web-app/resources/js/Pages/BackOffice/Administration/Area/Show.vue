@@ -43,8 +43,6 @@
     </v-form>
   </v-container>
 </template>
-
-
 <script setup>
 
 import {useForm, Head, Link} from '@inertiajs/vue3';
@@ -68,7 +66,7 @@ async function submit(event) {
   const results = await event;
 
   if (results.valid) {
-    form.put(route('groups.update', props.group.id));
+    form.put(route('areas.update', props.area.id));
   }
 }
 

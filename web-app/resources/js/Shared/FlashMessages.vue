@@ -1,6 +1,6 @@
 <template>
   <v-alert
-    v-if="$page.props.flash.success && showAlert"
+    v-if="$page.props.flash.success"
     closable
     type="success"
     :title="$t('flashMessages.successTitle')"
@@ -8,8 +8,7 @@
     class="mb-4"
   ></v-alert>
   <v-alert
-    :value="showAlert"
-    v-if="$page.props.flash.warning && showAlert"
+    v-if="$page.props.flash.warning"
     closable
     type="warning"
     :title="$t('flashMessages.warningTitle')"
@@ -17,8 +16,7 @@
     class="mb-4"
   ></v-alert>
   <v-alert
-    :value="showAlert"
-    v-if="($page.props.flash.error || Object.keys($page.props.errors).length > 0) && showAlert"
+    v-if="($page.props.flash.error || Object.keys($page.props.errors).length > 0)"
     closable
     type="error"
     :title="$t('flashMessages.errorTitle')"
@@ -29,10 +27,6 @@
 
 <script setup>
 
-import {onBeforeMount, onMounted, ref} from "vue";
-
-const showAlert = ref(true);
-
 function formatErrors(errorObj) {
   console.log(errorObj);
 
@@ -42,11 +36,5 @@ function formatErrors(errorObj) {
   });
   return ret;
 }
-
-onMounted(() => {
-  setTimeout(()=>{
-    showAlert.value = false;
-  },3000)
-});
 
 </script>

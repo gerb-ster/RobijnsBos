@@ -26,8 +26,7 @@ import nlLang from '../lang/nl.json';
 
 // Custom theming
 import '../sass/variables.scss';
-import BackOfficeLayout from "./Shared/BackOfficeLayout.vue";
-import PublicLayout from "./Shared/PublicLayout.vue";
+import Layout from "./Shared/Layout.vue";
 
 const i18n = createI18n({
   locale: 'nl',
@@ -72,11 +71,7 @@ createInertiaApp({
     const pages = import.meta.glob('./Pages/**/*.vue', {eager: true});
     let page = pages[`./Pages/${name}.vue`];
 
-    if(name.startsWith('BackOffice')) {
-      page.default.layout = page.default.layout || BackOfficeLayout
-    } else {
-      page.default.layout = page.default.layout || PublicLayout
-    }
+    page.default.layout = page.default.layout || Layout;
 
     return page
   },

@@ -31,7 +31,7 @@ const title = ref(null);
 const options = ref({
   color: 'primary',
   width: 480,
-  zIndex: 200
+  zIndex: 9999
 });
 
 function open(myTitle, myMessage, myOptions) {

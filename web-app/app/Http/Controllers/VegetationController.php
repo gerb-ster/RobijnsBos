@@ -33,8 +33,7 @@ class VegetationController extends Controller
     int     $itemsPerPage,
     array   $sortBy,
     ?string $search,
-    ?int    $selectedGroup,
-    ?int    $selectedSpecies
+    ?int    $selectedGroup
   ): array
   {
     $queryBuilder = Vegetation::with(
@@ -56,10 +55,6 @@ class VegetationController extends Controller
 
     $queryBuilder->when($selectedGroup, function ($query, $selectedGroup) {
       $query->where('group_id', $selectedGroup);
-    });
-
-    $queryBuilder->when($selectedSpecies, function ($query, $selectedSpecies) {
-      $query->where('specie_id', $selectedSpecies);
     });
 
     if (!empty($search)) {
@@ -162,7 +157,6 @@ class VegetationController extends Controller
     $vegetation->load('species');
 
     return Inertia::render('Public/Vegetation/Overview', [
-      'species' => Species::all(),
       'groups' => Group::with('area')->get()
     ]);
   }
@@ -180,7 +174,6 @@ class VegetationController extends Controller
     $sortBy = $request->post('sortBy');
     $search = $request->post('search');
     $selectedGroup = $request->post('selectedGroupValue');
-    $selectedSpecie = $request->post('selectedSpecieValue');
 
     return response()->json(
       $this->listVegetation(
@@ -188,8 +181,7 @@ class VegetationController extends Controller
         itemsPerPage: $itemsPerPage,
         sortBy: $sortBy,
         search: $search,
-        selectedGroup: $selectedGroup,
-        selectedSpecies: $selectedSpecie
+        selectedGroup: $selectedGroup
       )
     );
   }

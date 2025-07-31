@@ -44,11 +44,6 @@
                       </v-row>
                     </v-card-text>
                   </v-card>
-                  <v-text-field
-                    v-model="form.label"
-                    :label="$t('vegetation.fields.label')"
-                    :rules="[rules.required]"
-                  ></v-text-field>
                   <v-autocomplete
                     v-model="form.group_id"
                     :label="$t('vegetation.fields.area')"
@@ -190,15 +185,15 @@ const rules = {
 
 function areaItemProps (item) {
   return {
-    title: item.name,
-    subtitle: item.area.name,
+    title: item.name ?? "removed",
+    subtitle: item.area?.name ?? "removed",
   }
 }
 
 function speciesItemProps (item) {
   return {
-    title: item.dutch_name,
-    subtitle: item.latin_name,
+    title: item?.dutch_name ?? "removed",
+    subtitle: item?.latin_name ?? "removed",
   }
 }
 
