@@ -21,6 +21,11 @@
             :label="$t('users.fields.email')"
             :rules="rules.required.concat(rules.email)"
           ></v-text-field>
+          <v-text-field
+            v-model="form.password"
+            :label="$t('users.fields.password')"
+            type="password"
+          ></v-text-field>
           <v-select
             v-model="form.role_id"
             :label="$t('users.fields.role')"
@@ -69,6 +74,7 @@ const props = defineProps(['user', 'roles']);
 
 const {t} = useI18n({});
 
+props.user.password = null;
 const form = useForm(props.user);
 
 const rules = {

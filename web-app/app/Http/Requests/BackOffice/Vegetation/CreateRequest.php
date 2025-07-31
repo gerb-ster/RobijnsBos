@@ -16,7 +16,6 @@ class CreateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'label' => 'nullable|string|min:1|max:256',
       'location' => 'required|array',
       'group_id' => 'required|exists:groups,id',
       'specie_id' => 'required|exists:species,id',

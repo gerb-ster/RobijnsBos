@@ -1,17 +1,18 @@
 {
+  "appTitleBar": "Robijnsbos Digital Twin",
   "appName": "RobijnsBos Digital Twin - {page}",
   "public": {
-    "homepage": {
-      "title": "Welkom"
-    },
-    "navigation": {
-      "home": "Home",
-      "overview": "Overview",
-      "map": "Kaart",
-      "login": "Inloggen",
-      "backOffice": "BackOffice",
-      "signOut": "Uitloggen"
-    },
+
+
+
+
+
+
+
+
+
+
+
     "vegetation": {
       "overview": {
         "title": "Overzicht beplanting"
@@ -51,11 +52,16 @@
     "userIsAdministrator": "U bent beheerder"
   },
   "navigation": {
-    "vegetationLink": "Beplanting",
-    "speciesLink": "Soorten beplanting",
-    "areaLink": "Gebieden & groepen",
-    "userLink": "Gebruikers",
-    "signOutLink": "Uitloggen",
+    "home": "Home",
+    "overview": "Beplantingslijst",
+    "map": "Kaart",
+    "login": "Inloggen",
+    "backOffice": "BackOffice",
+    "signOut": "Uitloggen",
+    "vegetation": "Beplantingslijst",
+    "species": "Soorten beplanting",
+    "areaGroup": "Gebieden & groepen",
+    "users": "Gebruikers",
     "confirmSignOutTitle": "Weet u het zeker?",
     "confirmSignOutText": "Weet u zeker dat u uit wilt loggen?"
   },
@@ -129,6 +135,17 @@
     "october": "Oktober",
     "november": "November",
     "december": "December"
+  },
+  "specieTypes": {
+    "crown_imperial": "Kroonboom",
+    "bush": "Struik",
+    "herb": "Kruid",
+    "fruit_tree": "(Fruit) Boom",
+    "climbing_plant": "Klimplant",
+    "water_plant": "Waterplant",
+    "perennial": "Vaste plant",
+    "ground_cover": "Bodembedekker",
+    "mycelium": "Mycelium"
   },
   "dashboard": {
     "title": "Dashboard"
@@ -205,7 +222,7 @@
       "latinFamily": "Latijnse familie",
       "blossomMonth": "Bloeimaand",
       "height": "Hoogte",
-      "type": "Soort",
+      "type": "Type",
       "vegetationCount": "Aantal keer geplant"
     },
     "messages": {

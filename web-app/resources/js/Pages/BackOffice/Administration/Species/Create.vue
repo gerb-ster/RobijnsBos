@@ -15,7 +15,7 @@
             :label="$t('species.fields.type')"
             :items="speciesTypes"
             :rules="rules.required"
-            :item-title="item => item.name"
+            :item-title="item => $t('specieTypes.'+item.name)"
             item-value="id"
           ></v-select>
           <v-text-field

@@ -15,7 +15,7 @@
             :label="$t('species.fields.type')"
             :items="types"
             :rules="rules.required"
-            :item-title="item => item.name"
+            :item-title="item => $t('specieTypes.'+item.name)"
             item-value="id"
           ></v-select>
           <v-text-field
@@ -45,6 +45,12 @@
             :rules="rules.required"
             required
           ></v-text-field>
+        </v-col>
+        <v-col cols="12" md="4">
+          <v-img
+            class="border border-error mb-3"
+            :src="$route('species.showBoard', {species: species.uuid})"
+          ></v-img>
         </v-col>
       </v-row>
       <v-row>

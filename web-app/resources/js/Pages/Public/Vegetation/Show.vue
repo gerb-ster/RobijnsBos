@@ -3,7 +3,7 @@
   <v-container fluid>
     <v-row>
       <v-col cols="12" md="4">
-        <h2>Profiel {{ vegetation.label }}</h2>
+        <h2>{{ vegetation.label }}</h2>
         <v-list lines="two">
           <v-list-item>
             <v-list-item-title><h3>{{ vegetation.location['x'] }}, {{ vegetation.location['y'] }}</h3></v-list-item-title>
@@ -26,7 +26,7 @@
             <v-list-item-subtitle>{{ $t('species.fields.latinName') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.species.type.name }}</h3></v-list-item-title>
+            <v-list-item-title><h3>{{ $t('specieTypes.'+vegetation.species.type.name) }}</h3></v-list-item-title>
             <v-list-item-subtitle>{{ $t('species.fields.type') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>

@@ -26,17 +26,6 @@
               clearable
             ></v-select>
           </v-col>
-          <v-col cols="12" md="4">
-            <v-select
-              v-model="selectedSpecie"
-              :label="$t('species.fields.dutchName')"
-              :items="species"
-              :item-props="speciesProps"
-              item-value="id"
-              density="comfortable"
-              clearable
-            ></v-select>
-          </v-col>
         </v-row>
       </v-col>
     </v-row>
@@ -84,7 +73,6 @@ import {openStorage, storeInput} from "../../../Logic/Helpers";
 const {t} = useI18n({});
 
 const props = defineProps({
-  species: Array,
   status: Array,
   groups: Array
 });
@@ -107,20 +95,17 @@ const loading = ref(false);
 const totalItems = ref(0);
 
 const selectedGroup = ref(null);
-const selectedSpecie = ref(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(25);
 const sortBy = ref([]);
 
 onBeforeMount(() => {
-  const storedForm = openStorage('vegetationPublic');
+  const storedForm = openStorage('vegetationListPublic');
 
   if (storedForm) {
     // filters
-    searchField.value = storedForm['searchField'] ?? '';
     selectedGroup.value = storedForm['selectedGroup'] ?? null
-    selectedSpecie.value = storedForm['selectedSpecie'] ?? null;
 
     // paging & sorting
     currentPage.value = storedForm['currentPage'] ?? 1;
@@ -133,30 +118,24 @@ watch(searchField, () => {
   clearTimeout(searchFieldTimer.value);
 
   searchFieldTimer.value = setTimeout(() => {
-    storeInput('vegetationPublic', 'searchField', searchField.value);
     search.value = String(Math.random());
   }, 300);
 });
 
 watch(sortBy, () => {
-  storeInput('vegetationPublic', 'sortBy', sortBy.value);
+  storeInput('vegetationListPublic', 'sortBy', sortBy.value);
 });
 
 watch(currentPage, () => {
-  storeInput('vegetationPublic', 'currentPage', currentPage.value);
+  storeInput('vegetationListPublic', 'currentPage', currentPage.value);
 });
 
 watch(itemsPerPage, () => {
-  storeInput('vegetationPublic', 'itemsPerPage', itemsPerPage.value);
+  storeInput('vegetationListPublic', 'itemsPerPage', itemsPerPage.value);
 });
 
 watch(selectedGroup, () => {
-  storeInput('vegetationPublic', 'selectedGroup', selectedGroup.value);
-  search.value = String(Math.random());
-});
-
-watch(selectedSpecie, () => {
-  storeInput('vegetationPublic', 'selectedSpecie', selectedSpecie.value);
+  storeInput('vegetationListPublic', 'selectedGroup', selectedGroup.value);
   search.value = String(Math.random());
 });
 
@@ -173,15 +152,13 @@ function loadItems({page, itemsPerPage, sortBy}) {
 
   let search = searchField.value;
   let selectedGroupValue = selectedGroup.value;
-  let selectedSpecieValue = selectedSpecie.value;
 
   axios.post(route('public.vegetation.list'), {
     page,
     itemsPerPage,
     sortBy,
     search,
-    selectedGroupValue,
-    selectedSpecieValue,
+    selectedGroupValue
   }).then(response => {
     currentPage.value = page;
     serverItems.value = response.data.items;
@@ -198,15 +175,8 @@ function rowClick(event, dataObj) {
 
 function groupProps (item) {
   return {
-    title: item.name,
-    subtitle: item.area.name
-  }
-}
-
-function speciesProps (item) {
-  return {
-    title: item.dutch_name,
-    subtitle: item.latin_name
+    title: item.name ?? "removed",
+    subtitle: item.area?.name ?? "removed"
   }
 }
 

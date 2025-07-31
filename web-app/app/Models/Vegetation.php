@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Tools\BoardGenerator;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -75,7 +76,6 @@ class Vegetation extends Model
     'qr_shortcode',
     'location',
 		'status_id',
-    'label',
 		'group_id',
 		'specie_id',
 		'amount',
@@ -85,6 +85,13 @@ class Vegetation extends Model
 		'created_by',
     'show_text_on_map'
 	];
+
+  /**
+   * @var string[]
+   */
+  protected $appends = [
+    'label'
+  ];
 
   /**
    * The "booting" method of the model.
@@ -240,5 +247,15 @@ class Vegetation extends Model
     }
 
     return $filePath;
+  }
+
+  /**
+   * @return Attribute
+   */
+  public function label(): Attribute
+  {
+    return new Attribute(
+      get: fn() => $this->species->dutch_name. " @ " . $this->location['x'] . ", " . $this->location['y'],
+    );
   }
 }

@@ -35,11 +35,6 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-text-field
-            v-model="form.label"
-            :label="$t('vegetation.fields.label')"
-            :rules="[rules.required]"
-          ></v-text-field>
           <v-select
             v-model="form.group_id"
             :label="$t('vegetation.fields.area')"
@@ -78,12 +73,6 @@
             :rules="[rules.required]"
             item-value="id"
           ></v-select>
-          <v-text-field
-            v-model="form.amount"
-            :label="$t('vegetation.fields.amount')"
-            :rules="[rules.required]"
-            type="number"
-          ></v-text-field>
           <v-textarea
             v-model="form.remarks"
             :label="$t('vegetation.fields.remarks')"
@@ -129,7 +118,6 @@ const {t} = useI18n({});
 
 const form = useForm({
   location: {x : null, y: null},
-  label: null,
   group_id: null,
   specie_id: null,
   status_id: null,
@@ -147,18 +135,17 @@ const rules = {
   },
 }
 
-
 function areaItemProps (item) {
   return {
-    title: item.name,
-    subtitle: item.area.name,
+    title: item.name ?? "removed",
+    subtitle: item.area?.name ?? "removed",
   }
 }
 
 function speciesItemProps (item) {
   return {
-    title: item.dutch_name,
-    subtitle: item.latin_name,
+    title: item?.dutch_name ?? "removed",
+    subtitle: item?.latin_name ?? "removed",
   }
 }
 

@@ -110,6 +110,14 @@ class VegetationController extends Controller
                 , $sortByRule['order']
               );
             break;
+          case 'species.height':
+            $queryBuilder
+              ->orderBy(
+                Species::select('height')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
           case 'group.name':
             $queryBuilder
               ->orderBy(

@@ -119,7 +119,7 @@ class UserController extends Controller
   /**
    * Store a newly created resource in storage.
    *
-   * @param UpdateRequest $request
+   * @param CreateRequest $request
    * @return Redirector|Application|RedirectResponse
    */
   public function store(CreateRequest $request): Redirector|Application|RedirectResponse
@@ -155,6 +155,10 @@ class UserController extends Controller
   public function update(UpdateRequest $request, User $user): Redirector|RedirectResponse|Application
   {
     $validated = $request->validated();
+
+    if(array_key_exists('password', $validated) && !empty($validated['password'])) {
+      $validated['password'] = Hash::make($validated['password']);
+    }
 
     // update user
     $user->update($validated);
