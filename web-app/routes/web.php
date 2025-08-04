@@ -34,11 +34,19 @@ Route::post('/vegetation/{vegetation}/comment/store', [PublicCommentController::
   ->name('public.vegetation.comment.store');
 
 Route::group(['middleware' => ['guest']], function () {
-  Route::get('/account/login', [AuthenticatedSessionController::class, 'create'])
+  Route::inertia('/account/login', 'Public/Auth/Login')
     ->name('login');
   Route::post('/account/login', [AuthenticatedSessionController::class, 'store'])
     ->name('login.store');
-
+  Route::inertia('/account/forgot-password', 'Public/Auth/ForgotPassword')
+    ->name('forgotPassword');
+  Route::post('/account/forgot-password', [AuthenticatedSessionController::class, 'forgotPassword'])
+    ->name('forgotPassword.store');
+  Route::get('/account/reset-password/{token}', function (string $token) {
+    return inertia('Public/Auth/ResetPassword', ['token' => $token]);
+  })->middleware('guest')->name('password.reset');
+  Route::post('/account/reset-password', [AuthenticatedSessionController::class, 'resetPassword'])
+    ->name('password.update');
 });
 
 // BackOffice

@@ -1,13 +1,13 @@
 <template>
-  <Head :title="$t('auth.login.title')"/>
+  <Head :title="$t('auth.resetPassword.title')"/>
   <v-container fluid>
     <v-form @submit.prevent="submit">
       <v-card
         class="mx-auto mt-15 pa-5 bg-surface-light"
         elevation="0"
         max-width="448"
-        :title="$t('auth.login.title')"
-        :subtitle="$t('auth.login.subTitle')"
+        :title="$t('auth.resetPassword.title')"
+        :subtitle="$t('auth.resetPassword.subTitle')"
       >
         <v-card-text>
           <flash-messages/>
@@ -18,26 +18,34 @@
             v-model="form.email"
             :rules="rules.required"
             density="compact"
-            :placeholder="$t('auth.login.email')"
+            :placeholder=" $t('auth.resetPassword.email')"
             prepend-inner-icon="mdi-email-outline"
             variant="outlined"
           ></v-text-field>
-          <div class="text-subtitle-1 text-medium-emphasis d-flex align-center justify-space-between">
-            {{ $t('auth.login.password') }}
-          </div>
           <v-text-field
             v-model="form.password"
             :rules="rules.required"
-            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-            :type="visible ? 'text' : 'password'"
             density="compact"
+            :placeholder=" $t('auth.resetPassword.password')"
             prepend-inner-icon="mdi-lock-outline"
             variant="outlined"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"
             @click:append-inner="visible = !visible"
-            :placeholder=" $t('auth.login.password')"
+          ></v-text-field>
+          <v-text-field
+            v-model="form.password_confirmation"
+            :rules="rules.required"
+            density="compact"
+            :placeholder=" $t('auth.resetPassword.passwordConfirmation')"
+            prepend-inner-icon="mdi-lock-outline"
+            variant="outlined"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            :type="visible ? 'text' : 'password'"
+            @click:append-inner="visible = !visible"
           ></v-text-field>
           <v-btn
-            :disabled="!(form.email && form.password)"
+            :disabled="!(form.password)"
             class="mt-5 mb-8"
             elevation="0"
             color="primary"
@@ -45,9 +53,8 @@
             block
             type="submit"
           >
-            {{ $t('auth.login.signInBtn') }}
+            {{ $t('auth.resetPassword.submitBtn') }}
           </v-btn>
-          <a :href="$route('forgotPassword')">{{ $t('auth.login.forgotPasswordLink') }}</a>
         </v-card-text>
       </v-card>
     </v-form>
@@ -64,9 +71,17 @@ import FlashMessages from "../../../Shared/FlashMessages.vue";
 
 const {t} = useI18n({});
 
+const props = defineProps({
+  token: String
+});
+
+console.log(props.token);
+
 const form = useForm({
   email: null,
-  password: null
+  password: null,
+  password_confirmation: null,
+  token: props.token
 });
 
 const rules = {
@@ -79,7 +94,7 @@ async function submit(event) {
   const results = await event;
 
   if (results.valid) {
-    form.post(route('login.store'));
+    form.post(route('password.update'));
   }
 }
 
