@@ -2,17 +2,6 @@
   "appTitleBar": "Robijnsbos Digital Twin",
   "appName": "RobijnsBos Digital Twin - {page}",
   "public": {
-
-
-
-
-
-
-
-
-
-
-
     "vegetation": {
       "overview": {
         "title": "Overzicht beplanting"
@@ -147,8 +136,28 @@
     "ground_cover": "Bodembedekker",
     "mycelium": "Mycelium"
   },
-  "dashboard": {
-    "title": "Dashboard"
+  "auth": {
+    "login": {
+      "title": "Inloggen",
+      "subTitle": "Log in om gebruik te maken van de beheersfunctionaliteit",
+      "email": "Email adres",
+      "password": "Wachtwoord",
+      "signInBtn": "Log in",
+      "forgotPasswordLink": "Ik ben mijn wachtwoord vergeten"
+    },
+    "forgotPassword": {
+      "title": "Wachtwoord vergeten",
+      "subTitle": "We sturen een herstel link naar",
+      "submitBtn": "Herstel link verzenden"
+    },
+    "resetPassword": {
+      "title": "Wachtwoord resetten",
+      "subTitle": "Vul uw email adres en uw nieuwe wachtwoord in",
+      "email": "Email adres",
+      "password": "Wachtwoord",
+      "passwordConfirmation": "Bevestig wachtwoord",
+      "submitBtn": "Verzenden"
+    }
   },
   "users": {
     "listTitle": "Gebruikersbeheer",

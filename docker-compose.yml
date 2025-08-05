@@ -42,6 +42,18 @@ services:
       - "12013:12013"
     networks:
       - robijnsbos_network
+  robijnsbos_mail:
+    hostname: robijnsbos_mail
+    container_name: robijnsbos_mail
+    image: mailhog/mailhog:latest
+    restart: always
+    environment:
+      - MH_HOSTNAME=robijnsbos_mail
+    ports:
+      - 1050:1025
+      - 8025:8025
+    networks:
+      - robijnsbos_network
 networks:
   robijnsbos_network:
     driver: bridge
