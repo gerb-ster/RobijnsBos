@@ -35,22 +35,22 @@
               </v-row>
             </v-card-text>
           </v-card>
-          <v-select
+          <v-autocomplete
             v-model="form.group_id"
             :label="$t('vegetation.fields.area')"
             :items="groups"
             :rules="[rules.required]"
             :item-props="areaItemProps"
             item-value="id"
-          ></v-select>
-          <v-select
+          ></v-autocomplete>
+          <v-autocomplete
             v-model="form.specie_id"
             :label="$t('vegetation.fields.species')"
             :items="species"
             :rules="[rules.required]"
             :item-props="speciesItemProps"
             item-value="id"
-          ></v-select>
+          ></v-autocomplete>
           <v-text-field
             v-model="form.placed"
             :label="$t('vegetation.fields.placed')"
@@ -111,6 +111,7 @@ import {Head, Link, useForm} from '@inertiajs/vue3';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
+import dayjs from "dayjs";
 
 const props = defineProps(['groups', 'species', 'status']);
 
@@ -121,7 +122,7 @@ const form = useForm({
   group_id: null,
   specie_id: null,
   status_id: null,
-  placed: null,
+  placed: dayjs().year(),
   amount: 1,
   remarks: null,
   show_text_on_map: true

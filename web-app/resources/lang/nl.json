@@ -12,7 +12,8 @@
       "show": {
         "title": "Detail beplanting",
         "comments": "Opmerkingen",
-        "mutations": "Onderhoud"
+        "mutations": "Onderhoud",
+        "editBtn": "Bewerking in backoffice"
       }
     },
     "comments": {
@@ -230,7 +231,7 @@
       "latinName": "Latijnse naam",
       "latinFamily": "Latijnse familie",
       "blossomMonth": "Bloeimaand",
-      "height": "Hoogte",
+      "height": "Hoogte in meters",
       "type": "Type",
       "vegetationCount": "Aantal keer geplant"
     },

@@ -80,6 +80,7 @@
           :controlIconsEnabled="true"
           :fit="false"
           :center="true"
+          maxZoom="12"
           @created="registerSvgPanZoom"
         >
           <svg width="100%" :height="pageHeight" v-html="mapData" ref="mapRef"></svg>
