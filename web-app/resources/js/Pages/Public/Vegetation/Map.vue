@@ -80,8 +80,9 @@
           :controlIconsEnabled="true"
           :fit="false"
           :center="true"
-          maxZoom="12"
+          :maxZoom=12
           @created="registerSvgPanZoom"
+          @onZoom="onZoom"
         >
           <svg width="100%" :height="pageHeight" v-html="mapData" ref="mapRef"></svg>
         </svg-pan-zoom>
@@ -132,12 +133,10 @@ function registerSvgPanZoom(objectRef) {
   svgPanZoomRef.value = objectRef;
 }
 
-function zoomInHandler(e) {
-  console.log(e);
-}
-
-function onTapItem(e) {
-  console.log(e);
+function onZoom(zoomFactor) {
+  mapRef.value.querySelectorAll('.text').forEach((item) => {
+    item.style.setProperty('font-size', 20 - zoomFactor)
+  });
 }
 
 watch(raster, () => {

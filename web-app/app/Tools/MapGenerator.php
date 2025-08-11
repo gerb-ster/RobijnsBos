@@ -162,7 +162,7 @@ class MapGenerator
     $textNode->setAttribute('font-size', 20);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
-    $textNode->setAttribute('class', "speciesName");
+    $textNode->setAttribute('class', "speciesName text");
 
     $textNode->setAttribute('x', $location['x']);
     $textNode->setAttribute('y', $location['y'] - 8);
@@ -173,7 +173,7 @@ class MapGenerator
     $cordNode->setAttribute('font-size', 22);
     $cordNode->setAttribute('dominant-baseline', 'middle');
     $cordNode->setAttribute('text-anchor', 'middle');
-    $cordNode->setAttribute('class', "coordinates");
+    $cordNode->setAttribute('class', "coordinates text");
 
     $cordNode->setAttribute('x', $location['x']);
     $cordNode->setAttribute('y', $location['y'] + 12);
