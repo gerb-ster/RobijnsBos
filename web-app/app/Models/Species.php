@@ -23,7 +23,7 @@ use Illuminate\Support\Str;
  * @property int $type_id
  * @property int $latin_family_id
  * @property string|null $blossom_month
- * @property string|null $height
+ * @property float|null $height
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property string|null $deleted_at

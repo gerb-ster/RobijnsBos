@@ -44,6 +44,15 @@
             <v-list-item-subtitle>{{ $t('species.fields.blossomMonth') }}</v-list-item-subtitle>
           </v-list-item>
         </v-list>
+        <v-btn
+          v-if="canAdministrate"
+          class="ms-4"
+          prepend-icon="mdi-pencil-outline"
+          color="primary"
+          :href="$route('vegetation.show', {vegetation: vegetation.uuid})"
+          elevation="0"
+        > {{ $t('public.vegetation.show.editBtn') }}
+        </v-btn>
       </v-col>
       <v-col cols="12" md="4">
         <h2 class="mb-5">{{ $t('public.vegetation.show.comments') }}</h2>
@@ -103,6 +112,9 @@ import {computed} from "vue";
 const page = usePage()
 const auth = computed(() => page.props.auth)
 
-const props = defineProps({vegetation: Object});
+const props = defineProps({
+  vegetation: Object,
+  canAdministrate: Boolean
+});
 
 </script>

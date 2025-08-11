@@ -120,21 +120,21 @@ class MapGenerator
     $sizeConstant = 30;
 
     switch ($vegetation->species->type->name) {
-      case 'Kroonboom':
+      case 'crown_imperial':
         $maxTreeSize = ($maxTreeHeight / 2) * $sizeConstant;
         if ($treeAge <= 20) {
           return $maxTreeSize * (($treeAge + 2) / 18);
         }
         return $maxTreeSize;
 
-      case "Fruitboom":
+      case "fruit_tree":
         $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
         if ($treeAge <= 10) {
           return $maxTreeSize * (($treeAge + 2) / 8);
         }
         return $maxTreeSize;
 
-      case "Struik":
+      case "bush":
         $maxTreeSize = ($maxTreeHeight * .75) * $sizeConstant;
         if ($treeAge <= 5) {
           return $maxTreeSize * (($treeAge + 2) / 3);

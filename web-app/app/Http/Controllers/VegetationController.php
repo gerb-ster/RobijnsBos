@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\Gate;
 use Inertia\Inertia;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -121,7 +122,8 @@ class VegetationController extends Controller
     ]);
 
     return Inertia::render('Public/Vegetation/Show', [
-      'vegetation' => $vegetation
+      'vegetation' => $vegetation,
+      'canAdministrate' => Gate::allows('administrate')
     ]);
   }
 
