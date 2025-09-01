@@ -43,33 +43,22 @@
       class="elevation-1"
       item-value="name"
       @update:options="loadItems"
+      @click:row="rowClick"
       :row-props="setRowProps"
-      show-expand
-      expand-on-click
     >
       <template v-slot:loading>
         <v-skeleton-loader type="table-row@10"></v-skeleton-loader>
       </template>
+      <template v-slot:item.coordinates="{ item }">
+        {{ item.coordinates.xTop }}, {{ item.coordinates.yTop }}, {{ item.coordinates.xBottom }}, {{ item.coordinates.yBottom }}
+      </template>
       <template v-slot:item.actions="{ item }">
-        <v-icon @click="editItem(item)" class="mr-2">
-          mdi-pencil-outline
-        </v-icon>
         <v-icon @click.stop="deleteItem(item)" v-if="!item.deleted_at">
           mdi-trash-can-outline
         </v-icon>
         <v-icon @click.stop="restoreItem(item)" v-else>
           mdi-delete-restore
         </v-icon>
-      </template>
-      <template v-slot:expanded-row="{ columns, item }">
-        <tr :class="$vuetify.theme.global.current.dark?('expandedRowDark'):('expandedRow')">
-          <td :colspan="columns.length">
-            <inline-group-table
-              :area="item"
-              :groups="item.groups"
-            ></inline-group-table>
-          </td>
-        </tr>
       </template>
     </v-data-table-server>
   </v-container>
@@ -84,13 +73,12 @@ import {ref, watch, onUpdated, onBeforeMount} from 'vue';
 import axios from 'axios';
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
 import {openStorage, storeInput} from "../../../../Logic/Helpers";
-import InlineGroupTable from "../../../../Components/BackOffice/Administration/InlineGroupTable.vue";
 
 const {t} = useI18n({});
 
 const headers = ref([
-  {align: 'start', key: 'data-table-expand'},
   {title: t('areas.fields.name'), align: 'start', key: 'name'},
+  {title: t('areas.fields.coordinates.name'), align: 'start', key: 'coordinates'},
   {title: t('form.actions'), align: 'end', key: 'actions', sortable: false},
 ]);
 
@@ -180,9 +168,10 @@ function loadItems({page, itemsPerPage, sortBy}) {
   });
 }
 
-function editItem(item) {
-  if (!item.deleted_at) {
-    router.get(route('areas.show', item.id));
+
+function rowClick(event, dataObj) {
+  if (!dataObj.item.deleted_at) {
+    router.get(route('areas.show', dataObj.item.id));
   }
 }
 

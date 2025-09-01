@@ -6,11 +6,10 @@ use App\Events\VegetationDataChanged;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BackOffice\Vegetation\CreateRequest;
 use App\Http\Requests\BackOffice\Vegetation\UpdateRequest;
-use App\Models\Group;
+use App\Models\Area;
 use App\Models\Species;
 use App\Models\Vegetation;
 use App\Models\VegetationStatus;
-use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -18,7 +17,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Inertia\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * Class VegetationController
@@ -32,9 +30,9 @@ class VegetationController extends Controller
    * @param array $sortBy
    * @param string|null $search
    * @param bool $withTrashed
-   * @param int|null $selectedGroup
    * @param int|null $selectedSpecies
    * @param int|null $selectedStatus
+   * @param int|null $selectedArea
    * @return array
    */
   private function listVegetation(
@@ -43,16 +41,15 @@ class VegetationController extends Controller
     array   $sortBy,
     ?string $search,
     bool    $withTrashed,
-    ?int    $selectedGroup,
     ?int    $selectedSpecies,
-    ?int    $selectedStatus
+    ?int    $selectedStatus,
+    ?int    $selectedArea
   ): array
   {
     $queryBuilder = Vegetation::with(
       'status',
       'species',
-      'group',
-      'group.area',
+      'area',
       'comments',
       'mutations',
       'species.type'
@@ -62,16 +59,16 @@ class VegetationController extends Controller
       $queryBuilder->withTrashed();
     }
 
-    $queryBuilder->when($selectedGroup, function ($query, $selectedGroup) {
-      $query->where('group_id', $selectedGroup);
-    });
-
     $queryBuilder->when($selectedSpecies, function ($query, $selectedSpecies) {
       $query->where('specie_id', $selectedSpecies);
     });
 
     $queryBuilder->when($selectedStatus, function ($query, $selectedStatus) {
       $query->where('status_id', $selectedStatus);
+    });
+
+    $queryBuilder->when($selectedArea, function ($query, $selectedArea) {
+      $query->where('area_id', $selectedArea);
     });
 
     if (!empty($sortBy)) {
@@ -122,11 +119,11 @@ class VegetationController extends Controller
                 , $sortByRule['order']
               );
             break;
-          case 'group.name':
+          case 'area.name':
             $queryBuilder
               ->orderBy(
-                Group::select('name')
-                  ->whereColumn('groups.id', 'vegetations.group_id')
+                Area::select('name')
+                  ->whereColumn('areas.id', 'vegetations.area_id')
                 , $sortByRule['order']
               );
             break;
@@ -180,7 +177,7 @@ class VegetationController extends Controller
     return inertia('BackOffice/Vegetation/Index', [
       'species' => Species::all(),
       'status' => VegetationStatus::all(),
-      'groups' => Group::with('area')->get()
+      'areas' => Area::all()
     ]);
   }
 
@@ -197,9 +194,9 @@ class VegetationController extends Controller
     $itemsPerPage = $request->integer('itemsPerPage');
     $sortBy = $request->post('sortBy');
     $search = $request->post('search');
-    $selectedGroup = $request->post('selectedGroupValue');
     $selectedSpecie = $request->post('selectedSpecieValue');
     $selectedStatus = $request->post('selectedStatusValue');
+    $selectedArea = $request->post('selectedAreaValue');
 
     return response()->json(
       $this->listVegetation(
@@ -208,9 +205,9 @@ class VegetationController extends Controller
         sortBy: $sortBy,
         search: $search,
         withTrashed: $withTrashed,
-        selectedGroup: $selectedGroup,
         selectedSpecies: $selectedSpecie,
-        selectedStatus: $selectedStatus
+        selectedStatus: $selectedStatus,
+        selectedArea: $selectedArea
       )
     );
   }
@@ -221,7 +218,6 @@ class VegetationController extends Controller
   public function create(): Response
   {
     return inertia('BackOffice/Vegetation/Create',[
-      'groups' => Group::with('area')->get(),
       'species' => Species::all(),
       'status' => VegetationStatus::all(),
     ]);
@@ -251,11 +247,10 @@ class VegetationController extends Controller
    */
   public function show(Vegetation $vegetation): Response
   {
-    $vegetation->load('species', 'group', 'comments', 'mutations');
+    $vegetation->load('species', 'area', 'comments', 'mutations');
 
     return inertia('BackOffice/Vegetation/Show', [
       'vegetation' => $vegetation,
-      'groups' => Group::with('area')->orderBy('name')->get(),
       'species' => Species::orderBy('dutch_name', 'asc')->get(),
       'status' => VegetationStatus::all(),
     ]);

@@ -10,7 +10,7 @@
             <v-list-item-subtitle>{{ $t('vegetation.fields.location.name') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.group.name }} / {{ vegetation.group.area.name }} </h3></v-list-item-title>
+            <v-list-item-title><h3>{{ vegetation.area ? vegetation.area.name : '-' }}</h3></v-list-item-title>
             <v-list-item-subtitle>{{ $t('vegetation.fields.area') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>

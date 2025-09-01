@@ -16,6 +16,45 @@
             :label="$t('areas.fields.name')"
             :rules="rules.required"
           ></v-text-field>
+          <v-card
+            variant="tonal"
+            class="mb-4"
+            color="indigo-darken-3"
+          >
+            <v-card-title>{{ $t('areas.fields.coordinates.name') }}</v-card-title>
+            <v-card-text>
+              <v-row class="mb-0">
+                <v-col cols="12" md="3">
+                  <v-text-field
+                    v-model="form.coordinates.xTop"
+                    :label="$t('areas.fields.coordinates.xTop')"
+                    :rules="[rules.required, rules.float]"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="3">
+                  <v-text-field
+                    v-model="form.coordinates.yTop"
+                    :label="$t('areas.fields.coordinates.yTop')"
+                    :rules="[rules.required, rules.float]"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="3">
+                  <v-text-field
+                    v-model="form.coordinates.xBottom"
+                    :label="$t('areas.fields.coordinates.xBottom')"
+                    :rules="[rules.required, rules.float]"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" md="3">
+                  <v-text-field
+                    v-model="form.coordinates.yBottom"
+                    :label="$t('areas.fields.coordinates.yBottom')"
+                    :rules="[rules.required, rules.float]"
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
         </v-col>
       </v-row>
       <v-row>

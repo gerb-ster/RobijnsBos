@@ -36,14 +36,6 @@
             </v-card-text>
           </v-card>
           <v-autocomplete
-            v-model="form.group_id"
-            :label="$t('vegetation.fields.area')"
-            :items="groups"
-            :rules="[rules.required]"
-            :item-props="areaItemProps"
-            item-value="id"
-          ></v-autocomplete>
-          <v-autocomplete
             v-model="form.specie_id"
             :label="$t('vegetation.fields.species')"
             :items="species"
@@ -119,7 +111,6 @@ const {t} = useI18n({});
 
 const form = useForm({
   location: {x : null, y: null},
-  group_id: null,
   specie_id: null,
   status_id: null,
   placed: dayjs().year(),
@@ -133,13 +124,6 @@ const rules = {
     const pattern = /^[-+]?[0-9]+(?:\.[0-9]+)?(?:[eE][-+][0-9]+)?$/;
     return pattern.test(value) || t('form.validation.onlyFloats')
   },
-}
-
-function areaItemProps (item) {
-  return {
-    title: item.name ?? "removed",
-    subtitle: item.area?.name ?? "removed",
-  }
 }
 
 function speciesItemProps (item) {

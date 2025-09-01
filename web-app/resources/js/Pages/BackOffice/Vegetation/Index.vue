@@ -29,20 +29,20 @@
           </v-col>
           <v-col cols="12" md="4">
             <v-select
-              v-model="selectedGroup"
-              :label="$t('vegetation.fields.area')"
-              :items="groups"
-              :item-props="groupProps"
+              v-model="selectedSpecie"
+              :label="$t('species.fields.dutchName')"
+              :items="species"
+              :item-props="speciesProps"
               item-value="id"
               clearable
             ></v-select>
           </v-col>
           <v-col cols="12" md="4">
             <v-select
-              v-model="selectedSpecie"
-              :label="$t('species.fields.dutchName')"
-              :items="species"
-              :item-props="speciesProps"
+              v-model="selectedArea"
+              :label="$t('vegetation.fields.area')"
+              :items="areas"
+              :item-title="item => item.name"
               item-value="id"
               clearable
             ></v-select>
@@ -89,8 +89,8 @@
       <template v-slot:item.location="{ item }">
         {{ item.location.x }}, {{ item.location.y }}
       </template>
-      <template v-slot:item.group.name="{ item }">
-        {{ item.group.area.name }}<br /><span class="text-medium-emphasis text-caption">{{ item.group.name }}</span>
+      <template v-slot:item.area.name="{ item }">
+        {{ item.area ? item.area.name : '-' }}
       </template>
       <template v-slot:item.species.blossom_month="{ item }">
         <span v-for="(month, index) in item.species.blossom_month">
@@ -126,13 +126,14 @@ const {t} = useI18n({});
 const props = defineProps({
   species: Array,
   status: Array,
-  groups: Array
+  areas: Array
 });
 
 const headers = ref([
   {title: t('species.fields.dutchName'), align: 'start', key: 'species.dutch_name'},
   {title: t('species.fields.latinName'), align: 'start', key: 'species.latin_name'},
   {title: t('vegetation.fields.location.name'), align: 'start', key: 'location'},
+  {title: t('vegetation.fields.area'), align: 'start', key: 'area.name'},
   {title: t('vegetation.fields.placed'), align: 'start', key: 'placed'},
   {title: t('species.fields.height'), align: 'start', key: 'species.height'},
   {title: t('species.fields.blossomMonth'), align: 'start', key: 'species.blossom_month'},
@@ -149,7 +150,7 @@ const loading = ref(false);
 const totalItems = ref(0);
 const showDeleted = ref(false);
 
-const selectedGroup = ref(null);
+const selectedArea = ref(null);
 const selectedSpecie = ref(null);
 const selectedStatus = ref(null);
 
@@ -167,9 +168,9 @@ onBeforeMount(() => {
     // filters
     searchField.value = storedForm['searchField'] ?? '';
     showDeleted.value = storedForm['showDeleted'] ?? false;
-    selectedGroup.value = storedForm['selectedGroup'] ?? null
     selectedSpecie.value = storedForm['selectedSpecie'] ?? null;
     selectedStatus.value = storedForm['selectedStatus'] ?? null;
+    selectedArea.value = storedForm['selectedArea'] ?? null;
 
     // paging & sorting
     currentPage.value = storedForm['currentPage'] ?? 1;
@@ -204,11 +205,6 @@ watch(itemsPerPage, () => {
   storeInput('vegetationAdmin', 'itemsPerPage', itemsPerPage.value);
 });
 
-watch(selectedGroup, () => {
-  storeInput('vegetationAdmin', 'selectedGroup', selectedGroup.value);
-  search.value = String(Math.random());
-});
-
 watch(selectedSpecie, () => {
   storeInput('vegetationAdmin', 'selectedSpecie', selectedSpecie.value);
   search.value = String(Math.random());
@@ -216,6 +212,11 @@ watch(selectedSpecie, () => {
 
 watch(selectedStatus, () => {
   storeInput('vegetationAdmin', 'selectedStatus', selectedStatus.value);
+  search.value = String(Math.random());
+});
+
+watch(selectedArea, () => {
+  storeInput('vegetationAdmin', 'selectedArea', selectedArea.value);
   search.value = String(Math.random());
 });
 
@@ -232,9 +233,9 @@ function loadItems({page, itemsPerPage, sortBy}) {
 
   let withTrashed = showDeleted.value;
   let search = searchField.value;
-  let selectedGroupValue = selectedGroup.value;
   let selectedSpecieValue = selectedSpecie.value;
   let selectedStatusValue = selectedStatus.value;
+  let selectedAreaValue = selectedArea.value;
 
   axios.post(route('vegetation.list'), {
     page,
@@ -242,9 +243,9 @@ function loadItems({page, itemsPerPage, sortBy}) {
     sortBy,
     search,
     withTrashed,
-    selectedGroupValue,
     selectedSpecieValue,
-    selectedStatusValue
+    selectedStatusValue,
+    selectedAreaValue
   }).then(response => {
     currentPage.value = page;
     serverItems.value = response.data.items;
@@ -290,18 +291,6 @@ function restoreItem(item) {
 function setRowProps(row) {
   if (row.item.deleted_at) {
     return {class: 'removedRow'};
-  }
-}
-
-function groupProps (item) {
-  if (!item) {
-    return {
-      title: item.name
-    }
-  }
-  return {
-    title: item.name ?? 'removed',
-    subtitle: item.area?.name ?? 'removed'
   }
 }
 

@@ -35,7 +35,7 @@ class AreaController extends Controller
     bool    $withTrashed
   ): array
   {
-    $queryBuilder = Area::with('groups');
+    $queryBuilder = Area::query();
 
     if ($withTrashed) {
       $queryBuilder->withTrashed();
@@ -108,6 +108,8 @@ class AreaController extends Controller
   public function store(CreateRequest $request): Redirector|Application|RedirectResponse
   {
     $validated = $request->validated();
+
+    ray($validated);
 
     Area::create($validated);
 

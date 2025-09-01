@@ -119,18 +119,6 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('areas.list');
       Route::get('/back-office/admin/areas/restore/{id}', [AreaController::class, 'restore'])
         ->name('areas.restore');
-
-      // Group
-      Route::resource(
-        '/back-office/admin/areas/{area}/groups',
-        GroupController::class
-      )
-        ->names('groups')
-        ->scoped()
-        ->parameters([
-          'area' => 'area',
-          'group' => 'group',
-        ]);
     });
   });
 });

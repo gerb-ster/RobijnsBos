@@ -12,9 +12,17 @@ return new class extends Migration {
    */
   public function up(): void
   {
-    Schema::table('vegetations', function (Blueprint $table) {
-      $table->dropColumn('label');
+    Schema::table('areas', function (Blueprint $table) {
+      $table->json('coordinates')->after('name');
     });
+
+    Schema::table('vegetations', function (Blueprint $table) {
+      $table->dropForeign(['group_id']);
+      $table->dropColumn('group_id');
+      $table->foreignId('area_id')->nullable()->after('status_id')->constrained('areas');
+    });
+
+    Schema::dropIfExists('groups');
   }
 
   /**
@@ -22,8 +30,5 @@ return new class extends Migration {
    */
   public function down(): void
   {
-    Schema::table('vegetations', function (Blueprint $table) {
-      $table->string('label', 256)->nullable();
-    });
   }
 };

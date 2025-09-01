@@ -16,7 +16,8 @@ class UpdateRequest extends FormRequest
   public function rules(): array
   {
     return [
-      'name' => 'required|string|min:1|max:64'
+      'name' => 'required|string|min:1|max:64',
+      'coordinates' => 'required|array',
     ];
   }
 

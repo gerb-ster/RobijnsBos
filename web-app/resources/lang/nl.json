@@ -50,7 +50,7 @@
     "signOut": "Uitloggen",
     "vegetation": "Beplantingslijst",
     "species": "Soorten beplanting",
-    "areaGroup": "Gebieden & groepen",
+    "areaGroup": "Gebieden",
     "users": "Gebruikers",
     "confirmSignOutTitle": "Weet u het zeker?",
     "confirmSignOutText": "Weet u zeker dat u uit wilt loggen?"
@@ -186,37 +186,27 @@
     }
   },
   "areas": {
-    "listTitle": "Gebieden & Groepen beheer",
+    "listTitle": "Gebieden beheer",
     "withTrashed": "Toon verwijderde gebieden",
     "createTitle": "Gebied toevoegen",
     "showTitle": "Gebied bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u dit gebied '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u dit gebied '{name}' wilt herstellen?",
     "fields": {
-      "name": "Naam"
+      "name": "Naam",
+      "coordinates": {
+        "name": "Coördinaten",
+        "xTop": "X top/links",
+        "yTop": "Y top/links",
+        "xBottom": "X bodem/rechts",
+        "yBottom": "Y bodem/rechts"
+      }
     },
     "messages": {
       "created": "Gebied succesvol toegevoegd",
       "updated": "Gebied succesvol aangepast",
       "deleted": "Gebied succesvol verwijderd",
       "restored": "Gebied succesvol hersteld"
-    }
-  },
-  "groups": {
-    "withTrashed": "Toon verwijderde groepen",
-    "createTitle": "Groep toevoegen aan gebied '{name}'",
-    "showTitle": "Groep bewerken",
-    "createBtn": "Groep toevoegen",
-    "confirmRemoveDialogText": "Weet u zeker dat u deze groep '{name}' wilt verwijderen?",
-    "confirmRestoreDialogText": "Weet u zeker dat u deze groep '{name}' wilt herstellen?",
-    "fields": {
-      "name": "Naam"
-    },
-    "messages": {
-      "created": "Groep succesvol toegevoegd",
-      "updated": "Groep succesvol aangepast",
-      "deleted": "Groep succesvol verwijderd",
-      "restored": "Groep succesvol hersteld"
     }
   },
   "species": {
@@ -256,12 +246,10 @@
       "location": {
         "name": "Coördinaten",
         "x": "X",
-        "y": "Y",
-        "xa": "X'",
-        "ya": "Y'"
+        "y": "Y"
       },
       "label": "Label",
-      "area": "Gebied/Groep",
+      "area": "Gebied",
       "species": "Soort",
       "status": "Status",
       "placed": "Plantjaar",

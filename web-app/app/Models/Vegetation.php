@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\VegetationObserver;
 use App\Tools\BoardGenerator;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -22,7 +24,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property string $number
  * @property string $qr_shortcode
  * @property int $status_id
- * @property int $group_id
+ * @property int $area_id
  * @property int $specie_id
  * @property string $label
  * @property Carbon|null $placed
@@ -36,7 +38,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property string|null $deleted_at
  *
  * @property User $user
- * @property Group $group
+ * @property Area $area
  * @property Species $species
  * @property VegetationStatus $status
  * @property Collection|Comment[] $comments
@@ -44,6 +46,7 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  *
  * @package App\Models
  */
+#[ObservedBy([VegetationObserver::class])]
 class Vegetation extends Model
 {
   use SoftDeletes;
@@ -59,7 +62,7 @@ class Vegetation extends Model
   protected $casts = [
     'location' => 'array',
     'status_id' => 'int',
-    'group_id' => 'int',
+    'area_id' => 'int',
     'specie_id' => 'int',
     'created_by' => 'int',
     'show_text_on_map' => 'bool',
@@ -74,7 +77,7 @@ class Vegetation extends Model
     'qr_shortcode',
     'location',
     'status_id',
-    'group_id',
+    'area_id',
     'specie_id',
     'placed',
     'removed',
@@ -175,9 +178,9 @@ class Vegetation extends Model
   /**
    * @return BelongsTo
    */
-  public function group(): BelongsTo
+  public function area(): BelongsTo
   {
-    return $this->belongsTo(Group::class);
+    return $this->belongsTo(Area::class);
   }
 
   /**
