@@ -221,7 +221,7 @@
   },
   "species": {
     "listTitle": "Soort beplantingen beheer",
-    "withTrashed": "Toon verwijderde soorten beplanting",
+    "withTrashed": "Toon verwijderde data",
     "createTitle": "Soort beplanting toevoegen",
     "showTitle": "Soort beplanting bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt verwijderen?",
@@ -244,13 +244,13 @@
   },
   "vegetation": {
     "listTitle": "Beplanting beheer",
-    "withTrashed": "Toon verwijderde beplanting",
+    "withTrashed": "Toon verwijderde data",
     "createTitle": "Beplanting toevoegen",
     "showTitle": "Beplanting bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u beplanting '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u beplanting '{name}' wilt herstellen?",
     "downloadBoardBtn": "Download Bord SVG",
-    "openPublicProfileBtn": "Open Public Profiel",
+    "openPublicProfileBtn": "Open Publiek Profiel",
     "fields": {
       "number": "Nummer",
       "location": {
@@ -299,7 +299,7 @@
     }
   },
   "mutations": {
-    "withTrashed": "Toon verwijderde soorten mutaties",
+    "withTrashed": "Toon verwijderde mutaties",
     "showTitle": "Mutatie bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u deze mutatie wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u deze mutatie wilt herstellen?",

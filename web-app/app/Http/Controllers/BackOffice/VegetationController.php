@@ -78,6 +78,10 @@ class VegetationController extends Controller
       // these joins are only needed for sorting
       foreach ($sortBy as $sortByRule) {
         switch ($sortByRule['key']) {
+          case 'location':
+            $queryBuilder
+              ->orderByRaw("CAST(JSON_EXTRACT(`location`, '$.x') AS FLOAT) {$sortByRule['order']}");
+            break;
           case 'status.name':
             $queryBuilder
               ->orderBy(
@@ -319,24 +323,5 @@ class VegetationController extends Controller
       storage_path("app/boards/{$vegetation->uuid}.svg"),
       $vegetation->uuid . '.svg'
     );
-  }
-
-  /**
-   * @param Vegetation $vegetation
-   * @return StreamedResponse
-   */
-  public function showBoard(Vegetation $vegetation): StreamedResponse
-  {
-    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
-      $boardGenerator = new BoardGenerator($vegetation);
-      $boardGenerator->render();
-    }
-
-    $svgContent = file_get_contents(storage_path("app/boards/{$vegetation->uuid}.svg"));
-
-    return response()
-      ->stream(function () use ($svgContent) {
-        echo $svgContent;
-      }, 200, ['Content-Type' => 'image/svg+xml']);
   }
 }

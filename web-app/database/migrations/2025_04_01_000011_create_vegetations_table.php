@@ -26,7 +26,6 @@ return new class extends Migration {
       $table->string('label', 256)->nullable();
       $table->foreignId('group_id')->constrained('groups');
       $table->foreignId('specie_id')->constrained('species');
-      $table->integer('amount');
 
       $table->string('placed', 32)->nullable();
       $table->string('removed', 32)->nullable();

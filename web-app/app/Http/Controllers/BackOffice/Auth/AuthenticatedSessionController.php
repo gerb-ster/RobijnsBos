@@ -29,11 +29,7 @@ class AuthenticatedSessionController extends Controller
 
     $request->session()->regenerate();
 
-    if(Auth::user()->role_id === Role::VOLUNTEER) {
-      return redirect()->intended(route('public.vegetation.map'));
-    }
-
-    return redirect()->intended(route('vegetation.index'));
+    return redirect()->intended(route('public.vegetation.map'));
   }
 
   /**

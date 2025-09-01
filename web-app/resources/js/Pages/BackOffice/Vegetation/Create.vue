@@ -123,7 +123,6 @@ const form = useForm({
   specie_id: null,
   status_id: null,
   placed: dayjs().year(),
-  amount: 1,
   remarks: null,
   show_text_on_map: true
 });

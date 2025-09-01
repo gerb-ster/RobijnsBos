@@ -25,7 +25,6 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  * @property int $group_id
  * @property int $specie_id
  * @property string $label
- * @property int $amount
  * @property Carbon|null $placed
  * @property Carbon|null $removed
  * @property string $remarks
@@ -47,44 +46,42 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
  */
 class Vegetation extends Model
 {
-	use SoftDeletes;
+  use SoftDeletes;
 
   /**
    * @var string
    */
-	protected $table = 'vegetations';
+  protected $table = 'vegetations';
 
   /**
    * @var string[]
    */
-	protected $casts = [
+  protected $casts = [
     'location' => 'array',
-		'status_id' => 'int',
-		'group_id' => 'int',
-		'specie_id' => 'int',
-		'amount' => 'int',
-		'created_by' => 'int',
+    'status_id' => 'int',
+    'group_id' => 'int',
+    'specie_id' => 'int',
+    'created_by' => 'int',
     'show_text_on_map' => 'bool',
-	];
+  ];
 
   /**
    * @var string[]
    */
-	protected $fillable = [
-		'uuid',
-		'number',
+  protected $fillable = [
+    'uuid',
+    'number',
     'qr_shortcode',
     'location',
-		'status_id',
-		'group_id',
-		'specie_id',
-		'amount',
-		'placed',
+    'status_id',
+    'group_id',
+    'specie_id',
+    'placed',
     'removed',
-		'remarks',
-		'created_by',
+    'remarks',
+    'created_by',
     'show_text_on_map'
-	];
+  ];
 
   /**
    * @var string[]
@@ -115,11 +112,11 @@ class Vegetation extends Model
       $currentMax++;
       $counter = str_pad($currentMax, 5, "0", STR_PAD_LEFT);
 
-      if(is_null($model->created_by)) {
+      if (is_null($model->created_by)) {
         $model->created_by = Auth::user()->id;
       }
 
-      if(is_null($model->status_id)) {
+      if (is_null($model->status_id)) {
         $model->status_id = VegetationStatus::TO_BO_PLANTED;
       }
 
@@ -137,8 +134,8 @@ class Vegetation extends Model
   /**
    * Retrieve the model for a bound value.
    *
-   * @param  mixed  $value
-   * @param  string|null  $field
+   * @param mixed $value
+   * @param string|null $field
    * @return Model|null
    */
   public function resolveRouteBinding($value, $field = null): ?Model
@@ -170,50 +167,50 @@ class Vegetation extends Model
   /**
    * @return BelongsTo
    */
-	public function user(): BelongsTo
+  public function user(): BelongsTo
   {
-		return $this->belongsTo(User::class, 'created_by');
-	}
+    return $this->belongsTo(User::class, 'created_by');
+  }
 
   /**
    * @return BelongsTo
    */
-	public function group(): BelongsTo
+  public function group(): BelongsTo
   {
-		return $this->belongsTo(Group::class);
-	}
+    return $this->belongsTo(Group::class);
+  }
 
   /**
    * @return BelongsTo
    */
-	public function species(): BelongsTo
+  public function species(): BelongsTo
   {
-		return $this->belongsTo(Species::class, 'specie_id')->withTrashed();
-	}
+    return $this->belongsTo(Species::class, 'specie_id')->withTrashed();
+  }
 
   /**
    * @return BelongsTo
    */
-	public function status(): BelongsTo
+  public function status(): BelongsTo
   {
-		return $this->belongsTo(VegetationStatus::class, 'status_id');
-	}
+    return $this->belongsTo(VegetationStatus::class, 'status_id');
+  }
 
   /**
    * @return HasMany
    */
-	public function comments(): HasMany
+  public function comments(): HasMany
   {
-		return $this->hasMany(Comment::class);
-	}
+    return $this->hasMany(Comment::class);
+  }
 
   /**
    * @return HasMany
    */
-	public function mutations(): HasMany
+  public function mutations(): HasMany
   {
-		return $this->hasMany(Mutation::class);
-	}
+    return $this->hasMany(Mutation::class);
+  }
 
   /**
    * @return void
@@ -232,7 +229,7 @@ class Vegetation extends Model
       mkdir(public_path(env('QR_CODES_PATH')));
     }
 
-    file_put_contents(public_path(env('QR_CODES_PATH').$this->uuid.'.svg'), $data);
+    file_put_contents(public_path(env('QR_CODES_PATH') . $this->uuid . '.svg'), $data);
   }
 
   /**
@@ -240,9 +237,9 @@ class Vegetation extends Model
    */
   public function getQRCodeFilePath(): string
   {
-    $filePath = public_path(env('QR_CODES_PATH').$this->uuid.'.svg');
+    $filePath = public_path(env('QR_CODES_PATH') . $this->uuid . '.svg');
 
-    if(!file_exists($filePath)) {
+    if (!file_exists($filePath)) {
       $this->generateQRCodeFile();
     }
 
@@ -255,7 +252,7 @@ class Vegetation extends Model
   public function label(): Attribute
   {
     return new Attribute(
-      get: fn() => $this->species->dutch_name. " @ " . $this->location['x'] . ", " . $this->location['y'],
+      get: fn() => $this->species->dutch_name . " @ " . $this->location['x'] . ", " . $this->location['y'],
     );
   }
 }

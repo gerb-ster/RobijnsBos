@@ -82,12 +82,6 @@
                     :rules="[rules.required]"
                     item-value="id"
                   ></v-select>
-                  <v-text-field
-                    v-model="form.amount"
-                    :label="$t('vegetation.fields.amount')"
-                    :rules="[rules.required]"
-                    type="number"
-                  ></v-text-field>
                   <v-textarea
                     v-model="form.remarks"
                     :label="$t('vegetation.fields.remarks')"
@@ -96,7 +90,7 @@
                 <v-col cols="12" md="4">
                   <v-img
                     class="border border-error mb-3"
-                    :src="$route('vegetation.showBoard', {vegetation: vegetation.uuid})"
+                    :src="$route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
                   ></v-img>
                   <v-btn
                     color="primary"

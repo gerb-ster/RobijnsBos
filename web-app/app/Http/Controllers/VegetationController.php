@@ -8,6 +8,7 @@ use App\Models\MutationStatus;
 use App\Models\Species;
 use App\Models\SpeciesType;
 use App\Models\Vegetation;
+use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -186,5 +187,24 @@ class VegetationController extends Controller
         selectedGroup: $selectedGroup
       )
     );
+  }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return StreamedResponse
+   */
+  public function showBoard(Vegetation $vegetation): StreamedResponse
+  {
+    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
+      $boardGenerator = new BoardGenerator($vegetation);
+      $boardGenerator->render();
+    }
+
+    $svgContent = file_get_contents(storage_path("app/boards/{$vegetation->uuid}.svg"));
+
+    return response()
+      ->stream(function () use ($svgContent) {
+        echo $svgContent;
+      }, 200, ['Content-Type' => 'image/svg+xml']);
   }
 }
