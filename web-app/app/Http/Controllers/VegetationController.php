@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Area;
 use App\Models\CommentStatus;
-use App\Models\Group;
 use App\Models\MutationStatus;
-use App\Models\Species;
 use App\Models\SpeciesType;
 use App\Models\Vegetation;
+use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -25,8 +25,7 @@ class VegetationController extends Controller
    * @param int $itemsPerPage
    * @param array $sortBy
    * @param string|null $search
-   * @param int|null $selectedGroup
-   * @param int|null $selectedSpecies
+   * @param int|null $selectedArea
    * @return array
    */
   private function listVegetation(
@@ -34,14 +33,13 @@ class VegetationController extends Controller
     int     $itemsPerPage,
     array   $sortBy,
     ?string $search,
-    ?int    $selectedGroup
+    ?int    $selectedArea
   ): array
   {
     $queryBuilder = Vegetation::with(
       'status',
       'species',
-      'group',
-      'group.area',
+      'area',
       'comments',
       'mutations',
       'species.type'
@@ -54,8 +52,8 @@ class VegetationController extends Controller
       }
     }
 
-    $queryBuilder->when($selectedGroup, function ($query, $selectedGroup) {
-      $query->where('group_id', $selectedGroup);
+    $queryBuilder->when($selectedArea, function ($query, $selectedArea) {
+      $query->where('area_id', $selectedArea);
     });
 
     if (!empty($search)) {
@@ -72,12 +70,8 @@ class VegetationController extends Controller
           ], 'LIKE', "%$search%");
         });
 
-        $query->orWhereHas('group', function($query) use ($search) {
+        $query->orWhereHas('area', function($query) use ($search) {
           $query->where('name', 'LIKE', "%$search%");
-
-          $query->orWhereHas('area', function($query) use ($search) {
-            $query->where('name', 'LIKE', "%$search%");
-          });
         });
       });
     }
@@ -113,8 +107,7 @@ class VegetationController extends Controller
     $vegetation->load([
       'status',
       'species',
-      'group',
-      'group.area',
+      'area',
       'mutations' => fn ($query) => $query->where('status_id', MutationStatus::APPROVED),
       'mutations.user',
       'comments' => fn ($query) => $query->where('status_id', CommentStatus::APPROVED),
@@ -159,7 +152,7 @@ class VegetationController extends Controller
     $vegetation->load('species');
 
     return Inertia::render('Public/Vegetation/Overview', [
-      'groups' => Group::with('area')->get()
+      'areas' => Area::all()
     ]);
   }
 
@@ -175,7 +168,7 @@ class VegetationController extends Controller
     $itemsPerPage = $request->integer('itemsPerPage');
     $sortBy = $request->post('sortBy');
     $search = $request->post('search');
-    $selectedGroup = $request->post('selectedGroupValue');
+    $selectedArea = $request->post('selectedAreaValue');
 
     return response()->json(
       $this->listVegetation(
@@ -183,8 +176,27 @@ class VegetationController extends Controller
         itemsPerPage: $itemsPerPage,
         sortBy: $sortBy,
         search: $search,
-        selectedGroup: $selectedGroup
+        selectedArea: $selectedArea
       )
     );
+  }
+
+  /**
+   * @param Vegetation $vegetation
+   * @return StreamedResponse
+   */
+  public function showBoard(Vegetation $vegetation): StreamedResponse
+  {
+    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
+      $boardGenerator = new BoardGenerator($vegetation);
+      $boardGenerator->render();
+    }
+
+    $svgContent = file_get_contents(storage_path("app/boards/{$vegetation->uuid}.svg"));
+
+    return response()
+      ->stream(function () use ($svgContent) {
+        echo $svgContent;
+      }, 200, ['Content-Type' => 'image/svg+xml']);
   }
 }

@@ -81,7 +81,7 @@
               </Link>
               <Link as="div" :href="$route('areas.index')">
                 <v-list-item
-                  prepend-icon="mdi-map-legend"
+                  prepend-icon="mdi-group"
                   :title="$t('navigation.areaGroup')"
                   value="areaGroup"
                   :href="$route('areas.index')"

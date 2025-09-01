@@ -50,7 +50,7 @@
     "signOut": "Uitloggen",
     "vegetation": "Beplantingslijst",
     "species": "Soorten beplanting",
-    "areaGroup": "Gebieden & groepen",
+    "areaGroup": "Gebieden",
     "users": "Gebruikers",
     "confirmSignOutTitle": "Weet u het zeker?",
     "confirmSignOutText": "Weet u zeker dat u uit wilt loggen?"
@@ -186,14 +186,21 @@
     }
   },
   "areas": {
-    "listTitle": "Gebieden & Groepen beheer",
+    "listTitle": "Gebieden beheer",
     "withTrashed": "Toon verwijderde gebieden",
     "createTitle": "Gebied toevoegen",
     "showTitle": "Gebied bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u dit gebied '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u dit gebied '{name}' wilt herstellen?",
     "fields": {
-      "name": "Naam"
+      "name": "Naam",
+      "coordinates": {
+        "name": "Coördinaten",
+        "xTop": "X top/links",
+        "yTop": "Y top/links",
+        "xBottom": "X bodem/rechts",
+        "yBottom": "Y bodem/rechts"
+      }
     },
     "messages": {
       "created": "Gebied succesvol toegevoegd",
@@ -202,26 +209,9 @@
       "restored": "Gebied succesvol hersteld"
     }
   },
-  "groups": {
-    "withTrashed": "Toon verwijderde groepen",
-    "createTitle": "Groep toevoegen aan gebied '{name}'",
-    "showTitle": "Groep bewerken",
-    "createBtn": "Groep toevoegen",
-    "confirmRemoveDialogText": "Weet u zeker dat u deze groep '{name}' wilt verwijderen?",
-    "confirmRestoreDialogText": "Weet u zeker dat u deze groep '{name}' wilt herstellen?",
-    "fields": {
-      "name": "Naam"
-    },
-    "messages": {
-      "created": "Groep succesvol toegevoegd",
-      "updated": "Groep succesvol aangepast",
-      "deleted": "Groep succesvol verwijderd",
-      "restored": "Groep succesvol hersteld"
-    }
-  },
   "species": {
     "listTitle": "Soort beplantingen beheer",
-    "withTrashed": "Toon verwijderde soorten beplanting",
+    "withTrashed": "Toon verwijderde data",
     "createTitle": "Soort beplanting toevoegen",
     "showTitle": "Soort beplanting bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u dit soort beplanting '{name}' wilt verwijderen?",
@@ -244,24 +234,22 @@
   },
   "vegetation": {
     "listTitle": "Beplanting beheer",
-    "withTrashed": "Toon verwijderde beplanting",
+    "withTrashed": "Toon verwijderde data",
     "createTitle": "Beplanting toevoegen",
     "showTitle": "Beplanting bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u beplanting '{name}' wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u beplanting '{name}' wilt herstellen?",
     "downloadBoardBtn": "Download Bord SVG",
-    "openPublicProfileBtn": "Open Public Profiel",
+    "openPublicProfileBtn": "Open Publiek Profiel",
     "fields": {
       "number": "Nummer",
       "location": {
         "name": "Coördinaten",
         "x": "X",
-        "y": "Y",
-        "xa": "X'",
-        "ya": "Y'"
+        "y": "Y"
       },
       "label": "Label",
-      "area": "Gebied/Groep",
+      "area": "Gebied",
       "species": "Soort",
       "status": "Status",
       "placed": "Plantjaar",
@@ -299,7 +287,7 @@
     }
   },
   "mutations": {
-    "withTrashed": "Toon verwijderde soorten mutaties",
+    "withTrashed": "Toon verwijderde mutaties",
     "showTitle": "Mutatie bewerken",
     "confirmRemoveDialogText": "Weet u zeker dat u deze mutatie wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u deze mutatie wilt herstellen?",

@@ -17,10 +17,10 @@
         <v-row>
           <v-col cols="12" md="4">
             <v-select
-              v-model="selectedGroup"
+              v-model="selectedArea"
               :label="$t('vegetation.fields.area')"
-              :items="groups"
-              :item-props="groupProps"
+              :items="areas"
+              :item-title="item => item.name"
               item-value="id"
               density="comfortable"
               clearable
@@ -48,8 +48,8 @@
       <template v-slot:item.location="{ item }">
         {{ item.location.x }}, {{ item.location.y }}<span v-if="item.location.xa">, {{ item.location.xa }}, {{ item.location.ya }}</span>
       </template>
-      <template v-slot:item.group.name="{ item }">
-        {{ item.group.area.name }}<br /><span class="text-medium-emphasis text-caption">{{ item.group.name }}</span>
+      <template v-slot:item.area.name="{ item }">
+        {{ item.area ? item.area.name : '-' }}
       </template>
       <template v-slot:item.species.blossom_month="{ item }">
         <span v-for="(month, index) in item.species.blossom_month">
@@ -74,13 +74,13 @@ const {t} = useI18n({});
 
 const props = defineProps({
   status: Array,
-  groups: Array
+  areas: Array
 });
 
 const headers = ref([
   {title: t('vegetation.fields.label'), align: 'start', key: 'label'},
   {title: t('vegetation.fields.location.name'), align: 'start', key: 'location'},
-  {title: t('vegetation.fields.area'), align: 'start', key: 'group.name'},
+  {title: t('vegetation.fields.area'), align: 'start', key: 'area.name'},
   {title: t('species.fields.dutchName'), align: 'start', key: 'species.dutch_name'},
   {title: t('species.fields.latinName'), align: 'start', key: 'species.latin_name'},
   {title: t('vegetation.fields.placed'), align: 'start', key: 'placed'},
@@ -94,7 +94,7 @@ const serverItems = ref([]);
 const loading = ref(false);
 const totalItems = ref(0);
 
-const selectedGroup = ref(null);
+const selectedArea = ref(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(25);
@@ -105,7 +105,7 @@ onBeforeMount(() => {
 
   if (storedForm) {
     // filters
-    selectedGroup.value = storedForm['selectedGroup'] ?? null
+    selectedArea.value = storedForm['selectedArea'] ?? null
 
     // paging & sorting
     currentPage.value = storedForm['currentPage'] ?? 1;
@@ -134,8 +134,8 @@ watch(itemsPerPage, () => {
   storeInput('vegetationListPublic', 'itemsPerPage', itemsPerPage.value);
 });
 
-watch(selectedGroup, () => {
-  storeInput('vegetationListPublic', 'selectedGroup', selectedGroup.value);
+watch(selectedArea, () => {
+  storeInput('vegetationListPublic', 'selectedArea', selectedArea.value);
   search.value = String(Math.random());
 });
 
@@ -151,14 +151,14 @@ function loadItems({page, itemsPerPage, sortBy}) {
   loading.value = true;
 
   let search = searchField.value;
-  let selectedGroupValue = selectedGroup.value;
+  let selectedAreaValue = selectedArea.value;
 
   axios.post(route('public.vegetation.list'), {
     page,
     itemsPerPage,
     sortBy,
     search,
-    selectedGroupValue
+    selectedAreaValue
   }).then(response => {
     currentPage.value = page;
     serverItems.value = response.data.items;
@@ -171,13 +171,6 @@ function loadItems({page, itemsPerPage, sortBy}) {
 
 function rowClick(event, dataObj) {
   router.get(route('public.vegetation.show', dataObj.item.uuid));
-}
-
-function groupProps (item) {
-  return {
-    title: item.name ?? "removed",
-    subtitle: item.area?.name ?? "removed"
-  }
 }
 
 </script>

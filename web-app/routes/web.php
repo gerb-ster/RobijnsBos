@@ -27,6 +27,8 @@ Route::post('/vegetation/list', [PublicVegetationController::class, 'list'])
   ->name('public.vegetation.list');
 Route::get('/vegetation/{vegetation}', [PublicVegetationController::class, 'show'])
   ->name('public.vegetation.show');
+Route::get('/vegetation/{vegetation}/board.svg', [PublicVegetationController::class, 'showBoard'])
+  ->name('public.vegetation.showBoard');
 
 Route::get('/vegetation/{vegetation}/comment/create', [PublicCommentController::class, 'create'])
   ->name('public.vegetation.comment.create');
@@ -68,8 +70,6 @@ Route::group(['middleware' => ['auth']], function () {
       ->name('vegetation.list');
     Route::get('/back-office/vegetation/restore/{id}', [VegetationController::class, 'restore'])
       ->name('vegetation.restore');
-    Route::get('/back-office/vegetation/{vegetation}/board.svg', [VegetationController::class, 'showBoard'])
-      ->name('vegetation.showBoard');
     Route::get('/back-office/vegetation/{vegetation}/board-download', [VegetationController::class, 'downloadBoard'])
       ->name('vegetation.downloadBoard');
 
@@ -119,18 +119,6 @@ Route::group(['middleware' => ['auth']], function () {
         ->name('areas.list');
       Route::get('/back-office/admin/areas/restore/{id}', [AreaController::class, 'restore'])
         ->name('areas.restore');
-
-      // Group
-      Route::resource(
-        '/back-office/admin/areas/{area}/groups',
-        GroupController::class
-      )
-        ->names('groups')
-        ->scoped()
-        ->parameters([
-          'area' => 'area',
-          'group' => 'group',
-        ]);
     });
   });
 });

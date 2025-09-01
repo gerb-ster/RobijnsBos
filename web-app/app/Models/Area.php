@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\AreaObserver;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -13,13 +13,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  *
  * @property int $id
  * @property string|null $name
+ * @property array $coordinates
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  *
- * @property Collection|Group[] $groups
- *
  * @package App\Models
  */
+#[ObservedBy([AreaObserver::class])]
 class Area extends Model
 {
   use SoftDeletes;
@@ -32,15 +32,15 @@ class Area extends Model
   /**
    * @var string[]
    */
-	protected $fillable = [
-		'name'
-	];
+  protected $casts = [
+    'coordinates' => 'array'
+  ];
 
   /**
-   * @return HasMany
+   * @var string[]
    */
-	public function groups(): HasMany
-  {
-		return $this->hasMany(Group::class);
-	}
+	protected $fillable = [
+		'name',
+    'coordinates'
+	];
 }

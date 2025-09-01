@@ -2,7 +2,7 @@
   <Head><title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title></Head>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3">
         <h2>{{ vegetation.label }}</h2>
         <v-list lines="two">
           <v-list-item>
@@ -10,7 +10,7 @@
             <v-list-item-subtitle>{{ $t('vegetation.fields.location.name') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.group.name }} / {{ vegetation.group.area.name }} </h3></v-list-item-title>
+            <v-list-item-title><h3>{{ vegetation.area ? vegetation.area.name : '-' }}</h3></v-list-item-title>
             <v-list-item-subtitle>{{ $t('vegetation.fields.area') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
@@ -34,6 +34,10 @@
             <v-list-item-subtitle>{{ $t('vegetation.fields.placed') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
+            <v-list-item-title><h3>{{ vegetation.remarks }}</h3></v-list-item-title>
+            <v-list-item-subtitle>{{ $t('vegetation.fields.remarks') }}</v-list-item-subtitle>
+          </v-list-item>
+          <v-list-item>
             <v-list-item-title>
               <h3>
                 <span v-for="(month, index) in vegetation.species.blossom_month">
@@ -54,7 +58,13 @@
         > {{ $t('public.vegetation.show.editBtn') }}
         </v-btn>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3">
+        <v-img
+          class="border border-error mb-3"
+          :src="$route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
+        ></v-img>
+      </v-col>
+      <v-col cols="12" md="3">
         <h2 class="mb-5">{{ $t('public.vegetation.show.comments') }}</h2>
         <v-card
           color="primary"
@@ -76,7 +86,7 @@
         > {{ $t('public.comments.addBtn') }}
         </v-btn>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="3">
         <h2 class="mb-5">{{ $t('public.vegetation.show.mutations') }}</h2>
         <v-card
           color="secondary"
