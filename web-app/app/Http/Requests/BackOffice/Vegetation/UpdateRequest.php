@@ -17,7 +17,6 @@ class UpdateRequest extends FormRequest
   {
     return [
       'location' => 'required|array',
-      'group_id' => 'required|exists:groups,id',
       'specie_id' => 'required|exists:species,id',
       'status_id' => 'required|exists:vegetation_status,id',
       'placed' => 'required|string|min:1|max:32',

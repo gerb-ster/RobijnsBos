@@ -3,7 +3,9 @@
 namespace App\Tools;
 
 use App\Models\Vegetation;
+use SVG\Nodes\Structures\SVGGroup;
 use SVG\Nodes\Texts\SVGText;
+use SVG\Rasterization\SVGRasterizer;
 use SVG\SVG;
 
 class BoardGenerator
@@ -69,17 +71,24 @@ class BoardGenerator
     // add QR Code
     $svgQRCode = SVG::fromFile($this->vegetation->getQRCodeFilePath());
     $svgQRCodeDoc = $svgQRCode->getDocument();
-    $svgQRCodeDoc->setAttribute('x', 520);
-    $svgQRCodeDoc->setAttribute('y', 200);
-    $svgQRCodeDoc->setHeight(110);
-    $svgQRCodeDoc->setWidth(110);
+
+    $svgQRCodeDoc->removeAttribute('viewBox');
+    $svgQRCodeDoc->setAttribute('x', '520px');
+    $svgQRCodeDoc->setAttribute('y', '200px');
+
     $qrLayer->addChild($svgQRCodeDoc);
 
     if (!is_dir(storage_path(env('BOARDS_PATH')))) {
       mkdir(storage_path(env('BOARDS_PATH')));
     }
 
-    file_put_contents(storage_path(env('BOARDS_PATH').$this->vegetation->uuid.'.svg'), $svgTemplate);
+    $svgPath = storage_path(env('BOARDS_PATH').$this->vegetation->uuid.'.svg');
+    //$pngPath = storage_path(env('BOARDS_PATH').$this->vegetation->uuid.'.png');
+
+    file_put_contents($svgPath, $svgTemplate);
+
+    //$rasterImage = $svgTemplate->toRasterImage(640, 320);
+    //imagepng($rasterImage, $pngPath);
   }
 
   /**
@@ -98,7 +107,7 @@ class BoardGenerator
     $textNode->setAttribute('font-size', $fontSize);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
-    $textNode->setAttribute('x', '50%');
+    $textNode->setAttribute('x', '320px');
     $textNode->setAttribute('y', $yValue);
 
     if($bold) {

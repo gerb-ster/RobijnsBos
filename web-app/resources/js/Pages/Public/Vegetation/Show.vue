@@ -34,7 +34,7 @@
             <v-list-item-subtitle>{{ $t('vegetation.fields.placed') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.remarks }}</h3></v-list-item-title>
+            <v-list-item-title><h3 class="text-pre-wrap">{{ vegetation.remarks }}</h3></v-list-item-title>
             <v-list-item-subtitle>{{ $t('vegetation.fields.remarks') }}</v-list-item-subtitle>
           </v-list-item>
           <v-list-item>

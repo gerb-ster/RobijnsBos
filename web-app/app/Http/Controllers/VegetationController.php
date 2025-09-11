@@ -187,10 +187,10 @@ class VegetationController extends Controller
    */
   public function showBoard(Vegetation $vegetation): StreamedResponse
   {
-    if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
+    //if (!file_exists(storage_path("app/boards/{$vegetation->uuid}.svg"))) {
       $boardGenerator = new BoardGenerator($vegetation);
       $boardGenerator->render();
-    }
+    //}
 
     $svgContent = file_get_contents(storage_path("app/boards/{$vegetation->uuid}.svg"));
 
