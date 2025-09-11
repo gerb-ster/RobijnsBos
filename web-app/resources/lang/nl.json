@@ -254,7 +254,7 @@
       "status": "Status",
       "placed": "Plantjaar",
       "amount": "Aantal",
-      "remarks": "Opmerkingen",
+      "remarks": "Verdere omschrijving",
       "showTextOnMap": "Toon naam & coördinaten op de kaart"
     },
     "tabs": {

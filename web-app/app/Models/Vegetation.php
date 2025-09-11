@@ -220,7 +220,7 @@ class Vegetation extends Model
    */
   public function generateQRCodeFile(): void
   {
-    $data = QrCode::size(512)
+    $data = QrCode::size(110)
       ->format('svg')
       ->merge('/public/images/logo.png')
       ->errorCorrection('M')
