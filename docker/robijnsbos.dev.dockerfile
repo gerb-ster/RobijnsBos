@@ -17,7 +17,7 @@ RUN apt-get install -y wget
 RUN apt-get install -y sudo
 RUN apt-get install -y iputils-ping
 RUN apt-get install -y locales locales-all
-RUN apt-get install -y libpng-dev
+RUN apt-get install -y libfreetype-dev libpng-dev libmcrypt-dev
 RUN apt-get install -y socat
 
 RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommends \
@@ -25,7 +25,9 @@ RUN apt-get update && apt-get install -y libmagickwand-dev --no-install-recommen
 && docker-php-ext-enable imagick
 
 # install additional PHP extensions
-RUN docker-php-ext-install pdo_mysql mysqli soap zip gd
+RUN docker-php-ext-install pdo_mysql mysqli soap zip
+RUN docker-php-ext-configure gd --enable-gd --with-freetype
+RUN docker-php-ext-install gd
 
 # copy exta php ini files
 COPY ../docker/php/* /usr/local/etc/php/conf.d

@@ -83,12 +83,8 @@ class BoardGenerator
     }
 
     $svgPath = storage_path(env('BOARDS_PATH').$this->vegetation->uuid.'.svg');
-    //$pngPath = storage_path(env('BOARDS_PATH').$this->vegetation->uuid.'.png');
 
     file_put_contents($svgPath, $svgTemplate);
-
-    //$rasterImage = $svgTemplate->toRasterImage(640, 320);
-    //imagepng($rasterImage, $pngPath);
   }
 
   /**
