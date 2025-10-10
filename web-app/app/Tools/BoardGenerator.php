@@ -72,7 +72,7 @@ class BoardGenerator
     $svgQRCode = SVG::fromFile($this->vegetation->getQRCodeFilePath());
     $svgQRCodeDoc = $svgQRCode->getDocument();
 
-    $svgQRCodeDoc->removeAttribute('viewBox');
+    //$svgQRCodeDoc->removeAttribute('viewBox');
     $svgQRCodeDoc->setAttribute('x', '520px');
     $svgQRCodeDoc->setAttribute('y', '200px');
 
