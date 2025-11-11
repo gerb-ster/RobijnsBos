@@ -33,7 +33,7 @@ services:
       - ./docker/db-init/:/docker-entrypoint-initdb.d
   robijnsbos_npm:
     container_name: robijnsbos_npm
-    image: node:current-alpine
+    image: node:22.19.0-alpine
     volumes:
       - ./web-app:/var/www
     entrypoint: [ "npm", "run", "dev" ]
