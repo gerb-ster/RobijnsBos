@@ -147,12 +147,8 @@ class VegetationController extends Controller
           ], 'LIKE', "%$search%");
         });
 
-        $query->orWhereHas('group', function($query) use ($search) {
+        $query->orWhereHas('area', function($query) use ($search) {
           $query->where('name', 'LIKE', "%$search%");
-
-          $query->orWhereHas('area', function($query) use ($search) {
-            $query->where('name', 'LIKE', "%$search%");
-          });
         });
       });
     }
