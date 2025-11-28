@@ -145,12 +145,12 @@ class CommentsController extends Controller
    * Remove the specified resource from storage.
    *
    * @param Vegetation $vegetation
-   * @param Comment $mutation
+   * @param Comment $comment
    * @return Redirector|RedirectResponse|Application
    */
-  public function destroy(Vegetation $vegetation, Comment $mutation): Redirector|RedirectResponse|Application
+  public function destroy(Vegetation $vegetation, Comment $comment): Redirector|RedirectResponse|Application
   {
-    $mutation->delete();
+    $comment->delete();
 
     return redirect(route('vegetation.show', [
       'vegetation' => $vegetation->uuid

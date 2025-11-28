@@ -137,7 +137,8 @@ class VegetationController extends Controller
       $queryBuilder->when($search, function ($query, $search) {
         $query->whereAny([
           'placed',
-          'number'
+          'number',
+          'remarks'
         ], 'LIKE', "%$search%");
 
         $query->orWhereHas('species', function($query) use ($search) {

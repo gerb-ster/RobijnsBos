@@ -275,7 +275,7 @@
     "confirmRemoveDialogText": "Weet u zeker dat u deze opmerking wilt verwijderen?",
     "confirmRestoreDialogText": "Weet u zeker dat u deze opmerking wilt herstellen?",
     "fields": {
-      "title": "Titel",
+      "name": "Naam",
       "remarks": "Opmerking",
       "status": "Status",
       "number": "Nummer"

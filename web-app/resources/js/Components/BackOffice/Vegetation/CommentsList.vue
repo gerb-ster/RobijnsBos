@@ -1,4 +1,5 @@
 <template>
+  <confirm ref="confirmDelete"></confirm>
   <v-row>
     <v-col cols="12" md="3">
       <v-text-field
@@ -52,6 +53,7 @@ import {useI18n} from "vue-i18n";
 import {Link, router} from "@inertiajs/vue3";
 import {ref} from "vue";
 import axios from "axios";
+import Confirm from "../../Confirm.vue";
 
 const { t } = useI18n({});
 
@@ -66,7 +68,6 @@ const totalItems = ref(0);
 const showDeleted = ref(false);
 
 const confirmDelete = ref(null);
-const confirmRestore = ref(null);
 
 const currentPage = ref(1);
 const itemsPerPage = ref(10);

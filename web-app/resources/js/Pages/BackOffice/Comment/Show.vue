@@ -12,7 +12,7 @@
         <v-col cols="12" md="4">
           <v-select
             v-model="form.status_id"
-            :label="$t('users.fields.role')"
+            :label="$t('comments.fields.status')"
             :items="statuses"
             :item-title="item => $t('commentStatus.'+item.name)"
             :rules="rules.required"
