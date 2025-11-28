@@ -117,7 +117,7 @@ class MapGenerator
     $treeAge = Carbon::now()->year - $year;
     $maxTreeHeight = (int) preg_replace("/[^0-9.]/", "", $vegetation->species->height);
 
-    $sizeConstant = 30;
+    $sizeConstant = 20;
 
     switch ($vegetation->species->type->name) {
       case 'crown_imperial':

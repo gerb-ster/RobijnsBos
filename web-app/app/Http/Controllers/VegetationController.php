@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Area;
 use App\Models\CommentStatus;
 use App\Models\MutationStatus;
+use App\Models\Species;
 use App\Models\SpeciesType;
 use App\Models\Vegetation;
+use App\Models\VegetationStatus;
 use App\Tools\BoardGenerator;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\JsonResponse;
@@ -48,7 +50,62 @@ class VegetationController extends Controller
     if (!empty($sortBy)) {
       // these joins are only needed for sorting
       foreach ($sortBy as $sortByRule) {
-        $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        switch ($sortByRule['key']) {
+          case 'location':
+            $queryBuilder
+              ->orderByRaw("CAST(JSON_EXTRACT(`location`, '$.x') AS FLOAT) {$sortByRule['order']}");
+            break;
+          case 'status.name':
+            $queryBuilder
+              ->orderBy(
+                VegetationStatus::select('name')
+                  ->whereColumn('vegetation_status.id', 'vegetations.status_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.dutch_name':
+            $queryBuilder
+              ->orderBy(
+                Species::select('dutch_name')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.latin_name':
+            $queryBuilder
+              ->orderBy(
+                Species::select('latin_name')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.blossom_month':
+            $queryBuilder
+              ->orderBy(
+                Species::select('blossom_month')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'species.height':
+            $queryBuilder
+              ->orderBy(
+                Species::select('height')
+                  ->whereColumn('species.id', 'vegetations.specie_id')
+                , $sortByRule['order']
+              );
+            break;
+          case 'area.name':
+            $queryBuilder
+              ->orderBy(
+                Area::select('name')
+                  ->whereColumn('areas.id', 'vegetations.area_id')
+                , $sortByRule['order']
+              );
+            break;
+          default:
+            $queryBuilder->orderBy($sortByRule['key'], $sortByRule['order']);
+        }
       }
     }
 
@@ -60,7 +117,8 @@ class VegetationController extends Controller
       $queryBuilder->when($search, function ($query, $search) {
         $query->whereAny([
           'placed',
-          'number'
+          'number',
+          'remarks'
         ], 'LIKE', "%$search%");
 
         $query->orWhereHas('species', function($query) use ($search) {
