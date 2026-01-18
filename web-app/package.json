@@ -9,13 +9,11 @@
     "vue-i18n-extract": "vue-i18n-extract report --vueFiles './resources/js/**/*.?(js|vue)' --languageFiles './resources/lang/*.?(json|yml|yaml|js)' --add true"
   },
   "devDependencies": {
-    "@mdi/font": "^7.1.96",
     "autoprefixer": "^10.4.22",
     "axios": "1.13.2",
     "css-loader": "^7.1.2",
     "laravel-vite-plugin": "^2.0.1",
     "lodash": "^4.17.19",
-    "material-design-icons-iconfont": "^6.7.0",
     "postcss": "^8.4.21",
     "postcss-cli": "^11.0.1",
     "style-loader": "^4.0.0",
@@ -32,11 +30,12 @@
     "@fontsource/righteous": "^5.2.7",
     "@fontsource/share-tech-mono": "^5.2.7",
     "@inertiajs/vue3": "^2.2.15",
+    "@mdi/font": "^7.1.96",
     "@mdi/svg": "^7.1.96",
+    "material-design-icons-iconfont": "^6.7.0",
     "@vee-validate/rules": "^4.9.6",
-    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue": "^6.0.3",
     "alpinejs": "^3.15.1",
-    "apexcharts": "^5.3.6",
     "circle-flags": "github:HatScripts/circle-flags",
     "cli": "^1.0.1",
     "dayjs": "^1.11.19",
@@ -51,7 +50,6 @@
     "vue-panzoom": "^1.1.6",
     "vue-svg-pan-zoom": "^2.1.0",
     "vue-uuid": "^3.0.0",
-    "vue3-apexcharts": "^1.10.0",
     "vuetify": "^3.10.9"
   },
   "optionalDependencies": {
