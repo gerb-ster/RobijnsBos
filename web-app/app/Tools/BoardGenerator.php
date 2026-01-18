@@ -5,6 +5,7 @@ namespace App\Tools;
 use App\Models\Vegetation;
 use SVG\Nodes\Structures\SVGGroup;
 use SVG\Nodes\Texts\SVGText;
+use SVG\Nodes\Texts\SVGTSpan;
 use SVG\Rasterization\SVGRasterizer;
 use SVG\SVG;
 
@@ -38,15 +39,7 @@ class BoardGenerator
     $qrLayer = $templateDoc->getElementById('qrLayer');
     $textLayer = $templateDoc->getElementById('textLayer');
 
-    // add latin name
-    $latinName = $this->createTextNode(
-      style: 'italic',
-      text: $this->vegetation->species->latin_name,
-      fontSize: 40,
-      yValue: 75,
-      bold: false
-    );
-    $textLayer->addChild($latinName);
+    $this->processLatinName($this->vegetation->species->latin_name, $textLayer);
 
     // add regular name
     $regularName = $this->createTextNode(
@@ -88,14 +81,56 @@ class BoardGenerator
   }
 
   /**
+   * @param string $text
+   * @param $textLayer
+   * @return void
+   */
+  private function processLatinName(string $text, $textLayer): void
+  {
+    $preText = null;
+    $familyName = $text;
+
+    if (preg_match('/\'([^\']+)\'/', $text, $matches)) {
+      $preText = $matches[0];
+      $familyName = trim(str_replace($preText, '', $familyName));
+    }
+
+    if ($preText) {
+      $preTextNode = $this->createTextNode(
+        style: 'regular',
+        text: $preText,
+        fontSize: 40,
+        yValue: 75,
+        bold: false
+      );
+
+      $familyNameNode = new SVGTSpan();
+      $familyNameNode->setValue($familyName . " ");
+      $familyNameNode->setAttribute('font-style', 'italic');
+
+      $preTextNode->addChild($familyNameNode);
+      $textLayer->addChild($preTextNode);
+    } else {
+      $textLayer->addChild($this->createTextNode(
+        style: 'italic',
+        text: $familyName,
+        fontSize: 40,
+        yValue: 75,
+        bold: false
+      ));
+    }
+  }
+
+  /**
    * @param string $style
    * @param string $text
    * @param int $fontSize
    * @param int $yValue
    * @param bool $bold
+   * @param int $xPos
    * @return SVGText
    */
-  private function createTextNode(string $style, string $text, int $fontSize, int $yValue, bool $bold): SVGText
+  private function createTextNode(string $style, string $text, int $fontSize, int $yValue, bool $bold, int $xPos = 320): SVGText
   {
     $textNode = new SVGText($text);
     $textNode->setAttribute('font-family', 'Roboto, Roboto-Regular, ArialMT, Arial, sans-serif');
@@ -103,7 +138,7 @@ class BoardGenerator
     $textNode->setAttribute('font-size', $fontSize);
     $textNode->setAttribute('dominant-baseline', 'middle');
     $textNode->setAttribute('text-anchor', 'middle');
-    $textNode->setAttribute('x', '320px');
+    $textNode->setAttribute('x', $xPos . 'px');
     $textNode->setAttribute('y', $yValue);
 
     if($bold) {
