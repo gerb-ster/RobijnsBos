@@ -53,7 +53,7 @@
           class="ms-4"
           prepend-icon="mdi-pencil-outline"
           color="primary"
-          :href="$route('vegetation.show', {vegetation: vegetation.uuid})"
+          :href="route('vegetation.show', {vegetation: vegetation.uuid})"
           elevation="0"
         > {{ $t('public.vegetation.show.editBtn') }}
         </v-btn>
@@ -61,7 +61,7 @@
       <v-col cols="12" md="3">
         <v-img
           class="border border-error mb-3"
-          :src="$route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
+          :src="route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
         ></v-img>
       </v-col>
       <v-col cols="12" md="3">
@@ -81,7 +81,7 @@
         <v-btn
           prepend-icon="mdi-plus"
           color="primary"
-          :href="$route('public.vegetation.comment.create', {vegetation: vegetation.uuid})"
+          :href="route('public.vegetation.comment.create', {vegetation: vegetation.uuid})"
           elevation="0"
         > {{ $t('public.comments.addBtn') }}
         </v-btn>
@@ -104,7 +104,7 @@
           v-if="auth.user !== null"
           prepend-icon="mdi-plus"
           color="primary"
-          :href="$route('public.vegetation.mutation.create', {vegetation: vegetation.uuid})"
+          :href="route('public.vegetation.mutation.create', {vegetation: vegetation.uuid})"
           elevation="0"
         > {{ $t('public.mutations.addBtn') }}
         </v-btn>
@@ -117,7 +117,8 @@
 
 import {Head, usePage} from '@inertiajs/vue3';
 import {renderDateTime} from "../../../Logic/Helpers.ts";
-import {computed} from "vue";
+import {computed, inject} from "vue";
+const route = inject('route');
 
 const page = usePage()
 const auth = computed(() => page.props.auth)

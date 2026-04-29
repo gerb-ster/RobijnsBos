@@ -31,12 +31,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('public.vegetation.show', {vegetation: vegetation.uuid})">
+          <Link :href="route('public.vegetation.show', {vegetation: vegetation.uuid})">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('public.vegetation.show', {vegetation: vegetation.uuid})"
+              :href="route('public.vegetation.show', {vegetation: vegetation.uuid})"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -53,8 +53,9 @@ import {useForm, Head, Link} from '@inertiajs/vue3';
 import {required, email} from '@vee-validate/rules';
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
-import { computed } from 'vue'
+import { computed, inject} from 'vue'
 import { usePage } from '@inertiajs/vue3'
+const route = inject('route');
 
 const page = usePage()
 

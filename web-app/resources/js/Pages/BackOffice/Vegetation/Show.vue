@@ -82,7 +82,7 @@
                 <v-col cols="12" md="4">
                   <v-img
                     class="border border-error mb-3"
-                    :src="$route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
+                    :src="route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
                   ></v-img>
                   <v-btn
                     color="primary"
@@ -91,7 +91,7 @@
                     block
                     elevation="0"
                     class="mb-3"
-                    :href="$route('vegetation.downloadBoard', {vegetation: vegetation.uuid})"
+                    :href="route('vegetation.downloadBoard', {vegetation: vegetation.uuid})"
                     target="_blank"
                     prepend-icon="mdi-download-circle-outline"
                   >{{ $t('vegetation.downloadBoardBtn') }}</v-btn>
@@ -102,7 +102,7 @@
                     block
                     elevation="0"
                     variant="outlined"
-                    :href="$route('public.vegetation.redirect', {shortCode: vegetation.qr_shortcode})"
+                    :href="route('public.vegetation.redirect', {shortCode: vegetation.qr_shortcode})"
                     target="_blank"
                     prepend-icon="mdi-link-variant"
                   >{{ $t('vegetation.openPublicProfileBtn') }}</v-btn>
@@ -128,12 +128,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('vegetation.index')">
+          <Link :href="route('vegetation.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('vegetation.index')"
+              :href="route('vegetation.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -150,9 +150,10 @@ import {Head, Link, useForm} from '@inertiajs/vue3';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
-import {ref, computed} from "vue";
+import {ref, computed, inject} from "vue";
 import MutationsList from "../../../Components/BackOffice/Vegetation/MutationsList.vue";
 import CommentsList from "../../../Components/BackOffice/Vegetation/CommentsList.vue";
+const route = inject('route');
 
 const props = defineProps(['vegetation', 'groups', 'species', 'status']);
 

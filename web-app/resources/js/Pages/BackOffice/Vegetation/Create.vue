@@ -81,12 +81,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('vegetation.index')">
+          <Link :href="route('vegetation.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('vegetation.index')"
+              :href="route('vegetation.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -100,10 +100,12 @@
 <script setup>
 
 import {Head, Link, useForm} from '@inertiajs/vue3';
+import {inject} from 'vue';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
 import dayjs from "dayjs";
+const route = inject('route');
 
 const props = defineProps(['groups', 'species', 'status']);
 

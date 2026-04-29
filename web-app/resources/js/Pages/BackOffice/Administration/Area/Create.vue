@@ -67,12 +67,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('areas.index')">
+          <Link :href="route('areas.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('areas.index')"
+              :href="route('areas.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -86,9 +86,11 @@
 <script setup>
 
 import {Head, Link, useForm} from '@inertiajs/vue3';
+import {inject} from 'vue';
 import {email, required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
+const route = inject('route');
 
 const props = defineProps(['roles']);
 

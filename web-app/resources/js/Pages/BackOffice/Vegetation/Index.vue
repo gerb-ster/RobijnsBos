@@ -56,7 +56,7 @@
         ></v-checkbox>
       </v-col>
       <v-col cols="12" md="1">
-        <Link as="div" :href="$route('vegetation.create')">
+        <Link as="div" :href="route('vegetation.create')">
           <v-btn
             icon="mdi-plus"
             color="primary"
@@ -117,10 +117,11 @@
 import {router, Head, Link} from '@inertiajs/vue3';
 import Confirm from "../../../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
-import {ref, watch, onUpdated, onBeforeMount} from 'vue';
+import {ref, watch, onUpdated, onBeforeMount, inject} from 'vue';
 import axios from 'axios';
 import FlashMessages from "../../../Shared/FlashMessages.vue";
 import {openStorage, storeInput} from "../../../Logic/Helpers";
+const route = inject('route');
 
 const {t} = useI18n({});
 const props = defineProps({
