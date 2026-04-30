@@ -11,6 +11,6 @@
   @routes
 </head>
 <body>
-<x-inertia::app id="inventory-app"/>
+<x-inertia::app id="robijnsbos-app"/>
 </body>
 </html>

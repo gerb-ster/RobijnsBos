@@ -5,7 +5,7 @@
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
-          <div :class="['text-h5', 'pa-2']">{{ $t('vegetation.createTitle') }}</div>
+          <p class="text-title-large">{{ $t('vegetation.createTitle') }}</p>
         </v-col>
       </v-row>
       <v-row>

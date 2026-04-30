@@ -50,7 +50,8 @@
     "vue-panzoom": "^1.1.6",
     "vue-svg-pan-zoom": "^2.1.0",
     "vue-uuid": "^3.0.0",
-    "vuetify": "^4.0.6"
+    "vuetify": "^4.0.6",
+    "ziggy-js": "^2.6.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.6.1"

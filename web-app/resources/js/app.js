@@ -13,7 +13,6 @@ import {nl as nlDayJs} from 'dayjs/locale/nl'
 import {en as enDayJs} from 'dayjs/locale/en'
 
 // Vuetify related
-import {VDataTable, VDataTableServer} from 'vuetify/components/VDataTable'
 import {VDateInput} from 'vuetify/labs/VDateInput'
 import {createVuetify} from 'vuetify'
 import * as directives from 'vuetify/directives'
@@ -27,6 +26,7 @@ import nlLang from '../lang/nl.json';
 // Custom theming
 import '../sass/variables.scss';
 import Layout from "./Shared/Layout.vue";
+import {ZiggyVue} from "ziggy-js";
 
 const i18n = createI18n({
   locale: 'nl',
@@ -40,9 +40,7 @@ const i18n = createI18n({
 
 const vuetify = createVuetify({
   components: {
-    VDateInput,
-    VDataTable,
-    VDataTableServer
+    VDateInput
   },
   directives,
   icons: {
@@ -67,6 +65,7 @@ const vuetify = createVuetify({
 });
 
 createInertiaApp({
+  id: 'robijnsbos-app',
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', {eager: true});
     let page = pages[`./Pages/${name}.vue`];
@@ -76,11 +75,18 @@ createInertiaApp({
     return page
   },
   setup({el, App, props, plugin}) {
+    // always use the current URL for Ziggy
+    Ziggy.url = window.location.protocol + '//' + window.location.hostname;
+    if (window.location.port) {
+      Ziggy.url += ':' + window.location.port;
+    }
+
     const app = createApp({render: () => h(App, props)})
       .use(plugin)
       .use(vuetify)
       .use(i18n)
-      .use(VueAxios, axios);
+      .use(VueAxios, axios)
+      .use(ZiggyVue, Ziggy);
 
     app.config.globalProperties.$filters = {
       truncate: function (value, num) {

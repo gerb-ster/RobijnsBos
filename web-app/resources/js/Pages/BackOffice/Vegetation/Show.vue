@@ -5,10 +5,10 @@
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
-          <div :class="['text-h5', 'pa-2']">{{ $t('vegetation.showTitle') }}</div>
+          <p class="text-title-large">{{ $t('vegetation.showTitle') }}</p>
         </v-col>
       </v-row>
-      <v-card rounded="0">
+      <v-card rounded="0" elevation="0">
         <v-tabs v-model="tab">
           <v-tab value="data">{{ $t('vegetation.tabs.data') }}</v-tab>
           <v-tab value="mutations">{{ $t('vegetation.tabs.mutations') }}</v-tab>
