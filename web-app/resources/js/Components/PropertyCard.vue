@@ -1,6 +1,12 @@
 <template>
-  <v-card variant="tonal" color="surface-variant" class="rounded-lg bg-blue-grey-lighten-5">
-    <v-card-title :class="[nameSize, 'opacity-70', 'font-weight-bold', 'text-uppercase', 'mb-0']">{{ name }}:</v-card-title>
+  <v-card
+    variant="outlined"
+    color="surface-variant"
+    border="sm surface-variant"
+    class="bg-grey-lighten-5 rounded-lg"
+    min-height="80"
+  >
+    <v-card-title :class="[nameSize, 'opacity-70', 'font-weight-bold', 'text-uppercase', 'mb-0', 'mt-2']">{{ name }}:</v-card-title>
     <v-card-text :class="[valueSize, 'font-weight-bold', 'mt-0']">{{ parseValue(value) }}</v-card-text>
   </v-card>
 </template>
