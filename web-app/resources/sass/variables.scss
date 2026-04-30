@@ -1,10 +1,8 @@
 @use 'vuetify' with (
   $body-font-family: "Open Sans",
-  $heading-font-family: "Merriweather",
   $font-size-root: 14px
 );
 
-@use '@fontsource/merriweather' as *;
 @use '@fontsource/open-sans' as *;
 
 .publicGradient {

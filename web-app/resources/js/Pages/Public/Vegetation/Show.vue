@@ -1,113 +1,113 @@
 <template>
-  <Head><title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title></Head>
-  <v-container fluid>
+  <Head>
+    <title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title>
+  </Head>
+  <v-container max-width="1400" class="mx-auto">
     <v-row>
-      <v-col cols="12" md="3">
-        <h2>{{ vegetation.label }}</h2>
-        <v-list lines="two">
-          <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.location['x'] }}, {{ vegetation.location['y'] }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('vegetation.fields.location.name') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.area ? vegetation.area.name : '-' }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('vegetation.fields.area') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ $t('vegetationStatus.' + vegetation.status.name) }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('vegetation.fields.status') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.species.dutch_name }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('species.fields.dutchName') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.species.latin_name }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('species.fields.latinName') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ $t('specieTypes.'+vegetation.species.type.name) }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('species.fields.type') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3>{{ vegetation.placed }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('vegetation.fields.placed') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title><h3 class="text-pre-wrap">{{ vegetation.remarks }}</h3></v-list-item-title>
-            <v-list-item-subtitle>{{ $t('vegetation.fields.remarks') }}</v-list-item-subtitle>
-          </v-list-item>
-          <v-list-item>
-            <v-list-item-title>
-              <h3>
-                <span v-for="(month, index) in vegetation.species.blossom_month">
-                  {{ $t('months.'+month) }}<span v-if="index+1 < vegetation.species.blossom_month.length">, </span>
-                </span>
-              </h3>
-            </v-list-item-title>
-            <v-list-item-subtitle>{{ $t('species.fields.blossomMonth') }}</v-list-item-subtitle>
-          </v-list-item>
-        </v-list>
-        <v-btn
-          v-if="canAdministrate"
-          class="ms-4"
-          prepend-icon="mdi-pencil-outline"
-          color="primary"
-          :href="route('vegetation.show', {vegetation: vegetation.uuid})"
-          elevation="0"
-        > {{ $t('public.vegetation.show.editBtn') }}
-        </v-btn>
+      <v-col cols="12" md="8">
+        <div class="text-headline-large font-weight-bold">{{ vegetation.species.dutch_name }} &bull; {{ vegetation.species.latin_name }}</div>
+        <p class="text-body-medium">{{ vegetation.label }}</p>
       </v-col>
-      <v-col cols="12" md="3">
-        <v-img
-          class="border border-error mb-3"
-          :src="route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
-        ></v-img>
+      <v-col cols="12" md="4">
+        <v-chip variant="tonal" size="large" class="float-end border-surface-light">
+          {{ $t('vegetation.fields.location.name') }}:
+          <span class="font-weight-bold ml-2">{{ vegetation.location['x'] }}, {{ vegetation.location['y'] }}</span>
+        </v-chip>
+        <v-chip variant="tonal" size="large"  class="float-end mr-2">
+          {{ $t('vegetation.fields.area') }}:
+          <span class="font-weight-bold ml-2">{{ vegetation.area ? vegetation.area.name : '-' }}</span>
+        </v-chip>
       </v-col>
-      <v-col cols="12" md="3">
-        <h2 class="mb-5">{{ $t('public.vegetation.show.comments') }}</h2>
+    </v-row>
+    <v-row>
+      <v-col cols="12" md="5">
         <v-card
-          color="primary"
-          variant="tonal"
-          class="mx-auto mb-5"
-          v-for="(comment, index) in vegetation.comments"
+          variant="text"
+          rounded="lg"
+          class="elevation-2"
+          border="sm"
         >
-          <v-card-title>{{ comment.name }}</v-card-title>
-          <v-card-text>
-            {{ comment.remarks }}
-            <div class="text-caption mt-4">{{ renderDateTime(comment.created_at) }}</div>
+          <v-toolbar color="transparent" density="comfortable">
+            <v-toolbar-title
+              class="font-weight-bold"
+              text="Overzicht"
+            ></v-toolbar-title>
+            <template v-slot:append>
+              <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">{{ vegetation.number }}</div>
+            </template>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-card-text class="pb-8 pt-8">
+            <div class="text-headline-small">{{ vegetation.species.dutch_name }}</div>
+            <div class="text-body-medium">{{ vegetation.species.latin_name }}</div>
+            <v-row>
+              <v-col cols="12" md="6">
+                <property-card
+                  :name="$t('vegetation.fields.placed')"
+                  :value="vegetation.placed"
+                ></property-card>
+              </v-col>
+              <v-col cols="12" md="6">
+                <property-card
+                  :name="$t('vegetation.fields.status')"
+                  :value="$t('vegetationStatus.' + vegetation.status.name)"
+                ></property-card>
+              </v-col>
+              <v-col cols="12" md="6">
+                <property-card
+                  :name="$t('species.fields.blossomMonth')"
+                  :value="vegetation.species.blossom_month"
+                ></property-card>
+              </v-col>
+              <v-col cols="12" md="6">
+                <property-card
+                  :name="$t('species.fields.height')"
+                  :value="vegetation.species.height"
+                ></property-card>
+              </v-col>
+            </v-row>
+            <p class="text-body-medium">{{ vegetation.remarks }}</p>
           </v-card-text>
         </v-card>
-        <v-btn
-          prepend-icon="mdi-plus"
-          color="primary"
-          :href="route('public.vegetation.comment.create', {vegetation: vegetation.uuid})"
-          elevation="0"
-        > {{ $t('public.comments.addBtn') }}
-        </v-btn>
       </v-col>
-      <v-col cols="12" md="3">
-        <h2 class="mb-5">{{ $t('public.vegetation.show.mutations') }}</h2>
+      <v-col cols="12" md="7">
         <v-card
-          color="secondary"
-          variant="tonal"
-          class="mx-auto mb-5"
-          v-for="(mutation, index) in vegetation.mutations"
+          variant="text"
+          rounded="lg"
+          class="elevation-2"
+          border="sm"
         >
-          <v-card-title>{{ mutation.title }}</v-card-title>
-          <v-card-text>
-            {{ mutation.remarks }}
-            <div class="text-caption mt-4">Op {{ renderDateTime(mutation.created_at) }} door {{ mutation.user.name }}</div>
+          <v-toolbar color="transparent" density="comfortable">
+            <v-toolbar-title
+              class="font-weight-bold"
+              text="Kaart / Label"
+            ></v-toolbar-title>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-card-text class="pb-8 pt-8">
+            <v-img
+              class="border border-error mb-3"
+              :src="route('public.vegetation.showBoard', {vegetation: vegetation.uuid})"
+            ></v-img>
           </v-card-text>
         </v-card>
-        <v-btn
-          v-if="auth.user !== null"
-          prepend-icon="mdi-plus"
-          color="primary"
-          :href="route('public.vegetation.mutation.create', {vegetation: vegetation.uuid})"
-          elevation="0"
-        > {{ $t('public.mutations.addBtn') }}
-        </v-btn>
+        <v-card
+          variant="text"
+          rounded="lg"
+          class="elevation-2 mt-4"
+          border="sm"
+        >
+          <v-toolbar color="transparent" density="comfortable">
+            <v-toolbar-title
+              class="font-weight-bold"
+              text="Notities"
+            ></v-toolbar-title>
+          </v-toolbar>
+          <v-divider></v-divider>
+          <v-card-text class="pb-8 pt-8">
+
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -118,6 +118,7 @@
 import {Head, usePage} from '@inertiajs/vue3';
 import {renderDateTime} from "../../../Logic/Helpers.ts";
 import {computed, inject} from "vue";
+import PropertyCard from "../../../Components/PropertyCard.vue";
 const route = inject('route');
 
 const page = usePage()
