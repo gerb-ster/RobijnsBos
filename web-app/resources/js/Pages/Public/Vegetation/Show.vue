@@ -2,13 +2,13 @@
   <Head>
     <title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title>
   </Head>
-  <v-container max-width="1400" class="mx-auto">
+  <v-container max-width="960" class="mx-auto">
     <v-row>
-      <v-col cols="12" md="8">
+      <v-col cols="12" md="6">
         <div class="text-headline-large font-weight-bold">{{ vegetation.species.dutch_name }} &bull; {{ vegetation.species.latin_name }}</div>
         <p class="text-body-medium">{{ vegetation.label }}</p>
       </v-col>
-      <v-col cols="12" md="4">
+      <v-col cols="12" md="6">
         <v-chip
           variant="outlined"
           size="large"
@@ -119,7 +119,7 @@
           <v-toolbar color="transparent" density="comfortable">
             <v-toolbar-title
               class="font-weight-bold"
-              text="Notities"
+              text="Notities & Onderhoud"
             ></v-toolbar-title>
             <template v-slot:append>
               <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">Intern</div>
