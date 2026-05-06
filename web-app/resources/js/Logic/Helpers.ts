@@ -1,3 +1,4 @@
+// @ts-ignore
 import dayjs from "dayjs";
 
 /**
@@ -22,6 +23,14 @@ export function renderUnixDate(timestamp: string) {
  */
 export function renderDateTime(timestamp: string) {
     return dayjs(timestamp).format('DD-MM-YYYY hh:mm');
+}
+
+/**
+ * renderDateTime
+ * @param timestamp
+ */
+export function renderNiceDate(timestamp: string) {
+  return dayjs(timestamp).format('DD MMM YYYY');
 }
 
 /**

@@ -127,7 +127,85 @@
           </v-toolbar>
           <v-divider></v-divider>
           <v-card-text class="pb-8 pt-4">
-
+            <v-tabs v-model="tab" color="primary" :items="tabs">
+              <template v-slot:tab="{ item }">
+                <v-tab
+                  :text="item.text"
+                  :value="item.value"
+                  class="rounded-pill pa-2 mr-2 font-weight-bold"
+                  variant="outlined"
+                  border="sm surface-variant"
+                  selected-class="bg-light-green-lighten-5 white"
+                ></v-tab>
+              </template>
+            </v-tabs>
+            <v-tabs-window v-model="tab">
+              <v-tabs-window-item value="comments">
+                <v-sheet class="pt-5">
+                  <v-btn
+                    prepend-icon="mdi-plus"
+                    color="success"
+                    :href="route('public.vegetation.comment.create', {vegetation: vegetation.uuid})"
+                    elevation="0"
+                    :text="$t('public.comments.addBtn')"
+                    block
+                    class="rounded-pill font-weight-bold"
+                  ></v-btn>
+                  <v-card
+                    variant="outlined"
+                    border="sm surface-variant"
+                    class="mx-auto mt-5 rounded-lg"
+                    v-for="(comment, index) in vegetation.comments"
+                  >
+                    <v-toolbar color="transparent" density="comfortable">
+                      <v-toolbar-title
+                        class="font-weight-bold"
+                        :text="comment.name"
+                      ></v-toolbar-title>
+                      <template v-slot:append>
+                        <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">{{ renderNiceDate(comment.created_at) }}</div>
+                      </template>
+                    </v-toolbar>
+                    <v-card-text class="ml-2 text-body-large">
+                      {{ comment.remarks }}
+                    </v-card-text>
+                  </v-card>
+                </v-sheet>
+              </v-tabs-window-item>
+              <v-tabs-window-item value="mutations">
+                <v-sheet class="pt-5">
+                  <v-btn
+                    v-if="auth.user !== null"
+                    prepend-icon="mdi-plus"
+                    color="success"
+                    :href="route('public.vegetation.mutation.create', {vegetation: vegetation.uuid})"
+                    elevation="0"
+                    :text="$t('public.mutations.addBtn')"
+                    block
+                    class="rounded-pill font-weight-bold"
+                  ></v-btn>
+                  <v-card
+                    color="secondary"
+                    variant="tonal"
+                    class="mx-auto mb-5"
+                    v-for="(mutation, index) in vegetation.mutations"
+                  >
+                    <v-toolbar color="transparent" density="comfortable">
+                      <v-toolbar-title
+                        class="font-weight-bold"
+                        :text="mutation.title"
+                      ></v-toolbar-title>
+                      <template v-slot:append>
+                        <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">Op {{ renderNiceDate(mutation.created_at) }} door {{ mutation.user.name }}</div>
+                      </template>
+                    </v-toolbar>
+                    <v-card-text>
+                      {{ mutation.remarks }}
+                    </v-card-text>
+                  </v-card>
+                </v-sheet>
+              </v-tabs-window-item>
+            </v-tabs-window>
           </v-card-text>
         </v-card>
       </v-col>
@@ -138,13 +216,29 @@
 <script setup>
 
 import {Head, usePage} from '@inertiajs/vue3';
-import {renderDateTime} from "../../../Logic/Helpers.ts";
-import {computed, inject} from "vue";
+import {renderDateTime, renderNiceDate} from "../../../Logic/Helpers.ts";
+import {computed, inject, shallowRef} from "vue";
 import PropertyCard from "../../../Components/PropertyCard.vue";
-const route = inject('route');
+import {useI18n} from "vue-i18n";
 
-const page = usePage()
+const route = inject('route');
+const {t} = useI18n({});
+const page = usePage();
+
 const auth = computed(() => page.props.auth)
+
+const tab = shallowRef('comments');
+
+const tabs = [
+  {
+    text: t('public.vegetation.show.comments') ,
+    value: 'comments',
+  },
+  {
+    text: t('public.vegetation.show.mutations') ,
+    value: 'mutations',
+  }
+]
 
 const props = defineProps({
   vegetation: Object,
