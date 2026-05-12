@@ -47,7 +47,7 @@
           >
             {{ $t('auth.login.signInBtn') }}
           </v-btn>
-          <a :href="$route('forgotPassword')">{{ $t('auth.login.forgotPasswordLink') }}</a>
+          <a :href="route('forgotPassword')">{{ $t('auth.login.forgotPasswordLink') }}</a>
         </v-card-text>
       </v-card>
     </v-form>
@@ -57,10 +57,11 @@
 <script setup>
 
 import {Head, useForm} from "@inertiajs/vue3";
-import {ref} from "vue";
+import {ref, inject} from "vue";
 import {required} from "@vee-validate/rules";
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../Shared/FlashMessages.vue";
+const route = inject('route');
 
 const {t} = useI18n({});
 

@@ -10,17 +10,17 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.22",
-    "axios": "1.13.2",
+    "axios": "1.15.0",
     "css-loader": "^7.1.2",
-    "laravel-vite-plugin": "^2.0.1",
+    "laravel-vite-plugin": "^3.0.1",
     "lodash": "^4.17.19",
     "postcss": "^8.4.21",
     "postcss-cli": "^11.0.1",
     "style-loader": "^4.0.0",
     "stylus": "^0.64.0",
     "stylus-loader": "^8.1.2",
-    "vite": "7.1.11",
-    "vite-plugin-static-copy": "^3.1.4"
+    "vite": "8.0.5",
+    "vite-plugin-static-copy": "^4.1.0"
   },
   "dependencies": {
     "@date-io/dayjs": "^3.2.0",
@@ -29,7 +29,7 @@
     "@fontsource/pitagon-sans-mono": "^5.1.0",
     "@fontsource/righteous": "^5.2.7",
     "@fontsource/share-tech-mono": "^5.2.7",
-    "@inertiajs/vue3": "^2.2.15",
+    "@inertiajs/vue3": "^3.0.3",
     "@mdi/font": "^7.1.96",
     "@mdi/svg": "^7.1.96",
     "material-design-icons-iconfont": "^6.7.0",
@@ -39,18 +39,19 @@
     "circle-flags": "github:HatScripts/circle-flags",
     "cli": "^1.0.1",
     "dayjs": "^1.11.19",
-    "flowbite": "^3.1.2",
+    "flowbite": "^4.0.1",
     "highlight.js": "^11.7.0",
     "sass": "^1.94.0",
     "vee-validate": "^4.9.6",
     "vite-plugin-vuetify": "^2.0.4",
     "vue-axios": "^3.5.2",
-    "vue-i18n": "11.1.12",
+    "vue-i18n": "11.4.0",
     "vue-inline-svg": "^4.0.0",
     "vue-panzoom": "^1.1.6",
     "vue-svg-pan-zoom": "^2.1.0",
     "vue-uuid": "^3.0.0",
-    "vuetify": "^3.10.9"
+    "vuetify": "^4.0.6",
+    "ziggy-js": "^2.6.2"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.6.1"

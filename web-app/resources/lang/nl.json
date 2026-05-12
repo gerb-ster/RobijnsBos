@@ -246,7 +246,8 @@
       "location": {
         "name": "Coördinaten",
         "x": "X",
-        "y": "Y"
+        "y": "Y",
+        "grid": "Rasteraanduiding (bijv. 6, 2.1)"
       },
       "label": "Label",
       "area": "Gebied",

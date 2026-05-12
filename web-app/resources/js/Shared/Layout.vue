@@ -27,85 +27,85 @@
       temporary
     >
       <v-list @update:selected="select">
-        <Link as="div" :href="$route('public.vegetation.map')">
+        <Link as="div" :href="route('public.vegetation.map')">
           <v-list-item
             prepend-icon="mdi-map-legend"
             :title="$t('navigation.map')"
             value="map"
-            :href="$route('public.vegetation.map')"
+            :href="route('public.vegetation.map')"
             @click="drawer=!drawer"
           ></v-list-item>
         </Link>
         <template v-if="auth.user === null">
-          <Link as="div" :href="$route('public.vegetation.overview')">
+          <Link as="div" :href="route('public.vegetation.overview')">
             <v-list-item
               prepend-icon="mdi-forest-outline"
               :title="$t('navigation.overview')"
               value="overview"
-              :href="$route('public.vegetation.overview')"
+              :href="route('public.vegetation.overview')"
               @click="drawer=!drawer"
             ></v-list-item>
           </Link>
           <v-divider></v-divider>
-          <Link as="div" :href="$route('login')">
+          <Link as="div" :href="route('login')">
             <v-list-item
               prepend-icon="mdi-key-chain-variant"
               :title="$t('navigation.login')"
               value="login"
-              :href="$route('login')"
+              :href="route('login')"
               @click="drawer=!drawer"
             ></v-list-item>
           </Link>
         </template>
         <template v-else>
           <template v-if="auth.user.canAccessBackOffice">
-            <Link as="div" :href="$route('vegetation.index')">
+            <Link as="div" :href="route('vegetation.index')">
               <v-list-item
                 prepend-icon="mdi-forest-outline"
                 :title="$t('navigation.vegetation')"
                 value="vegetation"
-                :href="$route('vegetation.index')"
+                :href="route('vegetation.index')"
                 @click="drawer=!drawer"
               ></v-list-item>
             </Link>
             <template v-if="auth.user.canAdministrate">
               <v-divider></v-divider>
-              <Link as="div" :href="$route('species.index')">
+              <Link as="div" :href="route('species.index')">
                 <v-list-item
                   prepend-icon="mdi-sprout"
                   :title="$t('navigation.species')"
                   value="species"
-                  :href="$route('species.index')"
+                  :href="route('species.index')"
                   @click="drawer=!drawer"
                 ></v-list-item>
               </Link>
-              <Link as="div" :href="$route('areas.index')">
+              <Link as="div" :href="route('areas.index')">
                 <v-list-item
                   prepend-icon="mdi-group"
                   :title="$t('navigation.areaGroup')"
                   value="areaGroup"
-                  :href="$route('areas.index')"
+                  :href="route('areas.index')"
                   @click="drawer=!drawer"
                 ></v-list-item>
               </Link>
-              <Link as="div" :href="$route('users.index')">
+              <Link as="div" :href="route('users.index')">
                 <v-list-item
                   prepend-icon="mdi-account-group-outline"
                   :title="$t('navigation.users')"
                   value="users"
-                  :href="$route('users.index')"
+                  :href="route('users.index')"
                   @click="drawer=!drawer"
                 ></v-list-item>
               </Link>
             </template>
           </template>
           <template v-else>
-            <Link as="div" :href="$route('public.vegetation.overview')">
+            <Link as="div" :href="route('public.vegetation.overview')">
               <v-list-item
                 prepend-icon="mdi-forest-outline"
                 :title="$t('navigation.overview')"
                 value="overview"
-                :href="$route('public.vegetation.overview')"
+                :href="route('public.vegetation.overview')"
                 @click="drawer=!drawer"
               ></v-list-item>
             </Link>
@@ -129,10 +129,11 @@
 <script setup>
 
 import {Link, router} from "@inertiajs/vue3";
-import {ref, watch} from "vue";
+import {ref, watch, inject} from "vue";
 import Confirm from "../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
 import LanguageSelect from "../Components/AppBar/LanguageSelect.vue";
+const route = inject('route');
 
 const props = defineProps({
   auth: Object

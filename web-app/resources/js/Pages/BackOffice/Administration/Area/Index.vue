@@ -22,7 +22,7 @@
         ></v-checkbox>
       </v-col>
       <v-col cols="12" md="2">
-        <Link as="div" :href="$route('areas.create')">
+        <Link as="div" :href="route('areas.create')">
           <v-btn
             icon="mdi-plus"
             color="primary"
@@ -40,7 +40,7 @@
       :loading="loading"
       :search="search"
       :loading-text="$t('form.loadingText')"
-      class="elevation-1"
+      class="elevation-0"
       item-value="name"
       @update:options="loadItems"
       @click:row="rowClick"
@@ -69,10 +69,11 @@
 import {router, Head, Link} from '@inertiajs/vue3';
 import Confirm from "../../../../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
-import {ref, watch, onUpdated, onBeforeMount} from 'vue';
+import {ref, watch, onUpdated, onBeforeMount, inject} from 'vue';
 import axios from 'axios';
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
 import {openStorage, storeInput} from "../../../../Logic/Helpers";
+const route = inject('route');
 
 const {t} = useI18n({});
 

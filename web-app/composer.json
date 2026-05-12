@@ -8,14 +8,14 @@
         "php": "^8.2",
         "ext-dom": "*",
         "ext-gd": "*",
-        "inertiajs/inertia-laravel": "^2.0",
-        "laravel/framework": "^11.31",
+        "inertiajs/inertia-laravel": "^3.0",
+        "laravel/framework": "^12.1",
         "laravel/tinker": "^2.9",
         "meyfa/php-svg": "^0.16.1",
-        "phpoffice/phpspreadsheet": "^4.1",
+        "phpoffice/phpspreadsheet": "^5.7",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "spatie/laravel-ray": "^1.39",
-        "tightenco/ziggy": "^2.4",
+        "tightenco/ziggy": "^2.6",
         "vildanbina/laravel-model-json": "^2.3"
     },
     "require-dev": {

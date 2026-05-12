@@ -44,7 +44,7 @@ RUN a2enmod rewrite
 RUN a2enmod headers
 
 # install NodeJS
-RUN curl -sL https://deb.nodesource.com/setup_22.x | bash
+RUN curl -sL https://deb.nodesource.com/setup_25.x | bash
 RUN apt-get install -y nodejs
 
 # copy httpd files
