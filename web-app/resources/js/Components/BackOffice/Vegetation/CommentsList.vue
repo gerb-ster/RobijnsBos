@@ -25,7 +25,7 @@
     :loading="loading"
     :search="search"
     :loading-text="$t('form.loadingText')"
-    class="elevation-1"
+    class="elevation-0"
     item-value="name"
     @update:options="loadItems"
     @click:row="rowClick"

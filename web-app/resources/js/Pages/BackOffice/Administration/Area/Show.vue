@@ -5,7 +5,7 @@
     <v-form @submit.prevent="submit">
       <v-row>
         <v-col cols="12" md="4">
-          <div :class="['text-h5', 'pa-2']">{{ $t('areas.showTitle') }}</div>
+          <p class="text-title-large">{{ $t('areas.showTitle') }}</p>
         </v-col>
       </v-row>
       <v-row>
@@ -67,12 +67,12 @@
             elevation="0"
           > {{ $t('form.saveBtn') }}
           </v-btn>
-          <Link :href="$route('areas.index')">
+          <Link :href="route('areas.index')">
             <v-btn
               prepend-icon="mdi-keyboard-return"
               size="large"
               class="ml-5"
-              :href="$route('areas.index')"
+              :href="route('areas.index')"
               elevation="0"
             > {{ $t('form.backBtn') }}
             </v-btn>
@@ -85,9 +85,11 @@
 <script setup>
 
 import {useForm, Head, Link} from '@inertiajs/vue3';
+import {inject} from 'vue';
 import {required, email} from '@vee-validate/rules';
 import {useI18n} from "vue-i18n";
 import FlashMessages from "../../../../Shared/FlashMessages.vue";
+const route = inject('route');
 
 const props = defineProps(['area']);
 
