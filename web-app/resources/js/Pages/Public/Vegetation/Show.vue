@@ -2,7 +2,7 @@
   <Head>
     <title>{{ $t('appName', {page: $t('public.vegetation.show.title')}) }}</title>
   </Head>
-  <v-container max-width="960" class="mx-auto">
+  <v-container max-width="1080" class="mx-auto">
     <v-row>
       <v-col cols="12" md="6">
         <div class="text-headline-large font-weight-bold">{{ vegetation.species.dutch_name }} &bull; {{ vegetation.species.latin_name }}</div>
@@ -41,11 +41,11 @@
         >
           <v-toolbar color="transparent" density="comfortable">
             <v-toolbar-title
-              class="font-weight-bold"
+              class="text-title-medium font-weight-bold"
               text="Overzicht"
             ></v-toolbar-title>
             <template v-slot:append>
-              <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">{{ vegetation.number }}</div>
+              <div class="font-weight-bold text-title-small mr-3 text-grey-darken-1">{{ vegetation.number }}</div>
             </template>
           </v-toolbar>
           <v-divider></v-divider>
@@ -95,11 +95,11 @@
         >
           <v-toolbar color="transparent" density="comfortable">
             <v-toolbar-title
-              class="font-weight-bold"
+              class="text-title-medium font-weight-bold"
               text="Kaart / Label"
             ></v-toolbar-title>
             <template v-slot:append>
-              <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">Preview</div>
+              <div class="font-weight-bold text-title-small mr-3 text-grey-darken-1">Preview</div>
             </template>
           </v-toolbar>
           <v-divider></v-divider>
@@ -118,24 +118,24 @@
         >
           <v-toolbar color="transparent" density="comfortable">
             <v-toolbar-title
-              class="font-weight-bold"
+              class="text-title-medium font-weight-bold"
               text="Notities & Onderhoud"
             ></v-toolbar-title>
             <template v-slot:append>
-              <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">Intern</div>
+              <div class="font-weight-bold text-title-small mr-3 text-grey-darken-1">Intern</div>
             </template>
           </v-toolbar>
           <v-divider></v-divider>
           <v-card-text class="pb-8 pt-4">
-            <v-tabs v-model="tab" color="primary" :items="tabs">
+            <v-tabs v-model="tab" :items="tabs">
               <template v-slot:tab="{ item }">
                 <v-tab
                   :text="item.text"
                   :value="item.value"
-                  class="rounded-pill pa-2 mr-2 font-weight-bold"
+                  class="rounded-pill pr-4 pl-4 pt-0 pb-0 mr-2 font-weight-bold"
                   variant="outlined"
                   border="sm surface-variant"
-                  selected-class="bg-light-green-lighten-5 white"
+                  selected-class="bg-light-green-lighten-5 white text-grey-darken-4"
                 ></v-tab>
               </template>
             </v-tabs>
@@ -153,20 +153,21 @@
                   ></v-btn>
                   <v-card
                     variant="outlined"
+                    color="surface-variant"
                     border="sm surface-variant"
-                    class="mx-auto mt-5 rounded-lg"
+                    class="bg-grey-lighten-5 rounded-lg mx-auto mt-5 pa-0"
                     v-for="(comment, index) in vegetation.comments"
                   >
-                    <v-toolbar color="transparent" density="comfortable">
+                    <v-toolbar color="transparent" density="compact">
                       <v-toolbar-title
-                        class="font-weight-bold"
+                        class="font-weight-bold text-body-large pa-0 ma-3"
                         :text="comment.name"
                       ></v-toolbar-title>
                       <template v-slot:append>
-                        <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">{{ renderNiceDate(comment.created_at) }}</div>
+                        <div class="font-weight-bold text-body-small mr-3 text-blue-grey-darken-1">{{ renderNiceDate(comment.created_at) }}</div>
                       </template>
                     </v-toolbar>
-                    <v-card-text class="ml-2 text-body-large">
+                    <v-card-text class="pa-0 ml-3 mb-3 text-body-medium">
                       {{ comment.remarks }}
                     </v-card-text>
                   </v-card>
@@ -185,21 +186,22 @@
                     class="rounded-pill font-weight-bold"
                   ></v-btn>
                   <v-card
-                    color="secondary"
-                    variant="tonal"
-                    class="mx-auto mb-5"
+                    variant="outlined"
+                    color="surface-variant"
+                    border="sm surface-variant"
+                    class="bg-grey-lighten-5 rounded-lg mx-auto mt-5 pa-0"
                     v-for="(mutation, index) in vegetation.mutations"
                   >
-                    <v-toolbar color="transparent" density="comfortable">
+                    <v-toolbar color="transparent" density="compact" >
                       <v-toolbar-title
-                        class="font-weight-bold"
+                        class="font-weight-bold text-body-large pa-0 ma-3"
                         :text="mutation.title"
                       ></v-toolbar-title>
                       <template v-slot:append>
-                        <div class="font-weight-bold text-body-medium mr-3 blue-grey-darken-1">Op {{ renderNiceDate(mutation.created_at) }} door {{ mutation.user.name }}</div>
+                        <div class="font-weight-bold text-body-small mr-3 text-blue-grey-darken-1">{{ mutation.user.name }} @ {{ renderNiceDate(mutation.created_at)  }}</div>
                       </template>
                     </v-toolbar>
-                    <v-card-text>
+                    <v-card-text class="pa-0 ml-3 mb-3 text-body-medium">
                       {{ mutation.remarks }}
                     </v-card-text>
                   </v-card>
