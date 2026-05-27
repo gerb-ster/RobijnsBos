@@ -21,7 +21,7 @@ return [
 
     'allowed_origins' => [],
 
-    'allowed_origins_patterns' => ['#^https://[a-z0-9-]+\.robijnsbos\.nl$#'],
+    'allowed_origins_patterns' => ['#^https://(?:[a-z0-9-]+\.)?robijnsbos\.nl(?::\d+)?$#'],
 
     'allowed_headers' => ['*'],
 

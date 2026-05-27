@@ -22,7 +22,7 @@ mkdir dt.robijnsbos.nl
 mkdir robijnsbos_dt_app
 mv $REPO/RobijnsBos/web-app/public/* ./dt.robijnsbos.nl
 mv $REPO/RobijnsBos/web-app/* ./robijnsbos_dt_app
-rm ./dt.robijnsbos.nl/hot
+rm -f ./dt.robijnsbos.nl/hot
 rm -Rf ./robijnsbos_dt_app/public/
 
 # apply patch files
