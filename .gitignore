@@ -14,4 +14,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/deploy
+/deploy/build
+/deploy/.ssh-password
+/deploy/patch_files/.env

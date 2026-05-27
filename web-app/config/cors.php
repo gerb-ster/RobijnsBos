@@ -19,9 +19,9 @@ return [
 
     'allowed_methods' => ['GET'],
 
-    'allowed_origins' => ['https://dt.robijnsbos.nl'],
+    'allowed_origins' => [],
 
-    'allowed_origins_patterns' => [],
+    'allowed_origins_patterns' => ['#^https://(?:[a-z0-9-]+\.)?robijnsbos\.nl(?::\d+)?$#'],
 
     'allowed_headers' => ['*'],
 

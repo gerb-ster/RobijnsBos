@@ -33,7 +33,7 @@ jobs:
       - name: NPM install & build
         uses: actions/setup-node@v4
         with:
-          node-version: '22.x'
+          node-version: '25.x'
       - run: cd web-app/ && npm install
       - run: cd web-app/ && npm run build
       - run: cd web-app/ && npm prune --production
