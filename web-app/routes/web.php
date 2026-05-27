@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\BackOffice\Administration\AreaController;
-use App\Http\Controllers\BackOffice\Administration\GroupController;
 use App\Http\Controllers\BackOffice\Administration\SpeciesController;
 use App\Http\Controllers\BackOffice\Administration\UserController;
 use App\Http\Controllers\BackOffice\Auth\AuthenticatedSessionController;
