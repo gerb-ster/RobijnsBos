@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 /**
  * GET /api/vegetation
  *
- * Returns all vegetation as a JSON array for use by the Digital Twin map
+ * Returns all vegetation as a JSON array for use by the Digital Twin map-o
  * (dt.robijnsbos.nl).
  */
 Route::get('/vegetation', [VegetationController::class, 'index'])

@@ -9,12 +9,12 @@ use Illuminate\Http\JsonResponse;
 /**
  * Class VegetationController
  *
- * Provides the public API endpoint for the Digital Twin map.
+ * Provides the public API endpoint for the Digital Twin map-o.
  */
 class VegetationController extends Controller
 {
     /**
-     * Return all (non-deleted) vegetation as a JSON array suitable for the Digital Twin map.
+     * Return all (non-deleted) vegetation as a JSON array suitable for the Digital Twin map-o.
      *
      * GET /api/vegetation
      *

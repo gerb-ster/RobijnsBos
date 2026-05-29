@@ -12,6 +12,10 @@ SSH_OPTIONS=(
   -o StrictHostKeyChecking=accept-new
 )
 
+log() {
+  printf '[%s] %s\n' "$(date '+%H:%M:%S')" "$*"
+}
+
 require_command() {
   if ! command -v "$1" >/dev/null 2>&1; then
     echo "Required command not found: $1" >&2
@@ -23,14 +27,27 @@ sync_remote_directory() {
   local directory_name="$1"
   local local_directory="$BUILD_DIR/$directory_name"
   local remote_directory="$REMOTE_BASE_DIR/$directory_name"
+  local rsync_args=(
+    -az
+    --delete
+    --human-readable
+    --progress
+  )
 
+  if [[ "$directory_name" == "robijnsbos_dt_app" ]]; then
+    rsync_args+=(--exclude='/app/storage/')
+  fi
+
+  log "Preparing remote directory: $remote_directory"
   sshpass -f "$PASSWORD_FILE" ssh "${SSH_OPTIONS[@]}" "$REMOTE_HOST" \
     "mkdir -p \"$remote_directory\""
 
-  rsync -az --delete \
+  log "Syncing $directory_name to $REMOTE_HOST:$remote_directory"
+  rsync "${rsync_args[@]}" \
     --rsh="sshpass -f \"$PASSWORD_FILE\" ssh ${SSH_OPTIONS[*]}" \
     "$local_directory/" \
     "$REMOTE_HOST:$remote_directory/"
+  log "Finished syncing $directory_name"
 }
 
 require_command docker
@@ -43,13 +60,21 @@ if [[ ! -f "$PASSWORD_FILE" ]]; then
   exit 1
 fi
 
+BUILD_IMAGE_IID_FILE="$(mktemp)"
+trap 'rm -f "$BUILD_IMAGE_IID_FILE"' EXIT
+
+log "Starting deployment to $REMOTE_HOST (base: $REMOTE_BASE_DIR)"
+log "Preparing build directory: $BUILD_DIR"
 mkdir -p "$BUILD_DIR"
 find "$BUILD_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
 
-# build
+log "Building deployment image"
+docker build "$SCRIPT_DIR" -f "$SCRIPT_DIR/deploy.dockerfile" --iidfile "$BUILD_IMAGE_IID_FILE"
+
+log "Running build container"
 docker run --rm \
   -v "$BUILD_DIR:/mnt/build" \
-  "$(docker build -q "$SCRIPT_DIR" -f "$SCRIPT_DIR/deploy.dockerfile")"
+  "$(cat "$BUILD_IMAGE_IID_FILE")"
 
 BUILD_DIRECTORIES=()
 while IFS= read -r -d '' directory_path; do
@@ -61,11 +86,18 @@ if [[ "${#BUILD_DIRECTORIES[@]}" -eq 0 ]]; then
   exit 1
 fi
 
-for directory_name in "${BUILD_DIRECTORIES[@]}"; do
+log "Built ${#BUILD_DIRECTORIES[@]} directorie(s): ${BUILD_DIRECTORIES[*]}"
+
+for index in "${!BUILD_DIRECTORIES[@]}"; do
+  directory_name="${BUILD_DIRECTORIES[$index]}"
+  log "Sync step $((index + 1))/${#BUILD_DIRECTORIES[@]}"
   sync_remote_directory "$directory_name"
 done
 
+log "Running remote database migrations"
 sshpass -f "$PASSWORD_FILE" ssh "${SSH_OPTIONS[@]}" "$REMOTE_HOST" \
   "cd \"$REMOTE_BASE_DIR/robijnsbos_dt_app\" && php artisan migrate"
 
+log "Cleaning build directory"
 find "$BUILD_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+log "Deployment complete"

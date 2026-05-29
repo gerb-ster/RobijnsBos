@@ -14,7 +14,7 @@ class GenerateMap extends Command
    *
    * @var string
    */
-  protected $signature = 'generate:map';
+  protected $signature = 'generate:map-o';
 
   /**
    * The console command description.

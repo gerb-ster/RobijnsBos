@@ -11,7 +11,12 @@ REPO="/mnt/repo"
 cd $REPO
 git clone https://github.com/gerb-ster/RobijnsBos
 cd RobijnsBos
-git checkout latest
+LATEST_TAG="$(git tag --sort=-v:refname | head -n 1)"
+if [[ -z "$LATEST_TAG" ]]; then
+  echo "No git tags found to check out." >&2
+  exit 1
+fi
+git checkout "$LATEST_TAG"
 cd web-app
 composer install
 npm install && npm run build && npm prune --production && rm -Rf node_modules
