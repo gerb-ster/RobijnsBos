@@ -194,7 +194,7 @@ class VegetationController extends Controller
    */
   public function mapImage(): StreamedResponse
   {
-    $svgContent = file_get_contents(storage_path("app/map/full_map.svg"));
+    $svgContent = file_get_contents(storage_path("app/map-o/full_map.svg"));
 
     return response()->stream(function () use ($svgContent) {
       echo $svgContent;

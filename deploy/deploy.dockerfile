@@ -1,7 +1,5 @@
 FROM php:8.2.27-apache AS apache
 
-ENV VERSION="latest"
-
 RUN apt-get update
 RUN apt-get --no-install-recommends -y install git curl zip unzip libzip-dev libxml2-dev wget
 RUN apt-get clean

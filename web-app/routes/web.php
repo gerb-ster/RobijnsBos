@@ -13,9 +13,9 @@ use App\Http\Controllers\CommentController as PublicCommentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicVegetationController::class, 'map'])
-  ->name('public.vegetation.map');
-Route::get('/map/image', [PublicVegetationController::class, 'mapImage'])
-  ->name('public.vegetation.map.image');
+  ->name('public.vegetation.map-o');
+Route::get('/map-o/image', [PublicVegetationController::class, 'mapImage'])
+  ->name('public.vegetation.map-o.image');
 
 Route::get('/v/{shortCode}', [PublicVegetationController::class, 'redirect'])
   ->name('public.vegetation.redirect');

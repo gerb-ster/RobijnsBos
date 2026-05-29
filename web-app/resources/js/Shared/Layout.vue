@@ -30,7 +30,7 @@
         <Link as="div" :href="route('public.vegetation.map')">
           <v-list-item
             prepend-icon="mdi-map-legend"
-            :title="$t('navigation.map')"
+            :title="$t('navigation.map-o')"
             value="map"
             :href="route('public.vegetation.map')"
             @click="drawer=!drawer"
