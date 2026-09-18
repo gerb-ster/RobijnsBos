@@ -17,6 +17,7 @@ class ListRequest extends FormRequest
   {
     return [
       'status' => 'nullable|array',
+      'status.*' => 'exists:vegetation_status,name',
     ];
   }
 }

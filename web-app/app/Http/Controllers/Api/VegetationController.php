@@ -26,10 +26,15 @@ class VegetationController extends Controller
   {
     $requestParams = $request->validated();
 
-    $vegetations = Vegetation::with(['species', 'species.type', 'area'])
+    $vegetation = Vegetation::with(['species', 'species.type', 'area'])
+      ->when($requestParams['status'] ?? null, function ($query, array $statuses) {
+        $query->whereHas('status', function ($query) use ($statuses) {
+          $query->whereIn('name', $statuses);
+        });
+      })
       ->get();
 
-    $data = $vegetations->map(function (Vegetation $vegetation) {
+    $data = $vegetation->map(function (Vegetation $vegetation) {
       $location = $vegetation->location ?? [];
       $species = $vegetation->species;
       $dutchName = $species?->dutch_name;
