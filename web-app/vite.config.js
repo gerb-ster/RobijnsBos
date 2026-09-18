@@ -2,9 +2,6 @@ import {defineConfig} from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 import vuetify from "vite-plugin-vuetify";
-import fs from 'fs';
-import {viteStaticCopy} from "vite-plugin-static-copy";
-
 export default defineConfig({
   css: {
     preprocessorOptions: {
@@ -20,14 +17,6 @@ export default defineConfig({
       ],
       refresh: true,
     }),
-    viteStaticCopy({
-      targets: [
-        {
-          src: 'node_modules/circle-flags/flags',
-          dest: '../images/circle-flags'
-        }
-      ]
-    }),
     vue({
       template: {
         transformAssetUrls: {
@@ -37,10 +26,7 @@ export default defineConfig({
       },
     }),
     vuetify({
-      autoImport: true,
-      styles: {
-        configFile: 'resources/sass/settings.scss',
-      },
+      autoImport: true
     })
   ],
   server: {

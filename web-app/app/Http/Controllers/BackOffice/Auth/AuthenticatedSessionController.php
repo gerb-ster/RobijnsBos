@@ -29,7 +29,7 @@ class AuthenticatedSessionController extends Controller
 
     $request->session()->regenerate();
 
-    return redirect()->intended(route('public.vegetation.map-o'));
+    return redirect()->intended(route('public.vegetation.map'));
   }
 
   /**
@@ -89,6 +89,6 @@ class AuthenticatedSessionController extends Controller
     $request->session()->invalidate();
     $request->session()->regenerateToken();
 
-    return redirect(route('public.vegetation.map-o'));
+    return redirect(route('public.vegetation.map'));
   }
 }
