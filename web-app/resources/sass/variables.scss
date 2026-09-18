@@ -3,6 +3,10 @@
   $font-size-root: 14px
 );
 
+@use 'vuetify/settings' with (
+  $table-header-font-weight: "bold"
+);
+
 @use '@fontsource/open-sans' as *;
 
 .publicGradient {

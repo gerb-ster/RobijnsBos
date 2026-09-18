@@ -66,12 +66,17 @@ const vuetify = createVuetify({
 
 createInertiaApp({
   id: 'robijnsbos-app',
+  title: (title) => `${title} - Robijnsbos - Digital Twin`,
   resolve: name => {
-    const pages = import.meta.glob('./Pages/**/*.vue', {eager: true});
+    let pages = import.meta.glob('./Pages/**/*.vue', {eager: true});
+
+    // weird issue... to be fixed later
+    if (Object.keys(pages).length === 0) {
+      pages = import.meta.glob('./Pages/**/*.vue', {eager: true});
+    }
+
     let page = pages[`./Pages/${name}.vue`];
-
     page.default.layout = page.default.layout || Layout;
-
     return page
   },
   setup({el, App, props, plugin}) {

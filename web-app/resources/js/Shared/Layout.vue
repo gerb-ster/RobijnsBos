@@ -13,7 +13,6 @@
         <span v-if="selected" class="appTitleText"> - {{ $t('navigation.' + selected) }}</span>
       </v-app-bar-title>
       <v-spacer></v-spacer>
-      <!-- <language-select :auth="auth"></language-select> -->
       <v-list v-if="auth.user !== null">
         <v-list-item
           :title="auth.user.name"
@@ -30,7 +29,7 @@
         <Link as="div" :href="route('public.vegetation.map')">
           <v-list-item
             prepend-icon="mdi-map-legend"
-            :title="$t('navigation.map-o')"
+            :title="$t('navigation.map')"
             value="map"
             :href="route('public.vegetation.map')"
             @click="drawer=!drawer"
@@ -132,7 +131,6 @@ import {Link, router} from "@inertiajs/vue3";
 import {ref, watch, inject} from "vue";
 import Confirm from "../Components/Confirm.vue";
 import {useI18n} from "vue-i18n";
-import LanguageSelect from "../Components/AppBar/LanguageSelect.vue";
 const route = inject('route');
 
 const props = defineProps({

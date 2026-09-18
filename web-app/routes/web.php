@@ -7,15 +7,19 @@ use App\Http\Controllers\BackOffice\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\BackOffice\CommentsController;
 use App\Http\Controllers\BackOffice\MutationsController;
 use App\Http\Controllers\BackOffice\VegetationController;
+use App\Http\Controllers\ApiDocumentationController;
 use App\Http\Controllers\VegetationController as PublicVegetationController;
 use App\Http\Controllers\MutationController as PublicMutationController;
 use App\Http\Controllers\CommentController as PublicCommentController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/api-docs.json', ApiDocumentationController::class)
+  ->name('api.documentation');
+
 Route::get('/', [PublicVegetationController::class, 'map'])
-  ->name('public.vegetation.map-o');
-Route::get('/map-o/image', [PublicVegetationController::class, 'mapImage'])
-  ->name('public.vegetation.map-o.image');
+  ->name('public.vegetation.map');
+Route::get('/map/image', [PublicVegetationController::class, 'mapImage'])
+  ->name('public.vegetation.map.image');
 
 Route::get('/v/{shortCode}', [PublicVegetationController::class, 'redirect'])
   ->name('public.vegetation.redirect');
